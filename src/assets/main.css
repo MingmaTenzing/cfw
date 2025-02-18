@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+
 #map {
   height: 100%;
 }
