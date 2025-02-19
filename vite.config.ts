@@ -13,4 +13,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/fuelwatch': {
+        target: 'https://www.fuelwatch.wa.gov.au/fuelwatch',
+        changeOrigin: true,
+        secure: false,
+        ws: false,
+        rewrite: (path) => path.replace(/^\/fuelwatch/, ''),
+      },
+    },
+  },
 })
