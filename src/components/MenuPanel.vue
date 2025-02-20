@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue'
 import type { fuel_detail_item } from '../../types'
 
 const fuelData = ref<fuel_detail_item[]>([])
+
 onMounted(async () => {
   const response = await axios.get('fuelwatch/fuelWatchRSS')
   const xmlText = await response.data
@@ -13,7 +14,8 @@ onMounted(async () => {
   const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
 
   const items = [...xmlDoc.getElementsByTagName('item')]
-  console.log(items)
+
+  // console.log(items)
 
   fuelData.value = items.map((item) => ({
     title: item.getElementsByTagName('title')[0]?.textContent || 'N/A',
@@ -23,14 +25,13 @@ onMounted(async () => {
     price: item.getElementsByTagName('price')[0]?.textContent || 'N/A',
     location: item.getElementsByTagName('location')[0]?.textContent || 'N/A',
     address: item.getElementsByTagName('address')[0]?.textContent || 'N/A',
-    latitude: item.getElementsByTagName('latitude')[0]?.textContent || 'N/A',
-    longitude: item.getElementsByTagName('longitude')[0]?.textContent || 'N/A',
+    latitude: parseFloat(item.getElementsByTagName('latitude')[0]?.textContent || 'N/A'),
+    longitude: parseFloat(item.getElementsByTagName('longitude')[0]?.textContent || 'N/A'),
     site_features: item.getElementsByTagName('site-features')[0]?.textContent || 'N/A',
     phone: item.getElementsByTagName('phone')[0]?.textContent || 'N/A',
     brand: item.getElementsByTagName('brand')[0]?.textContent || 'N/A',
     brand_image: `https://www.fuelwatch.wa.gov.au/assets/images/logo_${item.getElementsByTagName('brand')[0]?.textContent}.svg`,
   }))
-
   console.log(fuelData.value)
 })
 </script>

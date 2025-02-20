@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { GoogleMap, Marker } from 'vue3-google-map'
+import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
+import { locations } from '../../fuel_locations'
 // let maps = google.maps.event.addListener
 
 const center = { lat: -31.953512, lng: 115.857048 }
@@ -190,6 +191,7 @@ const nightModeStyles = [
     ],
   },
 ]
+const onError_Image = '../assets/cfw_white_logo.png'
 
 function checkClick(event: google.maps.MapMouseEvent) {
   if (event.latLng) {
@@ -210,6 +212,23 @@ function checkClick(event: google.maps.MapMouseEvent) {
     style="width: 100%; height: 100vh"
     @click="checkClick"
   >
-    <Marker :options="{ position: center }" />
+    <MarkerCluster>
+      <CustomMarker
+        :options="{ position: { lat: fuel_station.latitude, lng: fuel_station.longitude } }"
+        v-for="(fuel_station, i) in locations"
+        v-bind:key="i"
+      >
+        <div class="w-[56px] rounded-lg bg-zinc-50 group">
+          <div
+            class="bg-zinc-500 group-hover:bg-red-500 text-white rounded-t-lg flex justify-center items-center px-2 py-1"
+          >
+            <p class="font-semibold">{{ fuel_station.price }}</p>
+          </div>
+          <div class="flex justify-center p-1">
+            <img :src="fuel_station.brand_image" :onerror="onError_Image" width="30" />
+          </div>
+        </div>
+      </CustomMarker>
+    </MarkerCluster>
   </GoogleMap>
 </template>

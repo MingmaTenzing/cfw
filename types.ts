@@ -6,10 +6,15 @@ export interface fuel_detail_item {
   price: string
   location: string
   address: string
-  latitude: string
-  longitude: string
+  latitude: number
+  longitude: number
   site_features: string
   phone: string
   brand: string
   brand_image: string
+}
+
+export interface markerCluster_locations {
+  lat: number
+  lng: number
 }
