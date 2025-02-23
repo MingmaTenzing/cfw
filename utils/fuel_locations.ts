@@ -1,4 +1,4 @@
-import type { fuel_detail_item } from './types'
+import type { fuel_detail_item } from '../types'
 
 export const locations: fuel_detail_item[] = [
   {

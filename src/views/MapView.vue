@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
-import { locations } from '../../fuel_locations'
+import { locations } from '../../utils/fuel_locations'
 // let maps = google.maps.event.addListener
 
 const center = { lat: -31.953512, lng: 115.857048 }
