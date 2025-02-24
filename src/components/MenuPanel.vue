@@ -10,22 +10,14 @@ const fuelData = ref<fuel_detail_item[]>([])
 onMounted(async () => {
   const response = await axios.get('fuelwatch/fuelWatchRSS')
   const xmlText = await response.data
-  const parser = new DOMParser()
 
-  const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
-
-  const items = [...xmlDoc.getElementsByTagName('item')]
-  // console.log(items)
-
-  //   // console.log(items)
-
-  fuelData.value = fuel_data_parser(items)
-  console.log(fuelData.value)
+  // calls the fuel-data_parser function in utils that converts the xml string into array
+  fuelData.value = fuel_data_parser(xmlText)
 })
 </script>
 
 <template>
-  <main class="bg-zinc-950 text-white w-full h-full md:w-[412px]">
+  <main class="bg-black text-white w-full h-full md:w-[412px]">
     <div class="p-2 flex justify-center">
       <img src="../assets/cfw_white_logo.png" width="160" height="60" />
     </div>

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
-import { locations } from '../../utils/fuel_locations'
+import { onMounted, ref } from 'vue'
+import axios from 'axios'
+import type { fuel_detail_item } from '../../types'
+import { fuel_data_parser } from '../../utils/fuel_data_parser'
 // let maps = google.maps.event.addListener
 
 const center = { lat: -31.953512, lng: 115.857048 }
@@ -191,7 +194,14 @@ const nightModeStyles = [
     ],
   },
 ]
-const onError_Image = '../assets/cfw_white_logo.png'
+
+const locations = ref<fuel_detail_item[]>([])
+
+onMounted(async () => {
+  const response = await axios.get('fuelwatch/fuelWatchRSS')
+  const xmlText = await response.data
+  locations.value = fuel_data_parser(xmlText)
+})
 
 function checkClick(event: google.maps.MapMouseEvent) {
   if (event.latLng) {
@@ -201,6 +211,10 @@ function checkClick(event: google.maps.MapMouseEvent) {
     console.log('working')
   }
 }
+
+// function bounds_changed(event: google.maps.LatLngBounds) {
+//   console.log(event.contains)
+// }
 </script>
 
 <template>
@@ -225,7 +239,7 @@ function checkClick(event: google.maps.MapMouseEvent) {
             <p class="font-semibold">{{ fuel_station.price }}</p>
           </div>
           <div class="flex justify-center p-1">
-            <img :src="fuel_station.brand_image" :onerror="onError_Image" width="30" />
+            <img :src="fuel_station.brand_image" width="30" />
           </div>
         </div>
       </CustomMarker>

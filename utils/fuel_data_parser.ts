@@ -1,5 +1,11 @@
-export const fuel_data_parser = (data: Element[]) => {
-  return data.map((item) => ({
+export const fuel_data_parser = (xmlText: string) => {
+  const parser = new DOMParser()
+
+  const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
+
+  const items = [...xmlDoc.getElementsByTagName('item')]
+
+  return items.map((item) => ({
     title: item.getElementsByTagName('title')[0]?.textContent || 'N/A',
     description: item.getElementsByTagName('description')[0]?.textContent || 'N/A',
     date: item.getElementsByTagName('date')[0]?.textContent || 'N/A',
