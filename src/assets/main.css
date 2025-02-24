@@ -1,129 +1,64 @@
 @import 'tailwindcss';
-@import './theme.css';
-@import 'primeicons/primeicons.css';
+
+@variant dark (&:where(.dark, .dark *));
 @plugin 'tailwind-scrollbar-hide';
+@import 'primeicons/primeicons.css';
 
-#map {
-  height: 100%;
+@theme {
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-zinc-900);
+  --color-card: var(--color-white);
+  --color-card-foreground: var(--color-zinc-900);
+  --color-popover: var(--color-white);
+  --color-popover-foreground: var(--color-zinc-900);
+  --color-primary: var(--color-zinc-900);
+  --color-primary-foreground: var(--color-zinc-50);
+  --color-secondary: var(--color-zinc-100);
+  --color-secondary-foreground: var(--color-zinc-900);
+  --color-muted: var(--color-zinc-100);
+  --color-muted-foreground: var(--color-zinc-500);
+  --color-accent: var(--color-zinc-100);
+  --color-accent-foreground: var(--color-zinc-900);
+  --color-destructive: var(--color-rose-500);
+  --color-destructive-foreground: var(--color-zinc-50);
+  --color-border: var(--color-zinc-200);
+  --color-input: var(--color-zinc-200);
+  --color-ring: var(--color-zinc-400);
+
+  --radius: 0.5rem;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-/* 
- * Optional: Makes the sample page fill the window. 
- */
-
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+@layer theme {
+  .dark {
+    --color-background: var(--color-zinc-950);
+    --color-foreground: var(--color-zinc-50);
+    --color-card: var(--color-zinc-950);
+    --color-card-foreground: var(--color-zinc-50);
+    --color-popover: var(--color-zinc-950);
+    --color-popover-foreground: var(--color-zinc-50);
+    --color-primary: var(--color-zinc-50);
+    --color-primary-foreground: var(--color-zinc-900);
+    --color-secondary: var(--color-zinc-800);
+    --color-secondary-foreground: var(--color-zinc-50);
+    --color-muted: var(--color-zinc-800);
+    --color-muted-foreground: var(--color-zinc-400);
+    --color-accent: var(--color-zinc-800);
+    --color-accent-foreground: var(--color-zinc-50);
+    --color-destructive: var(--color-rose-700);
+    --color-destructive-foreground: var(--color-zinc-50);
+    --color-border: var(--color-zinc-800);
+    --color-input: var(--color-zinc-800);
+    --color-ring: var(--color-zinc-300);
+  }
 }
 
-body {
-  font-family: 'Poppins', serif;
-}
-.poppins-thin {
-  font-family: 'Poppins', serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.poppins-extralight {
-  font-family: 'Poppins', serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.poppins-light {
-  font-family: 'Poppins', serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.poppins-regular {
-  font-family: 'Poppins', serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.poppins-medium {
-  font-family: 'Poppins', serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.poppins-semibold {
-  font-family: 'Poppins', serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.poppins-bold {
-  font-family: 'Poppins', serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.poppins-extrabold {
-  font-family: 'Poppins', serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.poppins-black {
-  font-family: 'Poppins', serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.poppins-thin-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.poppins-extralight-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.poppins-light-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.poppins-regular-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.poppins-medium-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.poppins-semibold-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.poppins-bold-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.poppins-extrabold-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 800;
-  font-style: italic;
-}
-
-.poppins-black-italic {
-  font-family: 'Poppins', serif;
-  font-weight: 900;
-  font-style: italic;
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
 }

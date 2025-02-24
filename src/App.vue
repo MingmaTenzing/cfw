@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import MenuPanel from './components/MenuPanel.vue'
+import { provide, ref } from 'vue'
+
+const darkMode = ref(true)
+
+function updateTheme() {
+  darkMode.value = !darkMode.value
+}
+provide('darkMode', {
+  darkMode,
+  updateTheme,
+})
 </script>
 
 <template>

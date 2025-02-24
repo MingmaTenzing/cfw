@@ -1,11 +1,17 @@
 <script lang="ts" setup>
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref, type Ref } from 'vue'
 
 import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
 
+interface theme {
+  darkMode: Ref<boolean>
+  updateTheme: () => void
+}
 const fuelData = ref<fuel_detail_item[]>([])
+
+const { darkMode, updateTheme } = inject<theme>('darkMode')
 
 onMounted(async () => {
   const response = await axios.get('fuelwatch/fuelWatchRSS')
@@ -17,12 +23,24 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="bg-black text-white w-full h-full md:w-[412px]">
+  <main
+    class="text-primary dark:text-primary bg-background dark:bg-background w-full h-full md:w-[412px]"
+  >
     <div class="p-2 flex justify-center">
-      <img src="../assets/cfw_white_logo.png" width="160" height="60" />
+      <img
+        src="../assets/cfw_white_logo.png"
+        width="160"
+        height="60"
+        class="invert dark:invert-0"
+      />
+      {{ darkMode }}
+
+      <button v-on:click="updateTheme">
+        <i class="pi pi-moon dark:text-foreground text-foreground"></i>
+      </button>
     </div>
     <!-- header -->
-    <div class="text-sm md:text-base border-zinc-600 border-t border-b">
+    <div class="text-sm md:text-base border-t border-b">
       <div class="p-4 text-center">
         <p class="text-xs">
           ULP prices from 6am <span class="bg-zinc-500 text-white px-2 rounded-lg">Today</span> and
@@ -31,7 +49,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="p-4 border-b border-zinc-600">
+    <div class="p-4 border-b border-border dark:border-border">
       <div class="flex items-center space-x-2 text-md">
         <i class="pi pi-list"></i>
         <p>Today's price</p>
@@ -46,13 +64,13 @@ onMounted(async () => {
           v-for="item in fuelData"
           v-bind:key="item.phone"
           id="price-list-item"
-          class="border-b border-t border-zinc-800 p-4 hover:bg-zinc-900 flex justify-between items-center"
+          class="border-b border-t border-border dark:border-border p-4 hover:bg-secondary flex justify-between items-center"
         >
           <div class="space-y-2">
             <!-- price -->
             <div>
               <p class="font-semibold">{{ item.price }}</p>
-              <p class="text-zinc-200 text-xs">Today</p>
+              <p class="text-secondary-foreground dark:text-secondary-foreground text-xs">Today</p>
             </div>
             <div>
               <p class="font-semibold text-zinc-400">{{ item.price }}</p>
@@ -62,8 +80,10 @@ onMounted(async () => {
           </div>
           <div>
             <!-- details -->
-            <p class="font-bold">{{ item.trading_name }}</p>
-            <p class="text-zinc-500">{{ item.address }}</p>
+            <p class="font-bold text-center text-primary dark:text-primary">
+              {{ item.trading_name }}
+            </p>
+            <p class="text-zinc-500 text-center text-xs">{{ item.address }}</p>
           </div>
           <div>
             <!-- logo -->
