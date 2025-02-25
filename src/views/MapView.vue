@@ -1,199 +1,21 @@
 <script lang="ts" setup>
 import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
-import { onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import axios from 'axios'
 import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
-// let maps = google.maps.event.addListener
+import { nightModeStyles, standardMap } from '../../utils/map_styles'
+import type { themeContext } from '../../utils/theme_type'
 
 const center = { lat: -31.953512, lng: 115.857048 }
+const inject_theme = inject<themeContext>('theme', {
+  theme: 'dark',
+  changeTheme: () => undefined,
+})
 
-const nightModeStyles = [
-  {
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#212121',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.icon',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#212121',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.country',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#9e9e9e',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.land_parcel',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.locality',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#bdbdbd',
-      },
-    ],
-  },
-  {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#181818',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#616161',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#1b1b1b',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry.fill',
-    stylers: [
-      {
-        color: '#2c2c2c',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#8a8a8a',
-      },
-    ],
-  },
-  {
-    featureType: 'road.arterial',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#373737',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#3c3c3c',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway.controlled_access',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#4e4e4e',
-      },
-    ],
-  },
-  {
-    featureType: 'road.local',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#616161',
-      },
-    ],
-  },
-  {
-    featureType: 'transit',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#000000',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#3d3d3d',
-      },
-    ],
-  },
-]
+const api_key = import.meta.env.VITE_API_KEY
+const theme = ref(inject_theme)
+const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : []))
 
 const locations = ref<fuel_detail_item[]>([])
 
@@ -211,18 +33,14 @@ function checkClick(event: google.maps.MapMouseEvent) {
     console.log('working')
   }
 }
-
-// function bounds_changed(event: google.maps.LatLngBounds) {
-//   console.log(event.contains)
-// }
 </script>
 
 <template>
   <GoogleMap
-    api-key="AIzaSyAdIUHime3Nw1U6ZaBtw_QtrbmV5Es_A1Y"
+    :api-key="api_key"
     :center="center"
     :zoom="15"
-    :styles="nightModeStyles"
+    :styles="mapStyle"
     style="width: 100%; height: 100vh"
     @click="checkClick"
   >
