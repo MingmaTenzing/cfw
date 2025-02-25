@@ -1,17 +1,15 @@
 <script lang="ts" setup>
 import axios from 'axios'
-import { inject, onMounted, ref, type Ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 
 import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
+import { type themeContext } from '../../utils/theme_type'
 
-interface theme {
-  darkMode: Ref<boolean>
-  updateTheme: () => void
-}
 const fuelData = ref<fuel_detail_item[]>([])
 
-const { darkMode, updateTheme } = inject<theme>('darkMode')
+// asserted that theme will always be provided from the root app level
+const { theme, changeTheme } = inject<themeContext>('theme')!
 
 onMounted(async () => {
   const response = await axios.get('fuelwatch/fuelWatchRSS')
@@ -33,9 +31,9 @@ onMounted(async () => {
         height="60"
         class="invert dark:invert-0"
       />
-      {{ darkMode }}
+      {{ theme }}
 
-      <button v-on:click="updateTheme">
+      <button @click="changeTheme">
         <i class="pi pi-moon dark:text-foreground text-foreground"></i>
       </button>
     </div>
