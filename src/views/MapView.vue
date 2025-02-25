@@ -4,7 +4,7 @@ import { computed, inject, onMounted, ref } from 'vue'
 import axios from 'axios'
 import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
-import { nightModeStyles } from '../../utils/map_styles'
+import { nightModeStyles, simple_grey_map } from '../../utils/map_styles'
 import type { themeContext } from '../../utils/theme_type'
 
 const center = { lat: -31.953512, lng: 115.857048 }
@@ -16,7 +16,7 @@ const inject_theme = inject<themeContext>('theme', {
 const api_key = import.meta.env.VITE_API_KEY
 
 const theme = ref(inject_theme)
-const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : []))
+const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : simple_grey_map))
 
 const locations = ref<fuel_detail_item[]>([])
 

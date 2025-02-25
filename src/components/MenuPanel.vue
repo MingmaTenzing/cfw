@@ -21,9 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main
-    class="text-primary dark:text-primary bg-background dark:bg-background w-full h-full md:w-[412px]"
-  >
+  <main class="text-primary bg-background w-full h-full md:w-[412px]">
     <div class="p-2 flex justify-center">
       <img
         src="../assets/cfw_white_logo.png"
@@ -34,15 +32,19 @@ onMounted(async () => {
       {{ theme }}
 
       <button @click="changeTheme">
-        <i class="pi pi-moon dark:text-foreground text-foreground"></i>
+        <i class="pi pi-moon text-foreground"></i>
       </button>
     </div>
     <!-- header -->
     <div class="text-sm md:text-base border-t border-b">
       <div class="p-4 text-center">
         <p class="text-xs">
-          ULP prices from 6am <span class="bg-zinc-500 text-white px-2 rounded-lg">Today</span> and
-          <span class="bg-zinc-700 text-white px-2 rounded-lg">Tomorrow</span>
+          ULP prices from 6am
+          <span class="bg-primary text-primary-foreground py-[0.5px] px-2 rounded-lg">Today</span>
+          and
+          <span class="bg-secondary text-secondary-foreground py-[0.5px] px-2 rounded-lg"
+            >Tomorrow</span
+          >
         </p>
       </div>
     </div>
