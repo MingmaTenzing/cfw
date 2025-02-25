@@ -4,7 +4,7 @@ import { computed, inject, onMounted, ref } from 'vue'
 import axios from 'axios'
 import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
-import { nightModeStyles, standardMap } from '../../utils/map_styles'
+import { nightModeStyles } from '../../utils/map_styles'
 import type { themeContext } from '../../utils/theme_type'
 
 const center = { lat: -31.953512, lng: 115.857048 }
