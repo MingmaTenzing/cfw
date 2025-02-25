@@ -14,6 +14,7 @@ const inject_theme = inject<themeContext>('theme', {
 })
 
 const api_key = import.meta.env.VITE_API_KEY
+
 const theme = ref(inject_theme)
 const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : []))
 
