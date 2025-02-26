@@ -6,6 +6,7 @@ import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
 import { nightModeStyles, simple_grey_map } from '../../utils/map_styles'
 import type { themeContext } from '../../utils/theme_type'
+import MenuPanel from '@/components/main_components/MenuPanel.vue'
 
 const center = { lat: -31.953512, lng: 115.857048 }
 const inject_theme = inject<themeContext>('theme', {
@@ -37,6 +38,8 @@ function checkClick(event: google.maps.MapMouseEvent) {
 </script>
 
 <template>
+  <MenuPanel class="fixed left-0 z-10"></MenuPanel>
+
   <GoogleMap
     :api-key="api_key"
     :center="center"

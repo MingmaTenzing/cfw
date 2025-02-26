@@ -6,10 +6,6 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/map',
-    },
-    {
-      path: '/map',
       name: 'CFW',
       component: MapView,
     },
