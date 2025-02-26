@@ -6,8 +6,8 @@ export interface fuel_detail_item {
   price: string
   location: string
   address: string
-  latitude: number
-  longitude: number
+  latitude: string
+  longitude: string
   site_features: string
   phone: string
   brand: string

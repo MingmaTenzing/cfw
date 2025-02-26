@@ -50,7 +50,12 @@ function checkClick(event: google.maps.MapMouseEvent) {
   >
     <MarkerCluster>
       <CustomMarker
-        :options="{ position: { lat: fuel_station.latitude, lng: fuel_station.longitude } }"
+        :options="{
+          position: {
+            lat: parseFloat(fuel_station.latitude),
+            lng: parseFloat(fuel_station.longitude),
+          },
+        }"
         v-for="(fuel_station, i) in locations"
         v-bind:key="i"
       >
