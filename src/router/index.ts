@@ -20,6 +20,7 @@ const router = createRouter({
           path: 'sites/:id',
           component: Site_Detail,
           name: 'Site Details',
+          
         },
       ],
     },
