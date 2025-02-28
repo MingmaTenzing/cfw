@@ -6,7 +6,7 @@ import type { fuel_detail_item } from '../../../types'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const lat = route.params.id
+
 const show_description = ref<boolean>(false)
 const show_station_feature = ref<boolean>(false)
 
@@ -25,34 +25,19 @@ const months = ref([
   'November',
   'December',
 ])
-// const fuelData = ref<fuel_detail_item[]>([])
+const fuelData = ref<fuel_detail_item[]>([])
 
-const site = ref<fuel_detail_item>({
-  title: '160.7: Costco Perth Airport',
-  description:
-    'Address: 142 Dunreath Dr, PERTH AIRPORT, Phone: (08) 9311 4700, Site features: Membership Based Retailer, EFTPOS, Open Mon-Fri: 6:00-21:30, Sat: 6:00-19:30, Sun: 7:00-19:00',
-  date: '2025-02-20',
-  trading_name: 'Costco Perth Airport',
-  price: '160.7',
-  location: 'PERTH AIRPORT',
-  address: '142 Dunreath Dr',
-  latitude: '31.940377',
-  longitude: '115.951869',
-  site_features:
-    'Membership Based Retailer, EFTPOS, Open Mon-Fri: 6:00-21:30, Sat: 6:00-19:30, Sun: 7:00-19:00',
-  phone: '(08) 9311 4700',
-  brand: 'Costco',
-  brand_image: 'https://www.fuelwatch.wa.gov.au/assets/images/logo_Costco.svg',
-})
+const site = ref<fuel_detail_item[]>([])
 
 onMounted(async () => {
-  // const response = await axios.get(import.meta.env.VITE_API_URL)
-  // const xmlText = await response.data
-  // fuelData.value = fuel_data_parser(xmlText)
-  // console.log(fuelData.value)
-  // if (fuelData.value.length > 0) {
-  //   site.value = fuelData.value.filter((station) => station.latitude == lat)
-  // }
+  const lat = route.params.id
+  console.log(lat)
+  const response = await axios.get(import.meta.env.VITE_API_URL)
+  const xmlText = await response.data
+  fuelData.value = fuel_data_parser(xmlText)
+
+  site.value = fuelData.value.filter((station) => station.latitude == lat)
+  console.log(site.value)
 })
 </script>
 
@@ -67,7 +52,7 @@ onMounted(async () => {
       </div>
       <!-- trading name and image -->
       <div class="">
-        <p class="font-semibold text-3xl text-center text-primary">{{ site.trading_name }}</p>
+        <p class="font-semibold text-3xl text-center text-primary">{{ site[0]?.trading_name }}</p>
       </div>
     </div>
     <!-- address -->
@@ -75,14 +60,14 @@ onMounted(async () => {
     <div class="border-b border-border p-4 flex gap-2 items-center">
       <i class="pi pi-map-marker"></i>
       <p class="font-light text-sm text-secondary-foreground">
-        {{ site.address }}, {{ site.location }}
+        {{ site[0]?.address }}, {{ site[0]?.location }}
       </p>
     </div>
 
     <!-- phone number -->
     <div class="border-b border-border p-4 flex gap-2 items-center">
       <i class="pi pi-phone"></i>
-      <p class="font-light text-sm text-secondary-foreground">{{ site.phone }}</p>
+      <p class="font-light text-sm text-secondary-foreground">{{ site[0]?.phone }}</p>
     </div>
 
     <!-- boxes with details -->
@@ -99,7 +84,7 @@ onMounted(async () => {
           />
         </div>
         <div class="">
-          <p class="text-card-foreground text-4xl font-bold">${{ site.price }}</p>
+          <p class="text-card-foreground text-4xl font-bold">${{ site[0]?.price }}</p>
         </div>
       </div>
 
@@ -108,12 +93,12 @@ onMounted(async () => {
         class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-300 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-accent text-accent-foreground text-center rounded-lg"
       >
         <div class="flex items-center space-x-1">
-          <p class="font-extralight">{{ new Date(site.date).getFullYear() }}</p>
-          <p class="">{{ months[new Date(site.date).getMonth()] }}</p>
+          <p class="font-extralight">{{ new Date(site[0]?.date).getFullYear() }}</p>
+          <p class="">{{ months[new Date(site[0]?.date).getMonth()] }}</p>
         </div>
         <div>
-          <p class="font-bold text-4xl">{{ new Date(site.date).getDate() }}</p>
-          <p class="font-bold text-3xl">{{ days[new Date(site.date).getDay()] }}</p>
+          <p class="font-bold text-4xl">{{ new Date(site[0]?.date).getDate() }}</p>
+          <p class="font-bold text-3xl">{{ days[new Date(site[0]?.date).getDay()] }}</p>
         </div>
       </div>
 
@@ -121,7 +106,7 @@ onMounted(async () => {
       <div
         class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-300 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-accent text-accent-foreground text-center rounded-lg"
       >
-        <img :src="site.brand_image" />
+        <img :src="site[0]?.brand_image" />
       </div>
 
       <!-- location -->
@@ -132,7 +117,7 @@ onMounted(async () => {
           <i class="pi pi-map-marker absolute -top-6 left-1/2 -translate-x-1/2 text-2xl"></i>
           <i class="pi pi-map text-3xl"></i>
         </div>
-        <p class="font-semibold text-accent-foreground text-xl">{{ site.location }}</p>
+        <p class="font-semibold text-accent-foreground text-xl">{{ site[0]?.location }}</p>
       </div>
     </section>
 
@@ -155,7 +140,7 @@ onMounted(async () => {
       <Transition>
         <div v-if="show_description">
           <p class="font-extralight text-xs text-secondary-foreground tracking-wider">
-            {{ site.description }}
+            {{ site[0]?.description }}
           </p>
         </div>
       </Transition>
@@ -180,7 +165,7 @@ onMounted(async () => {
       <Transition>
         <div v-if="show_station_feature">
           <p class="font-extralight text-xs text-secondary-foreground tracking-wider">
-            {{ site.site_features }}
+            {{ site[0]?.site_features }}
           </p>
         </div>
       </Transition>

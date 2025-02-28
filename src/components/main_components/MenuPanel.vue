@@ -24,6 +24,6 @@ const { theme, changeTheme } = inject<themeContext>('theme')!
     </div>
 
     <!-- price list component and individual station detail -->
-    <RouterView class=""></RouterView>
+    <RouterView></RouterView>
   </main>
 </template>
