@@ -52,22 +52,31 @@ onMounted(async () => {
       </div>
       <!-- trading name and image -->
       <div class="">
-        <p class="font-semibold text-3xl text-center text-primary">{{ site[0]?.trading_name }}</p>
+        <p v-if="site.length > 0" class="font-semibold text-3xl text-center text-primary">
+          {{ site[0]?.trading_name }}
+        </p>
+        <!-- loading name -->
+        <div v-else class="h-[36px] w-[60%] m-auto bg-accent rounded-lg animate-pulse"></div>
       </div>
     </div>
     <!-- address -->
 
     <div class="border-b border-border p-4 flex gap-2 items-center">
       <i class="pi pi-map-marker"></i>
-      <p class="font-light text-sm text-secondary-foreground">
-        {{ site[0]?.address }}, {{ site[0]?.location }}
+      <p v-if="site.length > 0" class="font-light text-sm text-secondary-foreground">
+        {{ site[0].address }}, {{ site[0].location }}
       </p>
+      <div v-else class="w-[216px] h-[20px] rounded-lg bg-accent animate-pulse"></div>
     </div>
 
     <!-- phone number -->
     <div class="border-b border-border p-4 flex gap-2 items-center">
       <i class="pi pi-phone"></i>
-      <p class="font-light text-sm text-secondary-foreground">{{ site[0]?.phone }}</p>
+      <p v-if="site.length > 0" class="font-light text-sm text-secondary-foreground">
+        {{ site[0]?.phone }}
+      </p>
+
+      <div v-else class="bg-accent w-[98px] h-[20px] rounded-lg animate animate-pulse"></div>
     </div>
 
     <!-- boxes with details -->
@@ -83,9 +92,10 @@ onMounted(async () => {
             class="dark:invert"
           />
         </div>
-        <div class="">
+        <div v-if="site.length > 0" class="">
           <p class="text-card-foreground text-4xl font-bold">${{ site[0]?.price }}</p>
         </div>
+        <div v-else class="w-[117px] h-[40px] bg-foreground animate-pulse rounded-lg"></div>
       </div>
 
       <!-- date -->
