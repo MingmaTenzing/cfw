@@ -55,10 +55,7 @@ onMounted(async () => {
               <p class="font-semibold">{{ item.price }}</p>
               <p class="text-secondary-foreground dark:text-secondary-foreground text-xs">Today</p>
             </div>
-            <div>
-              <p class="font-semibold text-zinc-400">{{ item.price }}</p>
-              <p class="text-zinc-400 text-xs">Tomorrow</p>
-            </div>
+
             <!-- price -->
           </div>
           <div>
@@ -79,6 +76,8 @@ onMounted(async () => {
           </div>
         </router-link>
       </section>
+
+      <!-- loading -->
     </section>
   </section>
 </template>
