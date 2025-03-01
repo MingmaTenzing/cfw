@@ -83,7 +83,7 @@ onMounted(async () => {
     <section class="grid grid-cols-2 gap-4 place-content-evenly place-items-center p-4">
       <!-- ulp price -->
       <div
-        class="w-[180px] h-[170px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-300 flex justify-center gap-4 p-4 items-center flex-col bg-accent text-accent-foreground rounded-lg"
+        class="w-[180px] h-[170px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 flex justify-center gap-4 p-4 items-center flex-col bg-card border-border border text-card-foreground rounded-lg"
       >
         <div class="flex items-center gap-1">
           <p class="font-medium text-3xl">ULP</p>
@@ -95,39 +95,49 @@ onMounted(async () => {
         <div v-if="site.length > 0" class="">
           <p class="text-card-foreground text-4xl font-bold">${{ site[0]?.price }}</p>
         </div>
-        <div v-else class="w-[117px] h-[40px] bg-foreground animate-pulse rounded-lg"></div>
+        <div v-else class="w-[117px] h-[40px] bg-accent animate-pulse rounded-xl"></div>
       </div>
 
       <!-- date -->
       <div
-        class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-300 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-accent text-accent-foreground text-center rounded-lg"
+        class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-card border-border border text-card-foreground text-center rounded-lg"
       >
-        <div class="flex items-center space-x-1">
+        <div v-if="site.length > 0" class="flex items-center space-x-1">
           <p class="font-extralight">{{ new Date(site[0]?.date).getFullYear() }}</p>
           <p class="">{{ months[new Date(site[0]?.date).getMonth()] }}</p>
         </div>
-        <div>
+        <div v-else class="w-[80px] h-[14px] bg-accent animate-pulse rounded-xl"></div>
+        <div v-if="site.length > 0">
           <p class="font-bold text-4xl">{{ new Date(site[0]?.date).getDate() }}</p>
           <p class="font-bold text-3xl">{{ days[new Date(site[0]?.date).getDay()] }}</p>
         </div>
+        <div v-else class="w-[40px] h-[14px] bg-accent animate-pulse rounded-xl"></div>
+        <div
+          v-if="site.length <= 0"
+          class="w-[128px] h-[14px] bg-accent animate-pulse rounded-xl"
+        ></div>
       </div>
 
       <!-- brand image -->
       <div
-        class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-300 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-accent text-accent-foreground text-center rounded-lg"
+        class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-card border-border border text-card-foreground text-center rounded-lg"
       >
-        <img :src="site[0]?.brand_image" />
+        <img v-if="site.length > 0" :src="site[0]?.brand_image" />
+        <div v-else class="w-full h-full bg-accent animate-pulse rounded-xl"></div>
       </div>
 
       <!-- location -->
       <div
-        class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-300 items-center flex flex-col justify-center space-y-2 h-[170px] bg-accent text-accent-foreground text-center rounded-lg"
+        class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 items-center flex flex-col justify-center space-y-2 h-[170px] bg-card border-border border text-card-foreground text-center rounded-lg"
       >
         <div class="relative">
           <i class="pi pi-map-marker absolute -top-6 left-1/2 -translate-x-1/2 text-2xl"></i>
           <i class="pi pi-map text-3xl"></i>
         </div>
-        <p class="font-semibold text-accent-foreground text-xl">{{ site[0]?.location }}</p>
+        <p v-if="site.length > 0" class="font-semibold text-accent-foreground text-xl">
+          {{ site[0]?.location }}
+        </p>
+        <div v-else class="w-[153px] h-[20px] bg-accent animate-pulse rounded-xl"></div>
       </div>
     </section>
 
