@@ -4,8 +4,9 @@ import { computed, inject, onMounted, ref } from 'vue'
 import axios from 'axios'
 import type { fuel_detail_item } from '../../types'
 import { fuel_data_parser } from '../../utils/fuel_data_parser'
-import { nightModeStyles } from '../../utils/map_styles'
+import { nightModeStyles, simple_grey_map } from '../../utils/map_styles'
 import type { themeContext } from '../../utils/theme_type'
+import MenuPanel from '@/components/main_components/MenuPanel.vue'
 
 const center = { lat: -31.953512, lng: 115.857048 }
 const inject_theme = inject<themeContext>('theme', {
@@ -16,7 +17,7 @@ const inject_theme = inject<themeContext>('theme', {
 const api_key = import.meta.env.VITE_API_KEY
 
 const theme = ref(inject_theme)
-const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : []))
+const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : simple_grey_map))
 
 const locations = ref<fuel_detail_item[]>([])
 
@@ -37,6 +38,8 @@ function checkClick(event: google.maps.MapMouseEvent) {
 </script>
 
 <template>
+  <MenuPanel class="fixed left-0 z-10"></MenuPanel>
+
   <GoogleMap
     :api-key="api_key"
     :center="center"
@@ -47,7 +50,12 @@ function checkClick(event: google.maps.MapMouseEvent) {
   >
     <MarkerCluster>
       <CustomMarker
-        :options="{ position: { lat: fuel_station.latitude, lng: fuel_station.longitude } }"
+        :options="{
+          position: {
+            lat: parseFloat(fuel_station.latitude),
+            lng: parseFloat(fuel_station.longitude),
+          },
+        }"
         v-for="(fuel_station, i) in locations"
         v-bind:key="i"
       >
