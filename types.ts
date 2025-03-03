@@ -1,19 +1,3 @@
-export interface fuel_detail_item {
-  title: string
-  description: string
-  date: string
-  trading_name: string
-  price: string
-  location: string
-  address: string
-  latitude: string
-  longitude: string
-  site_features: string
-  phone: string
-  brand: string
-  brand_image: string
-}
-
 export interface fuel_brand {
   name: string
   description: string
@@ -25,6 +9,23 @@ export interface markerCluster_locations {
   lng: number
 }
 
+export interface clientContactDetails {
+  phone: string
+  isPrimary: boolean
+}
+export interface client {
+  clientName: string
+  tradingName: string
+  clientContactDetails: Array<clientContactDetails>
+}
+
+export interface tradingHours {
+  day: string
+  startTime: string
+  endTime: string
+  stationClosedForTrading: boolean
+  nextOpeningDayMessage?: string
+}
 export interface Address {
   id: number
   line1: string
@@ -59,4 +60,13 @@ export interface FuelStation {
   currentPricingOrder: number
   nextPricingOrder: number
   brand_image?: string
+}
+
+export interface site_details {
+  id: number
+  features: Array<[]>
+  address: Address
+  brand: fuel_brand
+  client: client
+  tradingHours: Array<tradingHours>
 }

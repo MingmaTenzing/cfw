@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
-import { fuel_data_parser } from '../../../utils/fuel_data_parser'
-import type { fuel_detail_item } from '../../../types'
+
 import { useRoute } from 'vue-router'
+import { FuelStation, type site_details } from '../../../types'
 
 const route = useRoute()
 
@@ -25,19 +25,20 @@ const months = ref([
   'November',
   'December',
 ])
-const fuelData = ref<fuel_detail_item[]>([])
 
-const site = ref<fuel_detail_item[]>([])
+const site_details = ref<site_details>()
+const site_price_details = ref<FuelStation>()
 
 onMounted(async () => {
-  const lat = route.params.id
-  console.log(lat)
-  const response = await axios.get(import.meta.env.VITE_API_URL)
-  const xmlText = await response.data
-  fuelData.value = fuel_data_parser(xmlText)
+  const id = route.params.id as string
 
-  site.value = fuelData.value.filter((station) => station.latitude == lat)
-  console.log(site.value)
+  const fuel_prices = await axios.get<FuelStation[]>('/fuelwatch/sites')
+  const find_station_price = fuel_prices.data.find((station) => station.id == parseInt(id))
+  site_price_details.value = find_station_price
+  console.log(site_price_details)
+
+  const response = await axios.get(`/fuelwatch/sites/${id}`)
+  site_details.value = response.data
 })
 </script>
 
@@ -52,8 +53,8 @@ onMounted(async () => {
       </div>
       <!-- trading name and image -->
       <div class="">
-        <p v-if="site.length > 0" class="font-semibold text-3xl text-center text-primary">
-          {{ site[0]?.trading_name }}
+        <p v-if="site_details" class="font-semibold text-3xl text-center text-primary">
+          {{ site_details.client.clientName }}
         </p>
         <!-- loading name -->
         <div v-else class="h-[36px] w-[60%] m-auto bg-accent rounded-lg animate-pulse"></div>
@@ -63,8 +64,8 @@ onMounted(async () => {
 
     <div class="border-b border-border p-4 flex gap-2 items-center">
       <i class="pi pi-map-marker"></i>
-      <p v-if="site.length > 0" class="font-light text-sm text-secondary-foreground">
-        {{ site[0].address }}, {{ site[0].location }}
+      <p v-if="site_details" class="font-light text-sm text-secondary-foreground">
+        {{ site_details.address.line1 }}, {{ site_details.address.location }}
       </p>
       <div v-else class="w-[216px] h-[20px] rounded-lg bg-accent animate-pulse"></div>
     </div>
@@ -72,8 +73,8 @@ onMounted(async () => {
     <!-- phone number -->
     <div class="border-b border-border p-4 flex gap-2 items-center">
       <i class="pi pi-phone"></i>
-      <p v-if="site.length > 0" class="font-light text-sm text-secondary-foreground">
-        {{ site[0]?.phone }}
+      <p v-if="site_details" class="font-light text-sm text-secondary-foreground">
+        {{ site_details.client.clientContactDetails[0].phone }}
       </p>
 
       <div v-else class="bg-accent w-[98px] h-[20px] rounded-lg animate animate-pulse"></div>
@@ -92,8 +93,8 @@ onMounted(async () => {
             class="dark:invert"
           />
         </div>
-        <div v-if="site.length > 0" class="">
-          <p class="text-card-foreground text-4xl font-bold">${{ site[0]?.price }}</p>
+        <div v-if="site_details" class="">
+          <p class="text-card-foreground text-4xl font-bold">${{ site_details.id }}</p>
         </div>
         <div v-else class="w-[117px] h-[40px] bg-accent animate-pulse rounded-xl"></div>
       </div>
@@ -102,18 +103,18 @@ onMounted(async () => {
       <div
         class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-card border-border border text-card-foreground text-center rounded-lg"
       >
-        <div v-if="site.length > 0" class="flex items-center space-x-1">
-          <p class="font-extralight">{{ new Date(site[0]?.date).getFullYear() }}</p>
-          <p class="">{{ months[new Date(site[0]?.date).getMonth()] }}</p>
+        <div v-if="site_details" class="flex items-center space-x-1">
+          <p class="font-extralight">{{ new Date().getFullYear() }}</p>
+          <p class="">{{ months[new Date().getMonth()] }}</p>
         </div>
         <div v-else class="w-[80px] h-[14px] bg-accent animate-pulse rounded-xl"></div>
-        <div v-if="site.length > 0">
-          <p class="font-bold text-4xl">{{ new Date(site[0]?.date).getDate() }}</p>
-          <p class="font-bold text-3xl">{{ days[new Date(site[0]?.date).getDay()] }}</p>
+        <div v-if="site_details">
+          <p class="font-bold text-4xl">{{ new Date().getDate() }}</p>
+          <p class="font-bold text-3xl">{{ days[new Date().getDay()] }}</p>
         </div>
         <div v-else class="w-[40px] h-[14px] bg-accent animate-pulse rounded-xl"></div>
         <div
-          v-if="site.length <= 0"
+          v-if="site_details"
           class="w-[128px] h-[14px] bg-accent animate-pulse rounded-xl"
         ></div>
       </div>
@@ -122,7 +123,10 @@ onMounted(async () => {
       <div
         class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 p-4 items-center flex flex-col justify-center space-y-2 h-[170px] bg-card border-border border text-card-foreground text-center rounded-lg"
       >
-        <img v-if="site.length > 0" :src="site[0]?.brand_image" />
+        <img
+          v-if="site_details"
+          :src="`https://www.fuelwatch.wa.gov.au/assets/images/${site_details.brand.svgLogoFileName}`"
+        />
         <div v-else class="w-full h-full bg-accent animate-pulse rounded-xl"></div>
       </div>
 
@@ -134,8 +138,8 @@ onMounted(async () => {
           <i class="pi pi-map-marker absolute -top-6 left-1/2 -translate-x-1/2 text-2xl"></i>
           <i class="pi pi-map text-3xl"></i>
         </div>
-        <p v-if="site.length > 0" class="font-semibold text-accent-foreground text-xl">
-          {{ site[0]?.location }}
+        <p v-if="site_details" class="font-semibold text-accent-foreground text-xl">
+          {{ site_details.address.location }}
         </p>
         <div v-else class="w-[153px] h-[20px] bg-accent animate-pulse rounded-xl"></div>
       </div>
@@ -150,7 +154,7 @@ onMounted(async () => {
       >
         <div class="flex gap-2 items-center">
           <i class="pi pi-info-circle"></i>
-          <p>Site Description</p>
+          <p>site_details Description</p>
         </div>
         <div :class="[show_description ? 'rotate-180 transition-all ease-linear ' : '']">
           <i class="pi pi-chevron-down"></i>
@@ -160,7 +164,7 @@ onMounted(async () => {
       <Transition>
         <div v-if="show_description">
           <p class="font-extralight text-xs text-secondary-foreground tracking-wider">
-            {{ site[0]?.description }}
+            {{ site_details?.brand.description }}
           </p>
         </div>
       </Transition>
@@ -175,20 +179,20 @@ onMounted(async () => {
       >
         <div class="flex gap-2 items-center">
           <i class="pi pi-info-circle"></i>
-          <p>Site Features</p>
+          <p>site_details Features</p>
         </div>
         <div :class="[show_station_feature ? 'rotate-180 transition-all ease-linear ' : '']">
           <i class="pi pi-chevron-down"></i>
         </div>
       </div>
-      <!-- content -->
-      <Transition>
+      <!-- content  need to work on features-->
+      <!-- <Transition>
         <div v-if="show_station_feature">
           <p class="font-extralight text-xs text-secondary-foreground tracking-wider">
-            {{ site[0]?.site_features }}
+            {{ site_details.site_features }}
           </p>
         </div>
-      </Transition>
+      </Transition> -->
     </div>
 
     <!-- bottom margin to avoid content cutoff -->
