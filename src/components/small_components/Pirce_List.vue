@@ -56,7 +56,7 @@ onMounted(async () => {
         id="price-list-item"
         class="border-b border-t border-border dark:border-border p-4 hover:bg-secondary"
       >
-        <router-link :to="'/sites/' + item.id" class="flex justify-between items-center">
+        <router-link :to="'/sites/' + item.id" class="flex justify-between items-center h-[94px]">
           <div class="space-y-2">
             <!-- price -->
             <div>
@@ -67,7 +67,7 @@ onMounted(async () => {
                 Today
               </p>
             </div>
-            <div>
+            <div v-if="item.product.priceTomorrow">
               <p class="font-semibold text-muted-foreground text-center">
                 {{ item.product.priceTomorrow }}
               </p>
