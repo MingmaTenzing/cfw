@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 import { useRoute } from 'vue-router'
 import { type FuelStation, type site_details } from '../../../types'
 
 const route = useRoute()
-
+const site_id = ref(route.params.id)
 const show_trading_hours = ref<boolean>(false)
 const show_station_features = ref<boolean>(false)
 const days = ref(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
@@ -27,17 +27,27 @@ const months = ref([
 
 const site_details = ref<site_details>()
 const site_price_details = ref<FuelStation>()
-onMounted(async () => {
-  const id = route.params.id as string
 
+async function fetch_station_price_and_details(id: string | string[]) {
   const fuel_prices = await axios.get<FuelStation[]>('/fuelwatch/sites')
-  const find_station_price = fuel_prices.data.find((station) => station.id == parseInt(id))
+  const find_station_price = fuel_prices.data.find((station) => station.id == Number(id))
   site_price_details.value = find_station_price
   console.log(site_price_details)
 
   const response = await axios.get(`/fuelwatch/sites/${id}`)
   site_details.value = response.data
+}
+
+onMounted(() => {
+  fetch_station_price_and_details(site_id.value)
 })
+
+watch(
+  () => route.params.id,
+  (newvalue) => {
+    fetch_station_price_and_details(newvalue)
+  },
+)
 </script>
 
 <template class="">
@@ -201,7 +211,7 @@ onMounted(async () => {
         class="w-[180px] hover:scale-110 hover:-translate-y-1 delay-150 transition-transform ease-in-out duration-200 items-center flex flex-col justify-center space-y-2 h-[170px] bg-card border-border border text-muted-foreground text-center rounded-lg"
       >
         <div v-if="site_price_details?.product.priceTomorrow" class="p-4">
-          <p class="text-3xl font-bold">$189.11</p>
+          <p class="text-3xl font-bold">{{ site_price_details.product.priceTomorrow }}</p>
           <p class="font-semibold text-lg">Tomorrow's Price</p>
         </div>
         <div v-else class="p-4">
@@ -226,7 +236,6 @@ onMounted(async () => {
           <i class="pi pi-chevron-down"></i>
         </div>
       </div>
-      <!-- content -->
 
       <section class="">
         <Transition>

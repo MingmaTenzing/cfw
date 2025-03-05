@@ -7,11 +7,18 @@ import { nightModeStyles, simple_grey_map } from '../../utils/map_styles'
 import type { themeContext } from '../../utils/theme_type'
 import MenuPanel from '@/components/main_components/MenuPanel.vue'
 import { fuel_station_image_mapper } from '../../utils/fuel_station_with_images'
+import { type map_props } from '../../utils/map_props'
+import { useRouter } from 'vue-router'
 
-const center = { lat: -31.953512, lng: 115.857048 }
+const router = useRouter()
 const inject_theme = inject<themeContext>('theme', {
   theme: 'dark',
   changeTheme: () => undefined,
+})
+
+const { center } = inject<map_props>('map_center', {
+  center: { lat: -31.953512, lng: 115.857048 },
+  update_center: () => undefined,
 })
 
 const api_key = import.meta.env.VITE_API_KEY
@@ -27,13 +34,8 @@ onMounted(async () => {
   locations.value = fuel_stations_with_image
 })
 
-function checkClick(event: google.maps.MapMouseEvent) {
-  if (event.latLng) {
-    const lat = event.latLng!.lat()
-    const lng = event.latLng!.lng()
-    console.log(lat, lng)
-    console.log('working')
-  }
+function checkClick(site: FuelStation) {
+  router.push(`/sites/${site.id}`)
 }
 </script>
 
@@ -46,7 +48,6 @@ function checkClick(event: google.maps.MapMouseEvent) {
     :zoom="15"
     :styles="mapStyle"
     style="width: 100%; height: 100vh"
-    @click="checkClick"
   >
     <MarkerCluster>
       <CustomMarker
@@ -59,7 +60,7 @@ function checkClick(event: google.maps.MapMouseEvent) {
         v-for="(fuel_station, i) in locations"
         v-bind:key="i"
       >
-        <div class="w-[56px] rounded-lg bg-background group">
+        <div v-on:click="checkClick(fuel_station)" class="w-[56px] rounded-lg bg-background group">
           <div
             class="bg-zinc-500 group-hover:bg-red-500 text-white rounded-t-lg flex justify-center items-center px-2 py-1"
           >

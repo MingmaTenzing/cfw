@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { type FuelStation } from '../../../types'
 import axios from 'axios'
 import { fuel_brands } from '../../../utils/fuel_brands'
+import type { map_props } from '../../../utils/map_props'
+import { useRouter } from 'vue-router'
 
 const fuelData = ref<FuelStation[]>([])
+
+const router = useRouter()
+// inject the map_center to redirect to the site when clicked
+const { update_center } = inject<map_props>('map_center', {
+  center: { lat: -31.953512, lng: 115.857048 },
+  update_center: () => undefined,
+})
+
+function go_to_site(site: FuelStation) {
+  update_center(site.address.latitude, site.address.longitude)
+  router.push(`/sites/${site.id}`)
+}
 
 onMounted(async () => {
   const response = await axios.get<FuelStation[]>('/fuelwatch/sites')
@@ -56,7 +70,7 @@ onMounted(async () => {
         id="price-list-item"
         class="border-b border-t border-border dark:border-border p-4 hover:bg-secondary"
       >
-        <router-link :to="'/sites/' + item.id" class="flex justify-between items-center h-[94px]">
+        <div v-on:click="go_to_site(item)" class="flex justify-between items-center h-[94px]">
           <div class="space-y-2">
             <!-- price -->
             <div>
@@ -94,7 +108,7 @@ onMounted(async () => {
               height="40"
             />
           </div>
-        </router-link>
+        </div>
       </section>
 
       <!-- loading -->
