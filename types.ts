@@ -36,6 +36,14 @@ export interface Address {
   longitude: number
 }
 
+export interface stationFeatures {
+  featureName: string
+  description: string
+  isAvailable: boolean
+  iconName: string
+  isCaveatFeature: boolean
+}
+
 export interface Product {
   shortName: string
   isTruckStop: boolean
@@ -64,7 +72,7 @@ export interface FuelStation {
 
 export interface site_details {
   id: number
-  features: Array<[]>
+  features: Array<stationFeatures>
   address: Address
   brand: fuel_brand
   client: client

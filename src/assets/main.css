@@ -4,6 +4,14 @@
 @plugin 'tailwind-scrollbar-hide';
 @import 'primeicons/primeicons.css';
 
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
 @theme {
   --color-background: var(--color-white);
   --color-foreground: var(--color-zinc-900);

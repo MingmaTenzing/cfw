@@ -8,6 +8,7 @@ import { type FuelStation, type site_details } from '../../../types'
 const route = useRoute()
 
 const show_trading_hours = ref<boolean>(false)
+const show_station_features = ref<boolean>(false)
 const days = ref(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
 const months = ref([
   'January',
@@ -26,7 +27,6 @@ const months = ref([
 
 const site_details = ref<site_details>()
 const site_price_details = ref<FuelStation>()
-
 onMounted(async () => {
   const id = route.params.id as string
 
@@ -211,10 +211,50 @@ onMounted(async () => {
     </section>
 
     <!-- station features -->
-    <div class="border-b border-border p-4 text-sm space-y-4">
-      <p class="font-semibold text-lg">Station Features</p>
-    </div>
 
+    <div class="border-b border-border p-4 text-sm space-y-4">
+      <!-- toggle station features -->
+      <div
+        @click="show_station_features = !show_station_features"
+        class="flex justify-between group cursor-pointer"
+      >
+        <div class="flex gap-2 items-center">
+          <i class="pi pi-list-check"></i>
+          <p>Station Features</p>
+        </div>
+        <div :class="[show_station_features ? 'rotate-180 transition-all ease-linear ' : '']">
+          <i class="pi pi-chevron-down"></i>
+        </div>
+      </div>
+      <!-- content -->
+
+      <section class="">
+        <Transition>
+          <div v-if="show_station_features" class="p-2 text-primary font-light text-xs">
+            <table class="table-auto">
+              <thead class=""></thead>
+              <tbody class="">
+                <tr
+                  class="flex justify-between w-[230px] border-b py-2"
+                  v-for="(feature, index) in site_details?.features"
+                  :key="index"
+                >
+                  <td>{{ feature.featureName }}</td>
+                  <td class="">
+                    <div v-if="feature.isAvailable">
+                      <i class="pi pi-check text-green-500"></i>
+                    </div>
+                    <div v-else>
+                      <i class="pi pi-times text-destructive"> </i>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Transition>
+      </section>
+    </div>
     <!-- bottom margin to avoid content cutoff -->
     <div class="mb-[100px] h-[40px]"></div>
   </main>
