@@ -7,8 +7,6 @@ import { type FuelStation, type site_details } from '../../../types'
 
 const route = useRoute()
 
-const show_description = ref<boolean>(false)
-const show_station_feature = ref<boolean>(false)
 const show_trading_hours = ref<boolean>(false)
 const days = ref(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
 const months = ref([
@@ -51,6 +49,7 @@ onMounted(async () => {
         <i class="pi pi-arrow-left"></i>
         <p>Back</p>
       </router-link>
+
       <!-- trading name and image -->
       <div class="">
         <p v-if="site_details" class="font-semibold text-3xl text-center text-primary">
@@ -211,54 +210,9 @@ onMounted(async () => {
       </div>
     </section>
 
-    <!-- description -->
-    <div class="border-b border-border p-4 text-sm space-y-4">
-      <!-- toggle description -->
-      <div
-        @click="show_description = !show_description"
-        class="flex justify-between group cursor-pointer"
-      >
-        <div class="flex gap-2 items-center">
-          <i class="pi pi-info-circle"></i>
-          <p>Description</p>
-        </div>
-        <div :class="[show_description ? 'rotate-180 transition-all ease-linear ' : '']">
-          <i class="pi pi-chevron-down"></i>
-        </div>
-      </div>
-      <!-- content -->
-      <Transition>
-        <div v-if="show_description">
-          <p class="font-extralight text-xs text-secondary-foreground tracking-wider">
-            {{ site_details?.brand.description }}
-          </p>
-        </div>
-      </Transition>
-    </div>
-
     <!-- station features -->
     <div class="border-b border-border p-4 text-sm space-y-4">
-      <!-- toggle station_feature -->
-      <div
-        @click="show_station_feature = !show_station_feature"
-        class="flex justify-between group cursor-pointer"
-      >
-        <div class="flex gap-2 items-center">
-          <i class="pi pi-info-circle"></i>
-          <p>Features</p>
-        </div>
-        <div :class="[show_station_feature ? 'rotate-180 transition-all ease-linear ' : '']">
-          <i class="pi pi-chevron-down"></i>
-        </div>
-      </div>
-      <!-- content  need to work on features-->
-      <!-- <Transition>
-        <div v-if="show_station_feature">
-          <p class="font-extralight text-xs text-secondary-foreground tracking-wider">
-            {{ site_details.site_features }}
-          </p>
-        </div>
-      </Transition> -->
+      <p class="font-semibold text-lg">Station Features</p>
     </div>
 
     <!-- bottom margin to avoid content cutoff -->
