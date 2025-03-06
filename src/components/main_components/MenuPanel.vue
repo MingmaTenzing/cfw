@@ -4,7 +4,7 @@ import { type themeContext } from '../../../utils/theme_type'
 import { RouterView } from 'vue-router'
 
 // asserted that theme will always be provided from the root app level
-const { theme, changeTheme } = inject<themeContext>('theme')!
+const { changeTheme } = inject<themeContext>('theme')!
 </script>
 
 <template>
@@ -16,7 +16,6 @@ const { theme, changeTheme } = inject<themeContext>('theme')!
         height="60"
         class="invert dark:invert-0"
       />
-      {{ theme }}
 
       <button @click="changeTheme">
         <i class="pi pi-moon text-foreground"></i>

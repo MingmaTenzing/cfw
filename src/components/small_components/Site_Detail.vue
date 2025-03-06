@@ -44,8 +44,8 @@ onMounted(() => {
 
 watch(
   () => route.params.id,
-  (newvalue) => {
-    fetch_station_price_and_details(newvalue)
+  (new_station_id) => {
+    fetch_station_price_and_details(new_station_id)
   },
 )
 </script>
