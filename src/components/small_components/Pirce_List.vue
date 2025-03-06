@@ -1,17 +1,39 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { type fuel_detail_item } from '../../../types'
+import { inject, onMounted, ref } from 'vue'
+import { type FuelStation } from '../../../types'
 import axios from 'axios'
-import { fuel_data_parser } from '../../../utils/fuel_data_parser'
+import { fuel_brands } from '../../../utils/fuel_brands'
+import type { map_props } from '../../../utils/map_props'
+import { useRouter } from 'vue-router'
 
-const fuelData = ref<fuel_detail_item[]>([])
+const fuelData = ref<FuelStation[]>([])
+
+const router = useRouter()
+// inject the map_center to redirect to the site when clicked
+const { update_center } = inject<map_props>('map_center', {
+  center: { lat: -31.953512, lng: 115.857048 },
+  update_center: () => undefined,
+})
+
+function go_to_site(site: FuelStation) {
+  update_center(site.address.latitude, site.address.longitude)
+  router.push(`/sites/${site.id}`)
+}
+
 onMounted(async () => {
-  const response = await axios.get(import.meta.env.VITE_API_URL)
-  const xmlText = await response.data
+  const response = await axios.get<FuelStation[]>('/fuelwatch/sites')
 
-  // calls the fuel-data_parser function in utils that converts the xml string into array
-  fuelData.value = fuel_data_parser(xmlText)
-  console.log(fuelData.value)
+  const fuel_prices = response.data.map((item) => {
+    const find_brand = fuel_brands.find((brand) => brand!.name == item.brandName)
+    if (find_brand) {
+      return {
+        ...item,
+        brand_image: 'https://www.fuelwatch.wa.gov.au/assets/images/' + find_brand.svgLogoFileName,
+      }
+    }
+    return item
+  })
+  fuelData.value = fuel_prices
 })
 </script>
 
@@ -44,16 +66,26 @@ onMounted(async () => {
 
       <section
         v-for="item in fuelData"
-        v-bind:key="item.phone"
+        v-bind:key="item.id"
         id="price-list-item"
         class="border-b border-t border-border dark:border-border p-4 hover:bg-secondary"
       >
-        <router-link :to="'/sites/' + item.latitude" class="flex justify-between items-center">
+        <div v-on:click="go_to_site(item)" class="flex justify-between items-center h-[94px]">
           <div class="space-y-2">
             <!-- price -->
             <div>
-              <p class="font-semibold">{{ item.price }}</p>
-              <p class="text-secondary-foreground dark:text-secondary-foreground text-xs">Today</p>
+              <p class="font-semibold text-center">{{ item.product.priceToday }}</p>
+              <p
+                class="text-secondary-foreground text-center dark:text-secondary-foreground text-xs"
+              >
+                Today
+              </p>
+            </div>
+            <div v-if="item.product.priceTomorrow">
+              <p class="font-semibold text-muted-foreground text-center">
+                {{ item.product.priceTomorrow }}
+              </p>
+              <p class="text-muted-foreground text-center text-xs">Tomorrow</p>
             </div>
 
             <!-- price -->
@@ -61,9 +93,11 @@ onMounted(async () => {
           <div>
             <!-- details -->
             <p class="font-bold text-center text-primary dark:text-primary">
-              {{ item.trading_name }}
+              {{ item.siteName }}
             </p>
-            <p class="text-zinc-500 text-center text-xs">{{ item.address }}</p>
+            <p class="text-zinc-500 text-center text-xs">
+              {{ item.address.line1 }}, {{ item.address.location }}
+            </p>
           </div>
           <div>
             <!-- logo -->
@@ -74,7 +108,7 @@ onMounted(async () => {
               height="40"
             />
           </div>
-        </router-link>
+        </div>
       </section>
 
       <!-- loading -->

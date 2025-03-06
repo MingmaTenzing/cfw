@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/fuelwatch': {
-        target: 'https://www.fuelwatch.wa.gov.au/fuelwatch',
+        target: 'https://www.fuelwatch.wa.gov.au/api',
         changeOrigin: true,
         secure: false,
         ws: false,
