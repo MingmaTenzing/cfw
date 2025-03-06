@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MapView from '@/views/MapView.vue'
-import Pirce_List from '@/components/small_components/Pirce_List.vue'
-import Site_Detail from '@/components/small_components/Site_Detail.vue'
+import Pirce_List from '@/components/MapView_Components/Pirce_List.vue'
+import Site_Detail from '@/components/MapView_Components/Site_Detail.vue'
+import Dashboard_View from '@/views/Dashboard_View.vue'
+import Overview from '@/components/Dashboard_Components/OverView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,18 +22,21 @@ const router = createRouter({
           path: 'sites/:id',
           component: Site_Detail,
           name: 'Site Details',
-          
         },
       ],
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue'),
-    // },
+    {
+      path: '/dashboard',
+      component: Dashboard_View,
+      name: 'Dashboard',
+      children: [
+        {
+          path: 'overview',
+          component: Overview,
+          name: 'Dashboard Overview',
+        },
+      ],
+    },
   ],
 })
 
