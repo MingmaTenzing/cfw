@@ -30,16 +30,16 @@ const fuel_type_toggle = ref<boolean>(false)
               v-if="fuel_type_toggle"
               class="absolute -bottom-32 left-0 border-b border-l border-r rounded-lg w-[140px]"
             >
-              <div class="p-2 hover:bg-accent cursor-pointer">
+              <div class="p-2 hover:bg-accent bg-background cursor-pointer">
                 <p>Unleaded 91</p>
               </div>
-              <div class="p-2 hover:bg-accent cursor-pointer">
+              <div class="p-2 hover:bg-accent bg-background cursor-pointer">
                 <p>Premium 95</p>
               </div>
-              <div class="p-2 hover:bg-accent cursor-pointer">
+              <div class="p-2 hover:bg-accent bg-background cursor-pointer">
                 <p>Premium 98</p>
               </div>
-              <div class="p-2 hover:bg-accent cursor-pointer">
+              <div class="p-2 hover:bg-accent bg-background cursor-pointer">
                 <p>Diesel</p>
               </div>
             </div>
