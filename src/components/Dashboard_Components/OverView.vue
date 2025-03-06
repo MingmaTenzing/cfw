@@ -30,7 +30,7 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
             <p>Unleaded 91</p>
             <i class="pi pi-chevron-down"></i>
           </div>
-          <Transition>
+          <Transition class="fuel-type">
             <div
               v-if="fuel_type_toggle"
               class="absolute -bottom-32 left-0 border-b border-l border-r rounded-lg w-[140px]"
@@ -55,3 +55,18 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
     </section>
   </main>
 </template>
+
+<style>
+.fuel-type-enter-active,
+.fuel-type-leave-active {
+  transition: all 200ms ease-in-out;
+}
+
+.fuel-type-enter-from {
+  transform: translateY(-8px);
+}
+.fuel-type-leave-to {
+  transform: translateY(-8px);
+  opacity: 0;
+}
+</style>
