@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 const fuel_type_toggle = ref<boolean>(false)
+
+const { toggle_side_bar } = inject('toggle_side_bar', {
+  show_side_bar: false,
+  toggle_side_bar: () => undefined,
+})
 </script>
 
 <template>
-  <main class="text-primary bg-background w-full p-4">
+  <main class="bg-background text-primary w-full min-h-[100vh] p-4 border">
     <!-- header -->
 
     <section class="flex justify-between border-b pb-4">
       <!-- left side menus -->
       <div class="flex items-center space-x-4">
-        <i class="pi pi-bars"></i>
+        <i v-on:click="toggle_side_bar" class="pi pi-bars"></i>
 
         <h2 class="font-semibold text-lg">WA Fuel Price Dashboard</h2>
       </div>

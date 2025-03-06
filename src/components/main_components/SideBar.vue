@@ -7,7 +7,7 @@ const { changeTheme } = inject<themeContext>('theme')!
 
 <template>
   <main
-    class="bg-background/96 text-primary w-[280px] md:w-[255px] p-4 h-[100vh] flex flex-col justify-between"
+    class="bg-zinc-50 dark:bg-zinc-900 text-primary w-[280px] md:w-[255px] p-4 h-[100vh] flex flex-col justify-between"
   >
     <!-- logo + dashboard and feul types -->
 
