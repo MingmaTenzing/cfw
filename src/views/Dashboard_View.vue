@@ -20,6 +20,7 @@ provide('toggle_side_bar', {
     <Transition>
       <SideBar v-if="show_side_bar"> </SideBar>
     </Transition>
+
     <RouterView></RouterView>
   </main>
 </template>
