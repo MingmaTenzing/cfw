@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import MapView from '@/views/MapView.vue'
 import Pirce_List from '@/components/MapView_Components/Pirce_List.vue'
 import Site_Detail from '@/components/MapView_Components/Site_Detail.vue'
 import Dashboard_View from '@/views/Dashboard_View.vue'
+import MapView from '@/views/MapView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 import Overview from '@/components/Dashboard_Components/OverView.vue'
 
 const router = createRouter({

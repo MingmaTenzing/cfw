@@ -108,7 +108,7 @@ watch(
 
       <!-- if trades 24 hours -->
       <section v-if="site_price_details?.operates247 == true">
-        <Transition>
+        <Transition name="dropdown">
           <div v-if="show_trading_hours" class="p-2 text-primary font-light text-xs">
             <table class="table-auto">
               <thead class=""></thead>
@@ -131,7 +131,7 @@ watch(
 
       <!-- if has specific trading hours -->
       <section v-else class="">
-        <Transition>
+        <Transition name="dropdown">
           <div v-if="show_trading_hours" class="p-2 text-primary font-light text-xs">
             <table class="table-fixed">
               <thead class=""></thead>
@@ -238,7 +238,7 @@ watch(
       </div>
 
       <section class="">
-        <Transition>
+        <Transition name="dropdown">
           <div v-if="show_station_features" class="p-2 text-primary font-light text-xs">
             <table class="table-auto">
               <thead class=""></thead>
@@ -270,15 +270,15 @@ watch(
 </template>
 
 <style>
-.v-enter-active,
-.v-leave-active {
+.dropdown-enter-active,
+.dropdown-leave-active {
   transition: all 200ms ease-in-out;
 }
 
-.v-enter-from {
+.dropdown-enter-from {
   transform: translateY(-8px);
 }
-.v-leave-to {
+.dropdown-leave-to {
   transform: translateY(-8px);
   opacity: 0;
 }
