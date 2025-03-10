@@ -22,7 +22,7 @@ const { theme } = inject<themeContext>('theme')!
 const price_trend_data = ref<price_trend[]>([])
 const average_Prices = computed(() => {
   return price_trend_data.value.length > 0
-    ? price_trend_data.value.map((price) => price.averagePrice)
+    ? price_trend_data.value.map((price) => price.averagePrice / 100)
     : []
 })
 const price_dates = computed(() =>
@@ -45,7 +45,12 @@ const chartOptions = computed(() => {
 // lightgrid styling
 const lightGrid_options = {
   responsive: true,
-  forceOverride: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  maintainAspectRatio: false,
   scales: {
     x: {
       grid: {
@@ -64,7 +69,12 @@ const lightGrid_options = {
 //darkgrid styling
 const darkGrid_options = {
   responsive: true,
-  forceOverride: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
   scales: {
     x: {
       grid: {
@@ -82,6 +92,7 @@ const darkGrid_options = {
 }
 const chartData = computed(() => ({
   labels: price_dates.value,
+
   datasets: [
     {
       label: 'Average ULP Price for metro region',
