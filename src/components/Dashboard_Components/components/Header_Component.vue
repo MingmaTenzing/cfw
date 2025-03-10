@@ -50,18 +50,3 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
     </div>
   </section>
 </template>
-
-<style>
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition: all 200ms ease-in-out;
-}
-
-.dropdown-enter-from {
-  transform: translateY(-8px);
-}
-.dropdown-leave-to {
-  transform: translateY(-8px);
-  opacity: 0;
-}
-</style>

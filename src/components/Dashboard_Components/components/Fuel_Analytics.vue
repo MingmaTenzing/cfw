@@ -24,24 +24,7 @@ import Line_Chart from './Line_Chart.vue'
 
     <!-- fuel analytics -->
     <section class="flex">
-      <div class="border rounded-lg p-4 space-y-4">
-        <div>
-          <p class="font-bold text-xl">Price Trends</p>
-          <p class="text-primary/60 text-xs">Average ULP Price past 31 days</p>
-        </div>
-        <div class="h-[324px] md:w-[384px] lg:w-[470px]">
-          <Line_Chart></Line_Chart>
-        </div>
-      </div>
-      <div class="border rounded-lg p-4 space-y-4">
-        <div>
-          <p class="font-bold text-xl">Price Trends</p>
-          <p class="text-primary/60 text-xs">Average ULP Price past 31 days</p>
-        </div>
-        <div class="h-[324px] md:w-[384px] lg:w-[470px]">
-          <Line_Chart></Line_Chart>
-        </div>
-      </div>
+      <Line_Chart></Line_Chart>
     </section>
   </main>
 </template>

@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref, watch } from 'vue'
 import { type themeContext } from '../../../../utils/theme_type'
 import axios from 'axios'
 import { type price_trend } from '../../../../types'
@@ -33,6 +33,10 @@ const price_dates = computed(() =>
       })
     : [],
 )
+
+const fuel_type_toggle = ref<boolean>(false)
+
+const current_fuel_type = ref('ULP')
 
 const chart_border_color = ref('oklch(0.627 0.194 149.214)')
 
@@ -104,16 +108,88 @@ const chartData = computed(() => ({
   ],
 }))
 
-console.log(average_Prices, price_dates)
-onMounted(async () => {
+async function fetchData(fuelType: string) {
   const fetch_price_trend = await axios.get<price_trend[]>(
-    '/fuelwatch/report/price-trends?region=Metro&fuelType=ULP',
+    `/fuelwatch/report/price-trends?region=Metro&fuelType=${fuelType}`,
   )
   price_trend_data.value = fetch_price_trend.data
-  console.log(price_trend_data.value)
+}
+
+onMounted(async () => {
+  fetchData(current_fuel_type.value)
+})
+
+watch(current_fuel_type, (newFuelType) => {
+  fetchData(newFuelType)
 })
 </script>
 
 <template>
-  <Line :options="chartOptions" :data="chartData" />
+  <div class="border rounded-lg p-4 space-y-4">
+    <div class="flex justify-between">
+      <div>
+        <p class="font-bold text-xl">Price Trends</p>
+        <p class="text-primary/60 text-xs">Average ULP Price past 31 days</p>
+      </div>
+
+      <!-- dropdown menu -->
+      <div>
+        <div class="rounded-lg border text-xs p-2 relative w-[140px]">
+          <div
+            v-on:click="fuel_type_toggle = !fuel_type_toggle"
+            class="flex justify-between items-center"
+          >
+            <p>{{ current_fuel_type }}</p>
+            <i class="pi pi-chevron-down"></i>
+          </div>
+          <Transition name="dropdown">
+            <div
+              v-if="fuel_type_toggle"
+              class="absolute -bottom-48 left-0 border-b border-l border-r rounded-lg w-[140px]"
+            >
+              <div
+                v-on:click="current_fuel_type = 'ULP'"
+                class="p-2 hover:bg-accent bg-background cursor-pointer"
+              >
+                <p>ULP</p>
+              </div>
+              <div
+                v-on:click="current_fuel_type = 'PULP'"
+                class="p-2 hover:bg-accent bg-background cursor-pointer"
+              >
+                <p>PULP</p>
+              </div>
+              <div
+                v-on:click="current_fuel_type = 'Diesel'"
+                class="p-2 hover:bg-accent bg-background cursor-pointer"
+              >
+                <p>Diesel</p>
+              </div>
+              <div
+                v-on:click="current_fuel_type = 'LPG'"
+                class="p-2 hover:bg-accent bg-background cursor-pointer"
+              >
+                <p>LPG</p>
+              </div>
+              <div
+                v-on:click="current_fuel_type = '98 RON'"
+                class="p-2 hover:bg-accent bg-background cursor-pointer"
+              >
+                <p>98 RON</p>
+              </div>
+              <div
+                v-on:click="current_fuel_type = 'E85'"
+                class="p-2 hover:bg-accent bg-background cursor-pointer"
+              >
+                <p>E85</p>
+              </div>
+            </div>
+          </Transition>
+        </div>
+      </div>
+    </div>
+    <div class="h-[324px] md:w-[384px] lg:w-[470px]">
+      <Line :options="chartOptions" :data="chartData" />
+    </div>
+  </div>
 </template>
