@@ -78,3 +78,8 @@ export interface site_details {
   client: client
   tradingHours: Array<tradingHours>
 }
+
+export interface price_trend {
+  averagePrice: number
+  publishDate: string
+}
