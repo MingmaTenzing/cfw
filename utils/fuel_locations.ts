@@ -1,6 +1,6 @@
-import type { fuel_detail_item } from '../types'
+import type { fuelwatch_xml } from '../types'
 
-export const locations: fuel_detail_item[] = [
+export const locations: fuelwatch_xml[] = [
   {
     title: '160.7: Costco Perth Airport',
     description:

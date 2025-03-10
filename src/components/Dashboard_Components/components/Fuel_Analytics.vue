@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Bar_Chart from '../components/Bar_Chart.vue'
 import Line_Chart from './Line_Chart.vue'
 </script>
 
@@ -25,6 +26,7 @@ import Line_Chart from './Line_Chart.vue'
     <!-- fuel analytics -->
     <section class="flex">
       <Line_Chart></Line_Chart>
+      <Bar_Chart></Bar_Chart>
     </section>
   </main>
 </template>

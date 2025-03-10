@@ -34,7 +34,7 @@ async function fetch_station_price_and_details(id: string | string[]) {
   site_price_details.value = find_station_price
   console.log(site_price_details)
 
-  const response = await axios.get(`/fuelwatch/sites/${id}`)
+  const response = await axios.get(`https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/api/sites/${id}`)
   site_details.value = response.data
 }
 
@@ -44,6 +44,8 @@ onMounted(() => {
 
 watch(
   () => route.params.id,
+
+
   (new_station_id) => {
     fetch_station_price_and_details(new_station_id)
   },

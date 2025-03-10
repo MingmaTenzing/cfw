@@ -21,7 +21,9 @@ function go_to_site(site: FuelStation) {
 }
 
 onMounted(async () => {
-  const response = await axios.get<FuelStation[]>('/fuelwatch/sites')
+  const response = await axios.get<FuelStation[]>(
+    'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/api/sites?fuelType=ULP',
+  )
 
   const fuel_prices = response.data.map((item) => {
     const find_brand = fuel_brands.find((brand) => brand!.name == item.brandName)

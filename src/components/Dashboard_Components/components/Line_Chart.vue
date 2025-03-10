@@ -14,6 +14,7 @@ import { computed, inject, onMounted, ref, watch } from 'vue'
 import { type themeContext } from '../../../../utils/theme_type'
 import axios from 'axios'
 import { type price_trend } from '../../../../types'
+import { darkGrid_options, lightGrid_options } from '../../../../utils/chart_utils'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
@@ -33,7 +34,6 @@ const price_dates = computed(() =>
       })
     : [],
 )
-
 const fuel_type_toggle = ref<boolean>(false)
 
 const current_fuel_type = ref('ULP')
@@ -46,54 +46,6 @@ const chartOptions = computed(() => {
   return theme == 'dark' ? lightGrid_options : darkGrid_options
 })
 
-// lightgrid styling
-const lightGrid_options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      grid: {
-        color: ' #27272a',
-        display: false,
-      },
-    },
-    y: {
-      grid: {
-        color: ' #27272a',
-        display: false,
-      },
-    },
-  },
-}
-//darkgrid styling
-const darkGrid_options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        color: ' #ffffff',
-        display: false,
-      },
-    },
-    y: {
-      grid: {
-        color: ' #ffffff',
-        display: false,
-      },
-    },
-  },
-}
 const chartData = computed(() => ({
   labels: price_dates.value,
 
