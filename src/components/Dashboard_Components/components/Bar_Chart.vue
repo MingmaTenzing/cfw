@@ -8,25 +8,40 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js'
-import { computed, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import { Bar } from 'vue-chartjs'
 
 import { region_fuel_average_calculator } from '../../../../utils/region_fuel_average'
+import { type themeContext } from '../../../../utils/theme_type'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const average_fuel_prices = ref<number[]>([])
+const { theme } = inject<themeContext>('theme')!
 
-const data = computed(() => ({
-  labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
-  datasets: [
-    {
-      label: 'Data One',
-      backgroundColor: '#ffffff',
-      data: average_fuel_prices.value,
-    },
-  ],
-}))
+const data = computed(() =>
+  theme == 'dark'
+    ? {
+        labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: '#ffffff',
+            data: average_fuel_prices.value,
+          },
+        ],
+      }
+    : {
+        labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: 'oklch(0.967 0.001 286.375)',
+            data: average_fuel_prices.value,
+          },
+        ],
+      },
+)
 
 const chartOptions = ref({
   responsive: true,

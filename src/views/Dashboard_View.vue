@@ -16,9 +16,9 @@ provide('toggle_side_bar', {
 </script>
 
 <template>
-  <main class="flex bg-background">
+  <main class="flex bg-background relative">
     <Transition>
-      <SideBar v-if="show_side_bar"> </SideBar>
+      <SideBar v-if="show_side_bar" class="fixed left-0 top-0 z-10 shadow-2xl"> </SideBar>
     </Transition>
 
     <RouterView></RouterView>
@@ -33,6 +33,6 @@ provide('toggle_side_bar', {
 
 .v-enter-from,
 .v-leave-to {
-  transform: translateX(-120px);
+  transform: translateX(-240px);
 }
 </style>

@@ -3,23 +3,32 @@ import { inject } from 'vue'
 import type { themeContext } from '../../../utils/theme_type'
 
 const { changeTheme } = inject<themeContext>('theme')!
+const { toggle_side_bar } = inject('toggle_side_bar', {
+  show_side_bar: false,
+  toggle_side_bar: () => undefined,
+})
 </script>
 
 <template>
   <main
-    class="bg-zinc-50 dark:bg-zinc-900 text-primary w-[280px] md:w-[255px] p-4 h-[100vh] flex flex-col justify-between"
+    class="bg-zinc-50 dark:bg-zinc-900 text-primary w-[240px] p-4 h-[100vh] flex flex-col justify-between"
   >
     <!-- logo + dashboard and feul types -->
 
     <div class="space-y-4">
       <!-- logo -->
-      <div class="flex justify-center">
-        <img
-          src="../../assets/cfw_white_logo.png"
-          width="140"
-          height="60"
-          class="invert dark:invert-0"
-        />
+      <div>
+        <div v-on:click="toggle_side_bar" class="flex justify-end">
+          <i class="pi pi-times"></i>
+        </div>
+        <div class="flex justify-center">
+          <img
+            src="../../assets/cfw_white_logo.png"
+            width="140"
+            height="60"
+            class="invert dark:invert-0"
+          />
+        </div>
       </div>
 
       <!-- dashboard and fuel types -->
