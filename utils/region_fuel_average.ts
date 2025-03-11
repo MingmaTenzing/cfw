@@ -39,9 +39,9 @@ export const region_fuel_average_calculator = async () => {
     total_bunbury_average += Number(metro_data_xml_parser[i].price)
   }
   return [
-    parseFloat((total_metro_average / metro_data_xml_parser.length).toFixed(2)),
-    parseFloat((total_margaret_river_average / margaret_river_xml_parser.length).toFixed(2)),
-    parseFloat((total_albany_average / albany_xml_parser.length).toFixed(2)),
-    parseFloat((total_bunbury_average / bunbury_xml_parser.length).toFixed(2)),
+    parseFloat((total_metro_average / metro_data_xml_parser.length / 100).toFixed(2)),
+    parseFloat((total_margaret_river_average / margaret_river_xml_parser.length / 100).toFixed(2)),
+    parseFloat((total_albany_average / albany_xml_parser.length / 100).toFixed(2)),
+    parseFloat((total_bunbury_average / bunbury_xml_parser.length / 100).toFixed(2)),
   ]
 }

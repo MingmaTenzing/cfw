@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import axios from 'axios'
 import {
   Chart as ChartJS,
   Title,
@@ -9,39 +8,25 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Bar } from 'vue-chartjs'
-import { fuelwatch_xml } from '../../../../types'
-import { fuel_data_parser } from '../../../../utils/xml_fuel_data_parser'
+
 import { region_fuel_average_calculator } from '../../../../utils/region_fuel_average'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const Metro_fuel = ref<fuelwatch_xml[]>([])
+const average_fuel_prices = ref<number[]>([])
 
-const data = ref({
-  labels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
+const data = computed(() => ({
+  labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
   datasets: [
     {
       label: 'Data One',
       backgroundColor: '#ffffff',
-      data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11],
+      data: average_fuel_prices.value,
     },
   ],
-})
+}))
 
 const chartOptions = ref({
   responsive: true,
@@ -54,15 +39,23 @@ const chartOptions = ref({
 })
 
 onMounted(async () => {
-  const data = await region_fuel_average_calculator()
-  console.log(data)
+  const fetch_data = await region_fuel_average_calculator()
+  average_fuel_prices.value = fetch_data
 })
 // const xmlparser = fuel_data_parser(Metro_fuel.value)
 // console.log(xmlparser)
 </script>
 
 <template>
-  <div class="h-[324px] md:w-[384px] lg:w-[470px]">
-    <Bar :data="data" :options="chartOptions"></Bar>
+  <div class="border rounded-lg p-4 space-y-4">
+    <div class="flex justify-between">
+      <div>
+        <p class="font-bold text-xl">Regional Comparison</p>
+        <p class="text-primary/60 text-sm">Current UNLEADED91 prices by region</p>
+      </div>
+    </div>
+    <div class="h-[324px] md:w-[340px] lg:w-[640px]">
+      <Bar :data="data" :options="chartOptions"></Bar>
+    </div>
   </div>
 </template>

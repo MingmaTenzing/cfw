@@ -81,7 +81,7 @@ watch(current_fuel_type, (newFuelType) => {
     <div class="flex justify-between">
       <div>
         <p class="font-bold text-xl">Price Trends</p>
-        <p class="text-primary/60 text-xs">Average ULP Price past 31 days</p>
+        <p class="text-primary/60 text-sm">Average ULP Price past 31 days</p>
       </div>
 
       <!-- dropdown menu -->
@@ -140,7 +140,7 @@ watch(current_fuel_type, (newFuelType) => {
         </div>
       </div>
     </div>
-    <div class="h-[324px] md:w-[384px] lg:w-[470px]">
+    <div class="h-[324px] md:w-[340px] lg:w-[860px]">
       <Line :options="chartOptions" :data="chartData" />
     </div>
   </div>
