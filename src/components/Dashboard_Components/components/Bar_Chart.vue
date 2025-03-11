@@ -47,14 +47,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="border rounded-lg p-4 space-y-4">
+  <div class="border rounded-lg p-4 space-y-4 w-full">
     <div class="flex justify-between">
       <div>
         <p class="font-bold text-xl">Regional Comparison</p>
         <p class="text-primary/60 text-sm">Current UNLEADED91 prices by region</p>
       </div>
     </div>
-    <div class="h-[324px] md:w-[340px] lg:w-[640px]">
+    <div class="h-[324px] md:w-[340px] lg:w-full">
       <Bar :data="data" :options="chartOptions"></Bar>
     </div>
   </div>

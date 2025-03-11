@@ -3,11 +3,12 @@ import Bar_Chart from './components/Bar_Chart.vue'
 import Header_Component from './components/Header_Component.vue'
 import Line_Chart from './components/Line_Chart.vue'
 import Price_Cards from './components/Price_Cards.vue'
+import Price_Comparison from './components/Price_Comparison.vue'
 import Price_Map from './components/Price_Map.vue'
 </script>
 
 <template>
-  <main class="bg-background text-primary w-full min-h-[100vh] p-4 border">
+  <main class="bg-background text-primary w-full min-h-[100vh] p-4 space-y-4">
     <!-- header -->
     <Header_Component></Header_Component>
 
@@ -40,8 +41,9 @@ import Price_Map from './components/Price_Map.vue'
     </section>
 
     <!-- price map and cheapest stations list -->
-    <section>
+    <section class="md:flex md:gap-4">
       <Price_Map></Price_Map>
+      <Price_Comparison></Price_Comparison>
     </section>
   </main>
 </template>

@@ -77,7 +77,7 @@ watch(current_fuel_type, (newFuelType) => {
 </script>
 
 <template>
-  <div class="border rounded-lg p-4 space-y-4">
+  <div class="border rounded-lg p-4 space-y-4 w-full">
     <div class="flex justify-between">
       <div>
         <p class="font-bold text-xl">Price Trends</p>
@@ -140,7 +140,7 @@ watch(current_fuel_type, (newFuelType) => {
         </div>
       </div>
     </div>
-    <div class="h-[324px] md:w-[340px] lg:w-[860px]">
+    <div class="h-[324px] md:w-[340px] lg:w-full">
       <Line :options="chartOptions" :data="chartData" />
     </div>
   </div>

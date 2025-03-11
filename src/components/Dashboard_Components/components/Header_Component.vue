@@ -18,7 +18,7 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 
     <!-- right side menus -->
     <div class="flex items-center space-x-4">
-      <div class="rounded-lg border text-xs p-2 relative w-[140px]">
+      <div class="rounded-lg border text-xs p-2 relative min-w-[140px]">
         <div
           v-on:click="fuel_type_toggle = !fuel_type_toggle"
           class="flex items-center justify-between"

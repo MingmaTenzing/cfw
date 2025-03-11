@@ -2,9 +2,11 @@
 
 <template>
   <!-- main cards -->
-  <section class="flex flex-wrap space-x-4 mt-8">
+  <section class="flex space-x-4 mt-8">
     <!-- cheapest price today in perth-->
-    <div class="border w-[325px] p-4 rounded-lg space-y-2 flex justify-between items-center">
+    <div
+      class="border w-[325px] lg:w-1/3 p-4 rounded-lg space-y-2 flex justify-between items-center"
+    >
       <div class="space-y-4">
         <div>
           <p class="font-semibold text-lg">Today's Cheapest Price</p>
@@ -23,7 +25,7 @@
     </div>
 
     <!-- Average Fuel price today -->
-    <div class="w-[208px] lg:w-[300px] p-4 border rounded-lg space-y-2">
+    <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
       <p class="">Average UNLEADED 91</p>
       <p class="font-bold text-xl">$1.65</p>
       <div class="text-green-600 flex items-center space-x-1 text-xs">
@@ -34,7 +36,7 @@
     </div>
 
     <!-- Next Cycling order -->
-    <div class="w-[208px] lg:w-[300px] p-4 border rounded-lg space-y-2">
+    <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
       <p class="">Price Cycle</p>
       <p class="font-bold text-xl">Falling</p>
       <div class="text-green-600 flex items-center space-x-1 text-xs">
