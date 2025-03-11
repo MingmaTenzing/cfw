@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { fuel_data_parser } from '../../../../utils/xml_fuel_data_parser'
-import { fuelwatch_xml } from '../../../../types'
+import { type fuelwatch_xml } from '../../../../types'
 
 const cheapest_stations = ref<fuelwatch_xml[]>([])
 onMounted(async () => {
@@ -20,8 +20,8 @@ onMounted(async () => {
 <template>
   <div class="p-4 border border-border rounded-lg space-y-4 lg:w-full">
     <div>
-      <p class="font-bold text-xl">Cheapest Stations</p>
-      <p class="text-primary/60 text-sm">Lowest UNLEADED91 prices in Perth</p>
+      <p class="font-bold text-xl xl:text-2xl">Cheapest Stations</p>
+      <p class="text-primary/60 text-sm xl:text-base">Lowest UNLEADED91 prices in Perth</p>
     </div>
     <div class="p-2 text-sm w-full">
       <table class="">

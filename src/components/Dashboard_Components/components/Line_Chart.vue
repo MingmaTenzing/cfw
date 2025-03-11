@@ -77,11 +77,11 @@ watch(current_fuel_type, (newFuelType) => {
 </script>
 
 <template>
-  <div class="border rounded-lg p-4 space-y-4 w-full">
+  <div class="border rounded-lg p-4 space-y-4 w-full md:w-1/2">
     <div class="flex justify-between">
       <div>
-        <p class="font-bold text-xl">Price Trends</p>
-        <p class="text-primary/60 text-sm">Average ULP Price past 31 days</p>
+        <p class="font-bold text-xl xl:text-2xl">Price Trends</p>
+        <p class="text-primary/60 text-sm xl:text-base">Average ULP Price past 31 days</p>
       </div>
 
       <!-- dropdown menu -->

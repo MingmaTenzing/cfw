@@ -13,12 +13,12 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
     <div class="flex items-center space-x-4">
       <i v-on:click="toggle_side_bar" class="pi pi-bars"></i>
 
-      <h2 class="font-semibold text-lg">WA Fuel Price Dashboard</h2>
+      <h2 class="font-semibold text-xl">WA Fuel Price Dashboard</h2>
     </div>
 
     <!-- right side menus -->
     <div class="flex items-center space-x-4">
-      <div class="rounded-lg border text-xs p-2 relative min-w-[140px]">
+      <div class="rounded-lg border text-sm p-2 relative w-[140px]">
         <div
           v-on:click="fuel_type_toggle = !fuel_type_toggle"
           class="flex items-center justify-between"
@@ -29,7 +29,7 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
         <Transition name="dropdown">
           <div
             v-if="fuel_type_toggle"
-            class="absolute -bottom-32 left-0 border-b border-l border-r rounded-lg w-[140px]"
+            class="absolute -bottom-36 left-0 border-b border-l border-r rounded-lg w-[140px]"
           >
             <div class="p-2 hover:bg-accent bg-background cursor-pointer">
               <p>Unleaded 91</p>
