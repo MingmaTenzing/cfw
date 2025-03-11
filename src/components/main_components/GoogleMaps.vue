@@ -41,41 +41,46 @@ function checkClick(site: FuelStation) {
 </script>
 
 <template>
-  <GoogleMap
-    :api-key="api_key"
-    :center="center"
-    :zoom="15"
-    :styles="mapStyle"
-    style="width: 100%; height: 100vh"
-  >
-    <MarkerCluster>
-      <CustomMarker
-        :options="{
-          position: {
-            lat: fuel_station.address.latitude,
-            lng: fuel_station.address.longitude,
-          },
-        }"
-        v-for="(fuel_station, i) in locations"
-        v-bind:key="i"
-      >
-        <div v-on:click="checkClick(fuel_station)" class="w-[56px] rounded-lg bg-background group">
+  <div class="w-full h-[100vh]">
+    <GoogleMap
+      :api-key="api_key"
+      :center="center"
+      :zoom="15"
+      :styles="mapStyle"
+      style="width: 100%; height: 100%"
+    >
+      <MarkerCluster>
+        <CustomMarker
+          :options="{
+            position: {
+              lat: fuel_station.address.latitude,
+              lng: fuel_station.address.longitude,
+            },
+          }"
+          v-for="(fuel_station, i) in locations"
+          v-bind:key="i"
+        >
           <div
-            class="bg-zinc-500 group-hover:bg-red-500 text-white rounded-t-lg flex justify-center items-center px-2 py-1"
+            v-on:click="checkClick(fuel_station)"
+            class="w-[56px] rounded-lg bg-background group"
           >
-            <p class="font-semibold">{{ fuel_station.product.priceToday }}</p>
+            <div
+              class="bg-zinc-500 group-hover:bg-red-500 text-white rounded-t-lg flex justify-center items-center px-2 py-1"
+            >
+              <p class="font-semibold">{{ fuel_station.product.priceToday }}</p>
+            </div>
+            <div
+              v-if="fuel_station.product.priceTomorrow > 0"
+              class="bg-secondary text-muted-foreground flex justify-center items-center px-2 py-1"
+            >
+              <p class="font-semibold">{{ fuel_station.product?.priceTomorrow || 0 }}</p>
+            </div>
+            <div class="flex justify-center p-1">
+              <img :src="fuel_station.brand_image" width="30" />
+            </div>
           </div>
-          <div
-            v-if="fuel_station.product.priceTomorrow > 0"
-            class="bg-secondary text-muted-foreground flex justify-center items-center px-2 py-1"
-          >
-            <p class="font-semibold">{{ fuel_station.product?.priceTomorrow || 0 }}</p>
-          </div>
-          <div class="flex justify-center p-1">
-            <img :src="fuel_station.brand_image" width="30" />
-          </div>
-        </div>
-      </CustomMarker>
-    </MarkerCluster>
-  </GoogleMap>
+        </CustomMarker>
+      </MarkerCluster>
+    </GoogleMap>
+  </div>
 </template>
