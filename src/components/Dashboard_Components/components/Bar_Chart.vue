@@ -24,7 +24,7 @@ const current_theme = ref(theme)
 const data = computed(() =>
   current_theme.value == 'dark'
     ? {
-        labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
+        labels: ['Metro North', "Metro South", 'Margaret', 'Albany', 'Bunbury'],
         datasets: [
           {
             label: 'Regional Average Price',
@@ -34,7 +34,7 @@ const data = computed(() =>
         ],
       }
     : {
-        labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
+        labels: ['Metro North', 'Metro South', 'Margaret', 'Albany', 'Bunbury'],
         datasets: [
           {
             label: 'Regional Average Price',

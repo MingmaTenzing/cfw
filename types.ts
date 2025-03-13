@@ -4,6 +4,11 @@ export interface fuel_brand {
   svgLogoFileName: string
 }
 
+export interface price_change_predict {
+  percentage_change: number
+  tomorrow_prediction_price: number
+}
+
 export interface fuelwatch_xml {
   title: string
   description: string
