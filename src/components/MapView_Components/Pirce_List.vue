@@ -8,6 +8,13 @@ import { useRouter } from 'vue-router'
 
 const fuelData = ref<FuelStation[]>([])
 
+const loading = ref<boolean>(false)
+
+// assigned a random length 10 array to loop in the template for loading skeleton
+
+const random_loading_Array = ref<Number[]>([...Array(10)].map((number) => Math.random()*40))
+
+
 const router = useRouter()
 // inject the map_center to redirect to the site when clicked
 const { update_center } = inject<map_props>('map_center', {
@@ -21,6 +28,7 @@ function go_to_site(site: FuelStation) {
 }
 
 onMounted(async () => {
+  loading.value = true
   const response = await axios.get<FuelStation[]>(
     'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/api/sites?fuelType=ULP',
   )
@@ -36,6 +44,7 @@ onMounted(async () => {
     return item
   })
   fuelData.value = fuel_prices
+  loading.value = false
 })
 </script>
 
@@ -66,7 +75,7 @@ onMounted(async () => {
     <section>
       <!-- prices today list -->
 
-      <section
+      <section v-if="!loading"
         v-for="item in fuelData"
         v-bind:key="item.id"
         id="price-list-item"
@@ -114,6 +123,44 @@ onMounted(async () => {
       </section>
 
       <!-- loading -->
+         <section  v-else
+     v-for="(item, index) in random_loading_Array" :key="index"
+        id="price-list-item"
+        class="border-b border-t border-border dark:border-border p-4 hover:bg-secondary"
+      >
+        <div  class="flex justify-between items-center h-[94px]">
+          <div class="space-y-2">
+            <!-- price -->
+
+              <div class="font-semibold text-center bg-accent animate-pulse rounded-lg w-[36px] h-[24px]"></div>
+              <div
+                class="text-secondary-foreground text-center dark:text-secondary-foreground text-xs w-[36px] h-[16px] bg-accent animate-pulse rounded-lg"
+              >
+
+
+            </div>
+
+          </div>
+          <div class="space-y-2">
+            <!-- details -->
+            <div class=" w-[178.2px] h-[24px] bg-accent animate-pulse rounded-lg font-bold text-center text-primary dark:text-primary">
+              {{ }}
+            </div>
+            <div class="w-[178.2px] h-[16px] bg-accent animate-pulse rounded-lg  text-zinc-500 text-center text-xs">
+
+            </div>
+          </div>
+          <div>
+            <!-- logo -->
+            <div class=" w-[40px] h-[40px] bg-accent animate-pulse rounded-lg">
+
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+
     </section>
   </section>
 </template>
