@@ -22,12 +22,15 @@ const { center } = inject<map_props>('map_center', {
 
 const api_key = import.meta.env.VITE_API_KEY_MAPS
 
+
+const loading_map = ref<boolean>(false)
 const theme = ref(inject_theme)
 const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : simple_grey_map))
 
 const locations = ref<FuelStation[]>([])
 
 onMounted(async () => {
+  loading_map.value = true
   const response = await axios.get<FuelStation[]>(
     'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/api/sites?fuelType=ULP',
   )
@@ -35,17 +38,26 @@ onMounted(async () => {
   locations.value = fuel_stations_with_image
 })
 
-function checkClick(site: FuelStation) {
+function route_to_station_details(site: FuelStation) {
   router.push(`/sites/${site.id}`)
+}
+
+function map_is_ready() {
+  loading_map.value = false;
+  console.log('sdfd')
+console.log(`maps have loaded,  loading map value is ${loading_map.value } `)
 }
 </script>
 
 <template>
+
   <div class="w-full h-[100vh]">
+
     <GoogleMap
       :api-key="api_key"
       :center="center"
       :zoom="15"
+      @tilesloaded="map_is_ready"
       :styles="mapStyle"
       style="width: 100%; height: 100%"
     >
@@ -61,7 +73,7 @@ function checkClick(site: FuelStation) {
           v-bind:key="i"
         >
           <div
-            v-on:click="checkClick(fuel_station)"
+            v-on:click="route_to_station_details(fuel_station)"
             class="w-[56px] rounded-lg bg-background group"
           >
             <div
@@ -83,4 +95,5 @@ function checkClick(site: FuelStation) {
       </MarkerCluster>
     </GoogleMap>
   </div>
+
 </template>
