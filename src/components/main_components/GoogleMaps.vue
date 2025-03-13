@@ -20,7 +20,7 @@ const { center } = inject<map_props>('map_center', {
   update_center: () => undefined,
 })
 
-const api_key = import.meta.env.VITE_API_KEY
+const api_key = import.meta.env.VITE_API_KEY_MAPS
 
 const theme = ref(inject_theme)
 const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : simple_grey_map))
