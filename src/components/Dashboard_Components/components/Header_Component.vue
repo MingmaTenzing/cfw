@@ -10,10 +10,17 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 <template>
   <section class="flex justify-between border-b pb-4">
     <!-- left side menus -->
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-2">
       <i v-on:click="toggle_side_bar" class="pi pi-bars"></i>
 
-      <h2 class="font-semibold text-xl">WA Fuel Price Dashboard</h2>
+      <div class="flex justify-center">
+        <img
+          src="../../../assets/cfw_white_logo.png"
+          width="140"
+          height="60"
+          class="invert dark:invert-0"
+        />
+      </div>
     </div>
 
     <!-- right side menus -->

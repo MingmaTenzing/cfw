@@ -19,13 +19,15 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const average_fuel_prices = ref<number[]>([])
 const { theme } = inject<themeContext>('theme')!
 
+const current_theme = ref(theme)
+
 const data = computed(() =>
-  theme == 'dark'
+  current_theme.value == 'dark'
     ? {
         labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
         datasets: [
           {
-            label: 'Data One',
+            label: 'Regional Average Price',
             backgroundColor: '#ffffff',
             data: average_fuel_prices.value,
           },
@@ -35,8 +37,8 @@ const data = computed(() =>
         labels: ['Metro', 'Margaret', 'Albany', 'Bunbury'],
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: 'oklch(0.967 0.001 286.375)',
+            label: 'Regional Average Price',
+            backgroundColor: '#3f3f46',
             data: average_fuel_prices.value,
           },
         ],
@@ -67,6 +69,9 @@ onMounted(async () => {
       <div>
         <p class="font-bold text-xl">Regional Comparison</p>
         <p class="text-primary/60 text-sm xl:text-base">Current UNLEADED91 prices by region</p>
+      </div>
+      <div>
+        <p>{{ new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long' }) }}</p>
       </div>
     </div>
     <div class="h-[324px] md:w-[340px] lg:w-full">
