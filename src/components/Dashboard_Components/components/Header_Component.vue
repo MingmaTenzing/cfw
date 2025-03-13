@@ -1,10 +1,15 @@
 <script lang="ts" setup>
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
+
+import {cheapest_fuel_station} from '../../../../utils/cheapest_fuel_station'
 const fuel_type_toggle = ref<boolean>(false)
+
 const { toggle_side_bar } = inject('toggle_side_bar', {
   show_side_bar: false,
   toggle_side_bar: () => undefined,
 })
+
+
 </script>
 
 <template>

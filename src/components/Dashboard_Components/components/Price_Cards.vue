@@ -1,4 +1,19 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue';
+import { type fuelwatch_xml } from '../../../../types';
+import { cheapest_fuel_station } from '../../../../utils/cheapest_fuel_station';
+
+const cheapest_site = ref<fuelwatch_xml>()
+const site_loading = ref<boolean>(false)
+
+onMounted(async () => {
+
+
+  const data = await cheapest_fuel_station()
+
+  cheapest_site.value = data
+
+})</script>
 
 <template>
   <!-- main cards -->
@@ -16,12 +31,12 @@
         <div class="flex items-center space-x-2">
           <div>
             <p class="text-sm font-semibold">Unleaded 91</p>
-            <p class="text-sm xl:text-base text-primary/50">Coles Express Perth CBD</p>
+            <p class="text-sm xl:text-base text-primary/50">{{cheapest_site?.trading_name}}</p>
           </div>
-          <img src="https://www.fuelwatch.wa.gov.au/assets/images/logo_shell.svg" width="32" />
+          <img :src="cheapest_site?.brand_image" width="32" />
         </div>
       </div>
-      <p class="font-bold text-3xl xl:text-4xl text-green-600">$1.79/L</p>
+      <p class="font-bold text-3xl xl:text-4xl text-green-600">${{((cheapest_site?.price)/100).toFixed(2)}}/L</p>
     </div>
 
     <!-- Average Fuel price today -->

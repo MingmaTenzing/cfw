@@ -9,7 +9,7 @@ export interface fuelwatch_xml {
   description: string
   date: string
   trading_name: string
-  price: string
+  price: number
   location: string
   address: string
   latitude: string
