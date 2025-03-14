@@ -10,23 +10,23 @@ export const region_fuel_average_calculator = async () => {
 
   const [Metro_North, Metro_South, Albany, Margaret_River, Bunbury] = await Promise.all([
     axios.get(
-      'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25',
+      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25',
     ),
     axios.get(
-      'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=26',
+      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=26',
     ),
     axios.get(
-      'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=15',
+      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=15',
     ),
     axios.get(
-      'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=28',
+      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=28',
     ),
     axios.get(
-      'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=16',
+      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=16',
     ),
   ])
   const metro_north_xml_parser = fuel_data_parser(Metro_North.data)
-  const metro_south_xml_parser = fuel_data_parser(Metro_North.data)
+  const metro_south_xml_parser = fuel_data_parser(Metro_South.data)
   const albany_xml_parser = fuel_data_parser(Albany.data)
   const margaret_river_xml_parser = fuel_data_parser(Margaret_River.data)
   const bunbury_xml_parser = fuel_data_parser(Bunbury.data)

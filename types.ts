@@ -6,7 +6,7 @@ export interface fuel_brand {
 
 export interface price_change_predict {
   percentage_change: number
-  tomorrow_prediction_price: number
+  tomorrow_predicted_price: number
 }
 
 export interface fuelwatch_xml {
