@@ -3,13 +3,10 @@ import { onMounted, ref } from 'vue'
 import { type price_change_predict, type fuelwatch_xml } from '../../../../types'
 import { cheapest_fuel_station } from '../../../../utils/cheapest_fuel_station'
 import { region_fuel_average_calculator } from '../../../../utils/region_fuel_average'
-import axios from 'axios'
 import { change_and_prediction } from '../../../../utils/price_prediction'
 const cheapest_site = ref<fuelwatch_xml[]>([])
 const average_unleaded = ref<number>()
 const prediction_and_cycle = ref<price_change_predict>()
-
-const site_loading = ref<boolean>(false)
 
 onMounted(async () => {
   const [cheapest_station, average_data, probability_change] = await Promise.all([
