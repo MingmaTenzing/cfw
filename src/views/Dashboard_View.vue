@@ -1,0 +1,38 @@
+<script setup lang="ts">
+import SideBar from '@/components/main_components/SideBar.vue'
+import { provide, ref } from 'vue'
+import { RouterView } from 'vue-router'
+
+const show_side_bar = ref<boolean>(false)
+
+function toggle_side_bar() {
+  show_side_bar.value = !show_side_bar.value
+}
+
+provide('toggle_side_bar', {
+  show_side_bar,
+  toggle_side_bar,
+})
+</script>
+
+<template>
+  <main class="flex bg-background relative">
+    <Transition>
+      <SideBar v-if="show_side_bar" class="fixed left-0 top-0 z-10 shadow-2xl"> </SideBar>
+    </Transition>
+
+    <RouterView></RouterView>
+  </main>
+</template>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: all 400ms ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(-240px);
+}
+</style>

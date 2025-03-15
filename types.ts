@@ -4,6 +4,27 @@ export interface fuel_brand {
   svgLogoFileName: string
 }
 
+export interface price_change_predict {
+  percentage_change: number
+  tomorrow_predicted_price: number
+}
+
+export interface fuelwatch_xml {
+  title: string
+  description: string
+  date: string
+  trading_name: string
+  price: number
+  location: string
+  address: string
+  latitude: string
+  longitude: string
+  site_features: string
+  phone: string
+  brand: string
+  brand_image: string
+}
+
 export interface markerCluster_locations {
   lat: number
   lng: number
@@ -77,4 +98,9 @@ export interface site_details {
   brand: fuel_brand
   client: client
   tradingHours: Array<tradingHours>
+}
+
+export interface price_trend {
+  averagePrice: number
+  publishDate: string
 }

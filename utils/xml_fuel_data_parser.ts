@@ -10,7 +10,7 @@ export const fuel_data_parser = (xmlText: string) => {
     description: item.getElementsByTagName('description')[0]?.textContent || 'N/A',
     date: item.getElementsByTagName('date')[0]?.textContent || 'N/A',
     trading_name: item.getElementsByTagName('trading-name')[0]?.textContent || 'N/A',
-    price: item.getElementsByTagName('price')[0]?.textContent || 'N/A',
+    price: Number(item.getElementsByTagName('price')[0]?.textContent || 'N/A'),
     location: item.getElementsByTagName('location')[0]?.textContent || 'N/A',
     address: item.getElementsByTagName('address')[0]?.textContent || 'N/A',
     latitude: item.getElementsByTagName('latitude')[0]?.textContent || 'N/A',
