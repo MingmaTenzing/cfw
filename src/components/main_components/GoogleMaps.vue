@@ -22,7 +22,6 @@ const { center } = inject<map_props>('map_center', {
 
 const api_key = import.meta.env.VITE_API_KEY_MAPS
 
-
 const loading_map = ref<boolean>(false)
 const theme = ref(inject_theme)
 const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : simple_grey_map))
@@ -43,16 +42,14 @@ function route_to_station_details(site: FuelStation) {
 }
 
 function map_is_ready() {
-  loading_map.value = false;
+  loading_map.value = false
   console.log('sdfd')
-console.log(`maps have loaded,  loading map value is ${loading_map.value } `)
+  console.log(`maps have loaded,  loading map value is ${loading_map.value} `)
 }
 </script>
 
 <template>
-
   <div class="w-full h-[100vh]">
-
     <GoogleMap
       :api-key="api_key"
       :center="center"
@@ -95,5 +92,4 @@ console.log(`maps have loaded,  loading map value is ${loading_map.value } `)
       </MarkerCluster>
     </GoogleMap>
   </div>
-
 </template>
