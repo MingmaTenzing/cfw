@@ -3,7 +3,7 @@ import axios from 'axios'
 import { onMounted, ref, watch } from 'vue'
 
 import { useRoute } from 'vue-router'
-import { type FuelStation, type site_details } from '../../../types'
+import { type FuelStation, type fuelwatch_site_details, type site_details } from '../../../types'
 
 const route = useRoute()
 const site_id = ref(route.params.id)
@@ -29,15 +29,10 @@ const site_details = ref<site_details>()
 const site_price_details = ref<FuelStation>()
 
 async function fetch_station_price_and_details(id: string | string[]) {
-  const fuel_prices = await axios.get<FuelStation[]>('/fuelwatch/sites')
-  const find_station_price = fuel_prices.data.find((station) => station.id == Number(id))
-  site_price_details.value = find_station_price
-  console.log(site_price_details)
-
-  const response = await axios.get(
-    `https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/api/sites/${id}`,
-  )
-  site_details.value = response.data
+  const response = await axios.get<fuelwatch_site_details>(`http://localhost:3000/site/${id}`)
+  console.log(response.data.site_price_details)
+  site_price_details.value = response.data.site_price_details[0]
+  site_details.value = response.data.site_details
 }
 
 onMounted(() => {

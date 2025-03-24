@@ -62,7 +62,7 @@ const chartData = computed(() => ({
 
 async function fetchData(fuelType: string) {
   const fetch_price_trend = await axios.get<price_trend[]>(
-    `https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/api/report/price-trends?region=Metro&fuelType=${fuelType}`,
+    `http://localhost:3000/trend?fuelType=${fuelType}`,
   )
   price_trend_data.value = fetch_price_trend.data
 }

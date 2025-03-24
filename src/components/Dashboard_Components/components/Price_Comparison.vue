@@ -7,14 +7,12 @@ import { type fuelwatch_xml } from '../../../../types'
 const cheapest_stations = ref<fuelwatch_xml[]>([])
 onMounted(async () => {
   const response = await axios.get(
-    'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25',
+    'http://localhost:3000/xml/perth-cheapest',
   )
-  const fuel_prices = fuel_data_parser(response.data)
-  const sorted_fuel_prices = fuel_prices
-    .sort((a, b) => Number(a.price) - Number(b.price))
-    .slice(0, 5)
 
-  cheapest_stations.value = sorted_fuel_prices
+
+
+  cheapest_stations.value = response.data
 })
 </script>
 <template>

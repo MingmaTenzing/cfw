@@ -9,21 +9,12 @@ export const region_fuel_average_calculator = async () => {
   let total_bunbury = 0
 
   const [Metro_North, Metro_South, Albany, Margaret_River, Bunbury] = await Promise.all([
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25',
-    ),
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=26',
-    ),
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=15',
-    ),
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=28',
-    ),
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=16',
-    ),
+    axios.get('http://localhost:3000/xml?Region=25'),
+    axios.get('http://localhost:3000/xml?Region=26'),
+
+    axios.get('http://localhost:3000/xml?Region=15'),
+    axios.get('http://localhost:3000/xml?Region=28'),
+    axios.get('http://localhost:3000/xml?Region=16'),
   ])
   const metro_north_xml_parser = fuel_data_parser(Metro_North.data)
   const metro_south_xml_parser = fuel_data_parser(Metro_South.data)
