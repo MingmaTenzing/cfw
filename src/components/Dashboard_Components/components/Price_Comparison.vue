@@ -1,16 +1,11 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
-import { fuel_data_parser } from '../../../../utils/xml_fuel_data_parser'
 import { type fuelwatch_xml } from '../../../../types'
 
 const cheapest_stations = ref<fuelwatch_xml[]>([])
 onMounted(async () => {
-  const response = await axios.get(
-    'http://localhost:3000/xml/perth-cheapest',
-  )
-
-
+  const response = await axios.get('http://localhost:3000/xml/perth-cheapest')
 
   cheapest_stations.value = response.data
 })

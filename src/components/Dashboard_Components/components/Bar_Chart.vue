@@ -11,8 +11,9 @@ import {
 import { computed, inject, onMounted, ref } from 'vue'
 import { Bar } from 'vue-chartjs'
 
-import { region_fuel_average_calculator } from '../../../../utils/region_fuel_average'
 import { type themeContext } from '../../../../utils/theme_type'
+import axios from 'axios'
+import { type region_average } from '../../../../types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -24,7 +25,7 @@ const current_theme = ref(theme)
 const data = computed(() =>
   current_theme.value == 'dark'
     ? {
-        labels: ['Metro North', "Metro South", 'Margaret', 'Albany', 'Bunbury'],
+        labels: ['Metro North', 'Metro South', 'Margaret', 'Albany', 'Bunbury'],
         datasets: [
           {
             label: 'Regional Average Price',
@@ -56,11 +57,16 @@ const chartOptions = ref({
 })
 
 onMounted(async () => {
-  const fetch_data = await region_fuel_average_calculator()
-  average_fuel_prices.value = fetch_data
+  const prices = []
+  const response = await axios.get<region_average[]>('http://localhost:3000/xml/region-average')
+  const data = response.data
+
+  for (let i = 0; i < data.length; i++) {
+    prices.push(data[i].average_price)
+  }
+
+  average_fuel_prices.value = prices
 })
-// const xmlparser = fuel_data_parser(Metro_fuel.value)
-// console.log(xmlparser)
 </script>
 
 <template>

@@ -57,6 +57,10 @@ export interface Address {
   longitude: number
 }
 
+export interface region_average {
+  region: string
+  average_price: number
+}
 export interface stationFeatures {
   featureName: string
   description: string
