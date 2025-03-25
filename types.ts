@@ -57,6 +57,10 @@ export interface Address {
   longitude: number
 }
 
+export interface region_average {
+  region: string
+  average_price: number
+}
 export interface stationFeatures {
   featureName: string
   description: string
@@ -103,4 +107,9 @@ export interface site_details {
 export interface price_trend {
   averagePrice: number
   publishDate: string
+}
+
+export interface fuelwatch_site_details {
+  site_details: site_details
+  site_price_details: FuelStation[]
 }

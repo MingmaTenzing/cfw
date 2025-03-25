@@ -1,25 +1,24 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { type price_change_predict, type fuelwatch_xml } from '../../../../types'
-import { cheapest_fuel_station } from '../../../../utils/cheapest_fuel_station'
-import { region_fuel_average_calculator } from '../../../../utils/region_fuel_average'
-import { change_and_prediction } from '../../../../utils/price_prediction'
-const cheapest_site = ref<fuelwatch_xml[]>([])
-const average_unleaded = ref<number>()
-const prediction_and_cycle = ref<price_change_predict>()
+
+import axios from 'axios'
+
+const north_cheapest = ref<fuelwatch_xml>()
+const south_cheapest = ref<fuelwatch_xml>()
+const prediction_and_cycle = ref<price_change_predict>({
+  percentage_change: 10,
+  tomorrow_predicted_price: 178,
+})
 
 onMounted(async () => {
-  const [cheapest_station, average_data, probability_change] = await Promise.all([
-    cheapest_fuel_station(),
-    region_fuel_average_calculator(),
-    change_and_prediction(),
+  const [north_metro_cheapest, south_metro_cheapest] = await Promise.all([
+    axios.get('http://localhost:3000/xml/region-cheapest?Region=25'),
+    axios.get('http://localhost:3000/xml/region-cheapest?Region=26'),
   ])
 
-  cheapest_site.value = cheapest_station
-  average_unleaded.value = average_data[0]
-  prediction_and_cycle.value = probability_change
-
-  console.log(cheapest_site.value, average_unleaded.value, prediction_and_cycle.value)
+  north_cheapest.value = north_metro_cheapest.data
+  south_cheapest.value = south_metro_cheapest.data
 })
 </script>
 
@@ -37,13 +36,13 @@ onMounted(async () => {
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-semibold">Unleaded 91</p>
-            <p class="text-sm xl:text-base text-primary/50">{{ cheapest_site[0]?.trading_name }}</p>
+            <p class="text-sm xl:text-base text-primary/50">{{ south_cheapest?.trading_name }}</p>
           </div>
-          <img :src="cheapest_site[0]?.brand_image" class="w-[80px] h-[60px] object-contain" />
+          <img :src="south_cheapest?.brand_image" class="w-[80px] h-[60px] object-contain" />
         </div>
         <div class="text-end">
-          <p class="font-bold text-3xl xl:text-4xl text-green-600">
-            ${{ (cheapest_site[0]?.price / 100).toFixed(2) }}/L
+          <p v-if="south_cheapest" class="font-bold text-3xl xl:text-4xl text-green-600">
+            ${{ (south_cheapest.price / 100).toFixed(2) }}/L
           </p>
         </div>
       </div>
@@ -60,13 +59,13 @@ onMounted(async () => {
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-semibold">Unleaded 91</p>
-            <p class="text-sm xl:text-base text-primary/50">{{ cheapest_site[1]?.trading_name }}</p>
+            <p class="text-sm xl:text-base text-primary/50">{{ north_cheapest?.trading_name }}</p>
           </div>
-          <img :src="cheapest_site[1]?.brand_image" class="w-[80px] h-[60px] object-contain" />
+          <img :src="north_cheapest?.brand_image" class="w-[80px] h-[60px] object-contain" />
         </div>
         <div class="text-end">
-          <p class="font-bold text-3xl xl:text-4xl text-green-600">
-            ${{ (cheapest_site[1]?.price / 100).toFixed(2) }}/L
+          <p v-if="north_cheapest" class="font-bold text-3xl xl:text-4xl text-green-600">
+            ${{ (north_cheapest?.price / 100).toFixed(2) }}/L
           </p>
         </div>
       </div>
@@ -75,7 +74,7 @@ onMounted(async () => {
     <!-- Average Fuel price today -->
     <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
       <p class="text-xl">Average UNLEADED 91</p>
-      <p class="font-bold text-xl xl:text-2xl">${{ average_unleaded }}</p>
+      <p class="font-bold text-xl xl:text-2xl">$100</p>
       <div class="text-green-600 flex items-center space-x-1 text-sm xl:text-base">
         <p class="text-primary/50">Across the Perth Metro North Region</p>
       </div>

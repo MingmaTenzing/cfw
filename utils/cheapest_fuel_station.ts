@@ -2,12 +2,8 @@ import axios from 'axios'
 import { fuel_data_parser } from './xml_fuel_data_parser'
 export const cheapest_fuel_station = async () => {
   const [metro_north, metro_south] = await Promise.all([
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25',
-    ),
-    axios.get(
-      'https://api.allorigins.win/raw?url=https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=26',
-    ),
+    axios.get('https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25'),
+    axios.get('https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=26'),
   ])
 
   const parse_metro_north_xml_data = fuel_data_parser(metro_north.data)

@@ -31,10 +31,9 @@ const locations = ref<FuelStation[]>([])
 onMounted(async () => {
   loading_map.value = true
   const response = await axios.get<FuelStation[]>(
-    'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/api/sites?fuelType=ULP',
+    'http://localhost:3000',
   )
-  const fuel_stations_with_image = fuel_station_image_mapper(response.data)
-  locations.value = fuel_stations_with_image
+  locations.value = response.data
 })
 
 function route_to_station_details(site: FuelStation) {

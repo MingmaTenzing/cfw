@@ -30,20 +30,11 @@ function go_to_site(site: FuelStation) {
 onMounted(async () => {
   loading.value = true
   const response = await axios.get<FuelStation[]>(
-    'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/api/sites?fuelType=ULP',
+    'http://localhost:3000',
   )
 
-  const fuel_prices = response.data.map((item) => {
-    const find_brand = fuel_brands.find((brand) => brand!.name == item.brandName)
-    if (find_brand) {
-      return {
-        ...item,
-        brand_image: 'https://www.fuelwatch.wa.gov.au/assets/images/' + find_brand.svgLogoFileName,
-      }
-    }
-    return item
-  })
-  fuelData.value = fuel_prices
+
+  fuelData.value = response.data
   loading.value = false
 })
 </script>

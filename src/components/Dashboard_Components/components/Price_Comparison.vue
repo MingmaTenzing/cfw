@@ -1,20 +1,13 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
-import { fuel_data_parser } from '../../../../utils/xml_fuel_data_parser'
 import { type fuelwatch_xml } from '../../../../types'
 
 const cheapest_stations = ref<fuelwatch_xml[]>([])
 onMounted(async () => {
-  const response = await axios.get(
-    'https://corsproxy.io/?https://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS?Region=25',
-  )
-  const fuel_prices = fuel_data_parser(response.data)
-  const sorted_fuel_prices = fuel_prices
-    .sort((a, b) => Number(a.price) - Number(b.price))
-    .slice(0, 5)
+  const response = await axios.get('http://localhost:3000/xml/perth-cheapest')
 
-  cheapest_stations.value = sorted_fuel_prices
+  cheapest_stations.value = response.data
 })
 </script>
 <template>
