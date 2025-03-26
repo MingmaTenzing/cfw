@@ -1,22 +1,33 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { type price_change_predict, type fuelwatch_xml } from '../../../../types'
+import {
+  type price_change_predict,
+  type fuelwatch_xml,
+  type region_average,
+} from '../../../../types'
 
 import axios from 'axios'
 
 const north_cheapest = ref<fuelwatch_xml>()
 const south_cheapest = ref<fuelwatch_xml>()
+const five_region_average = ref<number>()
 const prediction_and_cycle = ref<price_change_predict>({
   percentage_change: 10,
   tomorrow_predicted_price: 178,
 })
 
 onMounted(async () => {
-  const [north_metro_cheapest, south_metro_cheapest] = await Promise.all([
+  let region_average_price = 0
+  const [north_metro_cheapest, south_metro_cheapest, region_average] = await Promise.all([
     axios.get('http://localhost:3000/xml/region-cheapest?Region=25'),
     axios.get('http://localhost:3000/xml/region-cheapest?Region=26'),
+    axios.get('http://localhost:3000/xml/region-average'),
   ])
-
+  const data: region_average[] = region_average.data
+  data.map((value) => {
+    region_average_price += value.average_price
+  })
+  five_region_average.value = region_average_price / 5
   north_cheapest.value = north_metro_cheapest.data
   south_cheapest.value = south_metro_cheapest.data
 })
@@ -74,9 +85,11 @@ onMounted(async () => {
     <!-- Average Fuel price today -->
     <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
       <p class="text-xl">Average UNLEADED 91</p>
-      <p class="font-bold text-xl xl:text-2xl">$100</p>
+      <p class="font-bold text-xl xl:text-2xl">${{ five_region_average?.toFixed(2) }}</p>
       <div class="text-green-600 flex items-center space-x-1 text-sm xl:text-base">
-        <p class="text-primary/50">Across the Perth Metro North Region</p>
+        <p class="text-primary/50">
+          Across 5 regions including North, South, Margaret, Albany, and Bunbury
+        </p>
       </div>
     </div>
 
