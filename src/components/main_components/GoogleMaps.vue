@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+/// <reference types="vite/client" />
+/// <reference types="vite/types/importMeta.d.ts" />
+
 import { computed, inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { themeContext } from '../../../utils/theme_type'
@@ -6,7 +9,6 @@ import type { map_props } from '../../../utils/map_props'
 import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
 import type { FuelStation } from '../../../types'
 import axios from 'axios'
-import { fuel_station_image_mapper } from '../../../utils/fuel_station_with_images'
 import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
 
 const router = useRouter()
@@ -30,9 +32,7 @@ const locations = ref<FuelStation[]>([])
 
 onMounted(async () => {
   loading_map.value = true
-  const response = await axios.get<FuelStation[]>(
-    'http://localhost:3000',
-  )
+  const response = await axios.get<FuelStation[]>('http://localhost:3000')
   locations.value = response.data
 })
 
@@ -48,7 +48,7 @@ function map_is_ready() {
 </script>
 
 <template>
-  <div class="w-full h-[100vh]">
+  <div class="w-full h-[100vh] relative">
     <GoogleMap
       :api-key="api_key"
       :center="center"
@@ -90,5 +90,8 @@ function map_is_ready() {
         </CustomMarker>
       </MarkerCluster>
     </GoogleMap>
+
+    <!-- blurrrr -->
+    <!-- <div class="absolute w-full h-full bg-background opacity-90 top-0 left-0"></div> -->
   </div>
 </template>

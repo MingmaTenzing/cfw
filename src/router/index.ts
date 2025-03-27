@@ -1,9 +1,9 @@
-import Pirce_List from '@/components/MapView_Components/Pirce_List.vue'
-import Site_Detail from '@/components/MapView_Components/Site_Detail.vue'
+import OverView from '@/components/Dashboard_Components/main/OverView.vue'
+import Pirce_List from '@/components/MapView_Components/main/Pirce_List.vue'
+import Site_Detail from '@/components/MapView_Components/main/Site_Detail.vue'
 import Dashboard_View from '@/views/Dashboard_View.vue'
 import MapView from '@/views/MapView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import Overview from '@/components/Dashboard_Components/OverView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +32,7 @@ const router = createRouter({
       children: [
         {
           path: 'overview',
-          component: Overview,
+          component: OverView,
           name: 'Dashboard Overview',
         },
       ],

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { onMounted, ref, watch } from 'vue'
 
 import { useRoute } from 'vue-router'
-import { type FuelStation, type fuelwatch_site_details, type site_details } from '../../../types'
+import { type FuelStation, type fuelwatch_site_details, type site_details } from '../../../../types'
 
 const route = useRoute()
 const site_id = ref(route.params.id)

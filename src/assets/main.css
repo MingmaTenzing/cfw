@@ -75,3 +75,8 @@
   transform: translateY(-8px);
   opacity: 0;
 }
+
+.blur_background {
+  opacity: 90%;
+  filter: blur(2px);
+}

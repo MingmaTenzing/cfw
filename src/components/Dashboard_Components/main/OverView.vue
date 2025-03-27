@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Bar_Chart from './components/Bar_Chart.vue'
-import Header_Component from './components/Header_Component.vue'
-import Line_Chart from './components/Line_Chart.vue'
-import Price_Cards from './components/Price_Cards.vue'
-import Price_Comparison from './components/Price_Comparison.vue'
-import Price_Map from './components/Price_Map.vue'
+import Bar_Chart from '../components/Bar_Chart.vue'
+import Header_Component from '../components/Header_Component.vue'
+import Line_Chart from '../components/Line_Chart.vue'
+import Price_Cards from '../components/Price_Cards.vue'
+import Price_Comparison from '../components/Price_Comparison.vue'
+import Price_Map from '../components/Price_Map.vue'
 </script>
 
 <template>
