@@ -7,7 +7,7 @@ import MenuPanel from '@/components/main_components/MenuPanel.vue'
 <template>
   <MenuPanel id="blur_selector" class="fixed left-0 z-10"></MenuPanel>
 
-  <SearchBar class="fixed z-10 bottom-10 left-1/2 -translate-x-1/2"></SearchBar>
+  <SearchBar class="fixed z-10 bottom-0 md:bottom-8 left-1/2 -translate-x-1/2"></SearchBar>
 
   <GoogleMaps></GoogleMaps>
 </template>

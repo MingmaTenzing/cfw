@@ -8,8 +8,9 @@ const { changeTheme } = inject<themeContext>('theme')!
 </script>
 
 <template>
-  <main class="text-primary bg-background w-full h-full md:w-[412px] rounded-lg">
-    <div class="p-2 flex justify-center">
+  <main class="text-primary bg-background w-full h-full md:w-[320px] lg:w-[400px] rounded-lg">
+    <div class="p-4 flex justify-between">
+      <div></div>
       <img
         src="../../assets/cfw_white_logo.png"
         width="160"
