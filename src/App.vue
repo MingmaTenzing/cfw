@@ -8,6 +8,9 @@ const theme = ref('dark')
 // default location to center the map
 const center = ref({ lat: -31.953512, lng: 115.857048 })
 
+// toggle for filter popup modal
+const filter_modal_open_close = ref<boolean>(false)
+
 function changeTheme() {
   if (theme.value == 'dark') {
     theme.value = 'light'
@@ -16,10 +19,15 @@ function changeTheme() {
   }
 }
 
+function toggle_modal() {
+  filter_modal_open_close.value = !filter_modal_open_close.value
+}
+
 function update_center(lat: number, lng: number) {
   center.value = { lat: lat, lng: lng }
 }
 
+// provides
 provide('theme', {
   theme,
   changeTheme,
@@ -28,6 +36,11 @@ provide('theme', {
 provide('map_center', {
   center,
   update_center,
+})
+
+provide('search_filter_modal', {
+  filter_modal_open_close,
+  toggle_modal,
 })
 
 onMounted(() => {

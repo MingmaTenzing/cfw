@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import DropDown from '@/components/main_components/Drop-down.vue'
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
+import type { queryFilterModalContext } from '../../../../types'
 const fuel_type_options = ref(['ULP', 'PULP', 'Diesel', 'Brand Diesel', 'LPG', '98 RON', 'E85'])
 
+const { filter_modal_open_close, toggle_modal } =
+  inject<queryFilterModalContext>('search_filter_modal')!
 const query_brands = ref<string[]>([])
-
-const toggle_filter = ref<boolean>(false)
 
 function isSelected(brand: string) {
   return query_brands.value.includes(brand)
@@ -25,14 +26,14 @@ function selected_brands(brand_name: string) {
 </script>
 
 <template>
-  <section class="p-4 bg-accent w-full md:w-[500px] rounded-lg">
+  <section class="p-4 bg-card w-full md:w-[500px] rounded-lg">
     <div class="flex space-x-2">
       <input
         class="border p-2 py-1 rounded-lg w-full outline-none text-accent-foreground"
         type="text"
         placeholder="Search Sububor or postcode"
       />
-      <div class="" v-on:click="toggle_filter = !toggle_filter">
+      <div class="" v-on:click="toggle_modal">
         <i class="pi pi-filter p-4 border-border border rounded-lg text-accent-foreground"></i>
       </div>
     </div>
@@ -40,13 +41,13 @@ function selected_brands(brand_name: string) {
     <!-- filter modal -->
     <Transition name="filter_transition">
       <div
-        v-if="toggle_filter"
+        v-if="filter_modal_open_close"
         class="absolute left-1/2 -translate-x-1/2 md:bottom-[100px] space-y-4 bottom-0 p-6 w-full md:w-[500px] text-card-foreground bg-background"
       >
         <div class="flex justify-between">
           <div></div>
           <p class="font-bold text-lg md:text-xl">Filter Options</p>
-          <div v-on:click="toggle_filter = !toggle_filter">
+          <div v-on:click="toggle_modal">
             <i class="pi pi-times"></i>
           </div>
         </div>
@@ -99,7 +100,9 @@ function selected_brands(brand_name: string) {
         <!-- apply filter button -->
 
         <div class="justify-between flex">
-          <button class="border px-6 py-2 rounded-lg font-semibold">Clear All</button>
+          <button v-on:click="query_brands = []" class="border px-6 py-2 rounded-lg font-semibold">
+            Clear All
+          </button>
           <button class="border px-6 py-2 rounded-lg font-semibold bg-foreground text-background">
             Apply Filter
           </button>

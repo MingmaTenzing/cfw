@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 import type { themeContext } from '../../../utils/theme_type'
 import type { map_props } from '../../../utils/map_props'
 import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
-import type { FuelStation } from '../../../types'
+import type { FuelStation, queryFilterModalContext } from '../../../types'
 import axios from 'axios'
 import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
 
@@ -30,6 +30,8 @@ const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles :
 
 const locations = ref<FuelStation[]>([])
 
+const { filter_modal_open_close } = inject<queryFilterModalContext>('search_filter_modal')!
+
 onMounted(async () => {
   loading_map.value = true
   const response = await axios.get<FuelStation[]>('http://localhost:3000')
@@ -48,7 +50,11 @@ function map_is_ready() {
 </script>
 
 <template>
-  <div class="w-full h-[100vh] relative">
+  <div
+    :class="[
+      filter_modal_open_close ? 'w-full blur-xs h-[100vh] relative' : 'w-full h-[100vh] relative',
+    ]"
+  >
     <GoogleMap
       :api-key="api_key"
       :center="center"
