@@ -8,6 +8,10 @@ export interface price_change_predict {
   percentage_change: number
   tomorrow_predicted_price: number
 }
+export interface queryFilterModalContext {
+  filter_modal_open_close: boolean
+  toggle_modal: () => void
+}
 
 export interface fuelwatch_xml {
   title: string
