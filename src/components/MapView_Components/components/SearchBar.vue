@@ -2,11 +2,14 @@
 import DropDown from '@/components/main_components/Drop-down.vue'
 import { inject, ref } from 'vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
-import type { queryFilterModalContext } from '../../../../types'
+import { map_view_search_query, type queryFilterModalContext } from '../../../../types'
 const fuel_type_options = ref(['ULP', 'PULP', 'Diesel', 'Brand Diesel', 'LPG', '98 RON', 'E85'])
 
 const { filter_modal_open_close, toggle_modal } =
   inject<queryFilterModalContext>('search_filter_modal')!
+
+const { search_details, apply_search_filter } = inject('map_view_search_filters')
+
 const query_brands = ref<string[]>([])
 
 function isSelected(brand: string) {
@@ -23,18 +26,28 @@ function selected_brands(brand_name: string) {
   console.log(query_brands.value)
   return
 }
+
+function apply_filter() {
+  apply_search_filter({
+    fuelType: 'ULP',
+    brands: query_brands.value,
+  })
+}
 </script>
 
 <template>
-  <section class="p-4 bg-card w-full md:w-[500px] rounded-lg">
-    <div class="flex space-x-2">
+  <section class="p-4 w-full md:w-[500px] rounded-lg">
+    <div class="flex items-center space-x-2">
       <input
-        class="border p-2 py-1 rounded-lg w-full outline-none text-accent-foreground"
+        class="border bg-background border-ring/20 py-4 px-4 rounded-xl w-full outline-none text-accent-foreground"
         type="text"
         placeholder="Search Sububor or postcode"
       />
-      <div class="" v-on:click="toggle_modal">
-        <i class="pi pi-filter p-4 border-border border rounded-lg text-accent-foreground"></i>
+      <div
+        class="h-[58px] border border-ring/20 bg-background p-4 rounded-xl"
+        v-on:click="toggle_modal"
+      >
+        <i class="pi pi-filter text-accent-foreground"></i>
       </div>
     </div>
 
@@ -103,7 +116,10 @@ function selected_brands(brand_name: string) {
           <button v-on:click="query_brands = []" class="border px-6 py-2 rounded-lg font-semibold">
             Clear All
           </button>
-          <button class="border px-6 py-2 rounded-lg font-semibold bg-foreground text-background">
+          <button
+            v-on:click="apply_filter()"
+            class="border px-6 py-2 rounded-lg font-semibold bg-foreground text-background"
+          >
             Apply Filter
           </button>
         </div>

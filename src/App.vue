@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { onMounted, provide, ref, watch } from 'vue'
+import type { map_view_search_query } from '../types'
 
 // theme
 const theme = ref('dark')
@@ -10,6 +11,17 @@ const center = ref({ lat: -31.953512, lng: 115.857048 })
 
 // toggle for filter popup modal
 const filter_modal_open_close = ref<boolean>(false)
+
+// map_view search query
+const search_details = ref<map_view_search_query>({
+  brands: [],
+  fuelType: 'ulp',
+})
+
+function apply_search_filter(data: map_view_search_query) {
+  search_details.value.brands = data.brands
+  search_details.value.fuelType = data.fuelType
+}
 
 function changeTheme() {
   if (theme.value == 'dark') {
@@ -43,6 +55,10 @@ provide('search_filter_modal', {
   toggle_modal,
 })
 
+provide('map_view_search_filters', {
+  search_details,
+  apply_search_filter,
+})
 onMounted(() => {
   document.documentElement.classList.add(theme.value)
 })

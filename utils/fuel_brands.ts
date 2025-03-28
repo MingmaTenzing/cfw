@@ -149,5 +149,4 @@ export const fuel_brands = [
     description: 'X Convenience',
     svgLogoFileName: 'logo_x_convenience.svg',
   },
-  ,
 ]

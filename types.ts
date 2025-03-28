@@ -13,6 +13,11 @@ export interface queryFilterModalContext {
   toggle_modal: () => void
 }
 
+export interface map_view_search_query {
+  fuelType: string
+  brands: string[]
+}
+
 export interface fuelwatch_xml {
   title: string
   description: string

@@ -52,7 +52,9 @@ function map_is_ready() {
 <template>
   <div
     :class="[
-      filter_modal_open_close ? 'w-full blur-xs h-[100vh] relative' : 'w-full h-[100vh] relative',
+      filter_modal_open_close
+        ? 'w-full blur-xs brightness-90    h-[100vh] relative'
+        : 'w-full h-[100vh] relative',
     ]"
   >
     <GoogleMap
