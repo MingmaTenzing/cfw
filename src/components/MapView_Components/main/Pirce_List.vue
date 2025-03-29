@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue'
-import { type FuelStation } from '../../../../types'
+import { type FuelStation, type queryFilter_context } from '../../../../types'
 import axios from 'axios'
 import type { map_props } from '../../../../utils/map_props'
 import { useRouter } from 'vue-router'
@@ -18,6 +18,8 @@ const { update_center } = inject<map_props>('map_center', {
   center: { lat: -31.953512, lng: 115.857048 },
   update_center: () => undefined,
 })
+
+const { search_details } = inject<queryFilter_context>('map_view_search_filters')!
 
 function go_to_site(site: FuelStation) {
   update_center(site.address.latitude, site.address.longitude)
@@ -45,6 +47,15 @@ onMounted(async () => {
           >Tomorrow</span
         >
       </p>
+    </div>
+
+    <div>
+      <p>
+        {{ search_details.fuelType }}
+      </p>
+      <div v-for="(item, index) in search_details.brands" :key="index">
+        {{ item }}
+      </div>
     </div>
   </div>
 

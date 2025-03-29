@@ -30,7 +30,7 @@ function selected_brands(brand_name: string) {
     query_brands.value = query_brands.value.filter((site) => brand_name != site)
   }
   console.log(query_brands.value)
-  return
+  console.log(search_details)
 }
 
 // this function run when the dropdown child component selects a fueltype
@@ -40,9 +40,10 @@ function emmited_value_from_dropdown(selected_option: string) {
 }
 
 function apply_filter() {
+  const brands = [...query_brands.value]
   apply_search_filter({
     fuelType: fuelType.value || 'ULP',
-    brands: query_brands.value,
+    brands: brands,
   })
 }
 
@@ -51,7 +52,7 @@ function clear_filter() {
   fuelType.value = 'ULP'
   apply_search_filter({
     fuelType: fuelType.value || 'ULP',
-    brands: query_brands.value,
+    brands: [...query_brands.value],
   })
 }
 </script>

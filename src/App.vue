@@ -15,7 +15,7 @@ const filter_modal_open_close = ref<boolean>(false)
 // map_view search query
 const search_details = ref<map_view_search_query>({
   brands: [],
-  fuelType: 'ulp',
+  fuelType: 'ULP',
 })
 
 function apply_search_filter(data: map_view_search_query) {
