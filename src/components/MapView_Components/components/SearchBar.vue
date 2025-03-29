@@ -2,15 +2,21 @@
 import DropDown from '@/components/main_components/Drop-down.vue'
 import { inject, ref } from 'vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
-import { map_view_search_query, type queryFilterModalContext } from '../../../../types'
-const fuel_type_options = ref(['ULP', 'PULP', 'Diesel', 'Brand Diesel', 'LPG', '98 RON', 'E85'])
+import { type queryFilter_context, type queryFilterModalContext } from '../../../../types'
+const fuel_type_options = ref(['ULP', 'PUP', 'DSL', 'BDL', 'LPG', '98R', 'E85'])
 
+// service injections
 const { filter_modal_open_close, toggle_modal } =
   inject<queryFilterModalContext>('search_filter_modal')!
 
-const { search_details, apply_search_filter } = inject('map_view_search_filters')
+const { search_details, apply_search_filter } =
+  inject<queryFilter_context>('map_view_search_filters')!
+// ------------------------------------------------------
 
+// options that will be provided to the service
 const query_brands = ref<string[]>([])
+const fuelType = ref<string>('')
+// --------------------------------
 
 function isSelected(brand: string) {
   return query_brands.value.includes(brand)
@@ -27,9 +33,24 @@ function selected_brands(brand_name: string) {
   return
 }
 
+// this function run when the dropdown child component selects a fueltype
+function emmited_value_from_dropdown(selected_option: string) {
+  fuelType.value = selected_option
+  console.log(fuelType.value)
+}
+
 function apply_filter() {
   apply_search_filter({
-    fuelType: 'ULP',
+    fuelType: fuelType.value || 'ULP',
+    brands: query_brands.value,
+  })
+}
+
+function clear_filter() {
+  query_brands.value = []
+  fuelType.value = 'ULP'
+  apply_search_filter({
+    fuelType: fuelType.value || 'ULP',
     brands: query_brands.value,
   })
 }
@@ -71,6 +92,7 @@ function apply_filter() {
           <DropDown
             :default_option="fuel_type_options[0]"
             :dropdown-options="fuel_type_options"
+            @selected_fuelType="emmited_value_from_dropdown"
           ></DropDown>
         </div>
 
@@ -110,10 +132,18 @@ function apply_filter() {
           </div>
         </div>
 
+        <!-- test -->
+
+        <div>
+          {{ search_details.fuelType }}
+          <div v-for="(sites, index) in search_details.brands" :key="index">
+            {{ sites }}
+          </div>
+        </div>
         <!-- apply filter button -->
 
         <div class="justify-between flex">
-          <button v-on:click="query_brands = []" class="border px-6 py-2 rounded-lg font-semibold">
+          <button v-on:click="clear_filter()" class="border px-6 py-2 rounded-lg font-semibold">
             Clear All
           </button>
           <button

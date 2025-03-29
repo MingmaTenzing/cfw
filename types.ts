@@ -12,6 +12,10 @@ export interface queryFilterModalContext {
   filter_modal_open_close: boolean
   toggle_modal: () => void
 }
+export interface queryFilter_context {
+  search_details: map_view_search_query
+  apply_search_filter: (data: map_view_search_query) => void
+}
 
 export interface map_view_search_query {
   fuelType: string
