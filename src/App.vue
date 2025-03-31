@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { onMounted, provide, ref, watch } from 'vue'
+import { onMounted, provide, reactive, ref, watch } from 'vue'
 import type { map_view_search_query } from '../types'
 
 // theme
@@ -13,14 +13,15 @@ const center = ref({ lat: -31.953512, lng: 115.857048 })
 const filter_modal_open_close = ref<boolean>(false)
 
 // map_view search query
-const search_details = ref<map_view_search_query>({
+const search_details = reactive<map_view_search_query>({
+  suburb: '',
   brands: [],
   fuelType: 'ULP',
 })
 
 function apply_search_filter(data: map_view_search_query) {
-  search_details.value.brands = data.brands
-  search_details.value.fuelType = data.fuelType
+  search_details.brands = data.brands
+  search_details.fuelType = data.fuelType
 }
 
 function changeTheme() {

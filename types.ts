@@ -18,6 +18,7 @@ export interface queryFilter_context {
 }
 
 export interface map_view_search_query {
+  suburb: string
   fuelType: string
   brands: string[]
 }

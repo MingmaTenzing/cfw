@@ -1,69 +1,81 @@
 <script setup lang="ts">
 import DropDown from '@/components/main_components/Drop-down.vue'
-import { inject, ref } from 'vue'
+import { inject, reactive, ref } from 'vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
-import { type queryFilter_context, type queryFilterModalContext } from '../../../../types'
+import { type map_view_search_query, type queryFilter_context, type queryFilterModalContext } from '../../../../types'
 const fuel_type_options = ref(['ULP', 'PUP', 'DSL', 'BDL', 'LPG', '98R', 'E85'])
 
 // service injections
 const { filter_modal_open_close, toggle_modal } =
   inject<queryFilterModalContext>('search_filter_modal')!
 
+
+
+
+
 const { search_details, apply_search_filter } =
   inject<queryFilter_context>('map_view_search_filters')!
 // ------------------------------------------------------
 
 // options that will be provided to the service
-const query_brands = ref<string[]>([])
-const fuelType = ref<string>('')
+
+const search_options = reactive<map_view_search_query>(
+  {
+    suburb: "",
+    fuelType: "ULP",
+    brands: []
+  }
+)
+
 // --------------------------------
 
 function isSelected(brand: string) {
-  return query_brands.value.includes(brand)
+  // console.log(search_options.brands.includes(brand))
+  return search_options.brands.includes(brand)
 }
 
 function selected_brands(brand_name: string) {
-  const check_brand_exists = query_brands.value.find((site) => brand_name == site)
+  console.log(brand_name)
+  const check_brand_exists = search_options.brands.find((site) => brand_name == site)
+console.log(check_brand_exists)
   if (!check_brand_exists) {
-    query_brands.value.push(brand_name)
+    console.log('it doesnt exit so added')
+    search_options.brands.push(brand_name)
+    console.log(search_details.brands)
   } else {
-    query_brands.value = query_brands.value.filter((site) => brand_name != site)
+    console.log('exsits')
+    search_options.brands = search_details.brands.filter((site) => brand_name != site)
   }
-  console.log(query_brands.value)
-  console.log(search_details)
+
 }
 
 // this function run when the dropdown child component selects a fueltype
 function emmited_value_from_dropdown(selected_option: string) {
-  fuelType.value = selected_option
-  console.log(fuelType.value)
+  search_options.fuelType = selected_option
+
 }
 
 function apply_filter() {
-  const brands = [...query_brands.value]
-  apply_search_filter({
-    fuelType: fuelType.value || 'ULP',
-    brands: brands,
-  })
+  const copy_data = search_options
+  // const brands = [...search_details.brands]
+  apply_search_filter(copy_data)
 }
 
 function clear_filter() {
-  query_brands.value = []
-  fuelType.value = 'ULP'
-  apply_search_filter({
-    fuelType: fuelType.value || 'ULP',
-    brands: [...query_brands.value],
-  })
+  search_options.brands = []
+  search_options.fuelType = 'ULP'
+  search_options.suburb = ""
+  apply_search_filter(search_options)
 }
 </script>
 
 <template>
   <section class="p-4 w-full md:w-[500px] rounded-lg">
-    <div class="flex items-center space-x-2">
-      <input
-        class="border bg-background border-ring/20 py-4 px-4 rounded-xl w-full outline-none text-accent-foreground"
+    <div class="flex items-center space-x-2 ">
+      <input v-model="search_options.suburb"
+        class="border bg-background w-full border-ring/20 py-4 px-4 rounded-xl  outline-none text-accent-foreground"
         type="text"
-        placeholder="Search Sububor or postcode"
+        placeholder="Search Sububor"
       />
       <div
         class="h-[58px] border border-ring/20 bg-background p-4 rounded-xl"
@@ -105,7 +117,7 @@ function clear_filter() {
           >
             <div v-for="(brand, index) in fuel_brands" :key="index">
               <div
-                v-on:click="selected_brands(brand?.name || '')"
+                v-on:click="selected_brands(brand!.name || '')"
                 class="border p-4 rounded-lg flex justify-between items-center"
               >
                 <div class="space-x-2 flex justify-center items-center">
@@ -117,7 +129,7 @@ function clear_filter() {
                   <p class="text-sm lg:text-base font-light">{{ brand?.description }}</p>
                 </div>
                 <div>
-                  <i
+                  <!-- <i
                     :class="{
                       'pi pi-check-square text-green-700 transition-all ease-linear': isSelected(
                         brand?.name || '',
@@ -126,6 +138,12 @@ function clear_filter() {
                         brand?.name || '',
                       ),
                     }"
+                  ></i> -->
+                  <i
+
+                     class=" pi pi-check-square transition-all ease-linear"
+                     :class="{'text-green-700':isSelected(brand.name)}"
+
                   ></i>
                 </div>
               </div>

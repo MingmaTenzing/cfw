@@ -61,6 +61,7 @@ watch(
       <p>
         {{ search_details.fuelType }}
       </p>
+      <p>Suburb: {{ search_details.suburb }}</p>
       <div v-for="(item, index) in search_details.brands" :key="index">
         {{ item }}
       </div>
