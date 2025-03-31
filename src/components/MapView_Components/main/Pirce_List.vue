@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { inject, onMounted, ref, watch } from 'vue'
 import { type FuelStation, type queryFilter_context } from '../../../../types'
 import axios from 'axios'
 import type { map_props } from '../../../../utils/map_props'
@@ -33,6 +33,14 @@ onMounted(async () => {
   fuelData.value = response.data
   loading.value = false
 })
+
+watch(
+  search_details,
+  (newValue, oldValue) => {
+    console.log(newValue, oldValue)
+  },
+  { deep: true },
+)
 </script>
 
 <template>
