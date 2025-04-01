@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue'
-import { type FuelStation, type queryFilter_context } from '../../../../types'
+import { type FuelStation, type map_view_search_query, type queryFilter_context } from '../../../../types'
 import axios from 'axios'
 import type { map_props } from '../../../../utils/map_props'
 import { useRouter } from 'vue-router'
@@ -26,18 +26,30 @@ function go_to_site(site: FuelStation) {
   router.push(`/sites/${site.id}`)
 }
 
-onMounted(async () => {
+async function fetch_data(searchquery: map_view_search_query) {
+
   loading.value = true
-  const response = await axios.get<FuelStation[]>('http://localhost:3000')
+  const response = await axios.post<FuelStation[]>(`http://localhost:3000?${searchquery.fuelType}`,  searchquery)
 
   fuelData.value = response.data
   loading.value = false
+}
+
+onMounted(async () => {
+  fetch_data(search_details);
+
+
 })
+
+
 
 watch(
   search_details,
   (newValue, oldValue) => {
-    console.log(newValue, oldValue)
+    console.log('this is old value')
+    console.log(oldValue)
+    console.log(' this is new vvalue')
+   console.log(newValue)
   },
   { deep: true },
 )

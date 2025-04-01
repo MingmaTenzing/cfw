@@ -15,11 +15,11 @@ const { filter_modal_open_close, toggle_modal } =
 
 const { search_details, apply_search_filter } =
   inject<queryFilter_context>('map_view_search_filters')!
-// ------------------------------------------------------
+// -----------------------------------------------------
 
 // options that will be provided to the service
 
-const search_options = reactive<map_view_search_query>(
+const search_options = ref<map_view_search_query>(
   {
     suburb: "",
     fuelType: "ULP",
@@ -31,41 +31,38 @@ const search_options = reactive<map_view_search_query>(
 
 function isSelected(brand: string) {
   // console.log(search_options.brands.includes(brand))
-  return search_options.brands.includes(brand)
+  return search_options.value.brands.includes(brand)
 }
 
 function selected_brands(brand_name: string) {
-  console.log(brand_name)
-  const check_brand_exists = search_options.brands.find((site) => brand_name == site)
-console.log(check_brand_exists)
+  const check_brand_exists = search_options.value.brands.find((site) => brand_name == site)
+
   if (!check_brand_exists) {
-    console.log('it doesnt exit so added')
-    search_options.brands.push(brand_name)
-    console.log(search_details.brands)
+    search_options.value.brands.push(brand_name)
   } else {
-    console.log('exsits')
-    search_options.brands = search_details.brands.filter((site) => brand_name != site)
+    search_options.value.brands = search_options.value.brands.filter((site) => brand_name != site)
   }
 
 }
 
 // this function run when the dropdown child component selects a fueltype
 function emmited_value_from_dropdown(selected_option: string) {
-  search_options.fuelType = selected_option
+  search_options.value.fuelType = selected_option
 
 }
 
 function apply_filter() {
-  const copy_data = search_options
-  // const brands = [...search_details.brands]
-  apply_search_filter(copy_data)
+
+
+  apply_search_filter(search_options.value)
+  console.log(apply_search_filter)
 }
 
 function clear_filter() {
-  search_options.brands = []
-  search_options.fuelType = 'ULP'
-  search_options.suburb = ""
-  apply_search_filter(search_options)
+  search_options.value.brands = []
+  search_options.value.fuelType = 'ULP'
+  search_options.value.suburb = ""
+  apply_search_filter(search_options.value)
 }
 </script>
 

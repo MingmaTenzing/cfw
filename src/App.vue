@@ -22,6 +22,7 @@ const search_details = reactive<map_view_search_query>({
 function apply_search_filter(data: map_view_search_query) {
   search_details.brands = data.brands
   search_details.fuelType = data.fuelType
+  search_details.suburb = data.suburb
 }
 
 function changeTheme() {
