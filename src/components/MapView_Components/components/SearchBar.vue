@@ -2,16 +2,16 @@
 import DropDown from '@/components/main_components/Drop-down.vue'
 import { inject, reactive, ref } from 'vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
-import { type map_view_search_query, type queryFilter_context, type queryFilterModalContext } from '../../../../types'
+import {
+  type map_view_search_query,
+  type queryFilter_context,
+  type queryFilterModalContext,
+} from '../../../../types'
 const fuel_type_options = ref(['ULP', 'PUP', 'DSL', 'BDL', 'LPG', '98R', 'E85'])
 
 // service injections
 const { filter_modal_open_close, toggle_modal } =
   inject<queryFilterModalContext>('search_filter_modal')!
-
-
-
-
 
 const { search_details, apply_search_filter } =
   inject<queryFilter_context>('map_view_search_filters')!
@@ -19,13 +19,11 @@ const { search_details, apply_search_filter } =
 
 // options that will be provided to the service
 
-const search_options = ref<map_view_search_query>(
-  {
-    suburb: "",
-    fuelType: "ULP",
-    brands: []
-  }
-)
+const search_options = ref<map_view_search_query>({
+  suburb: '',
+  fuelType: 'ULP',
+  brands: [],
+})
 
 // --------------------------------
 
@@ -42,35 +40,33 @@ function selected_brands(brand_name: string) {
   } else {
     search_options.value.brands = search_options.value.brands.filter((site) => brand_name != site)
   }
-
 }
 
 // this function run when the dropdown child component selects a fueltype
 function emmited_value_from_dropdown(selected_option: string) {
   search_options.value.fuelType = selected_option
-
 }
 
 function apply_filter() {
-
-
-  apply_search_filter(search_options.value)
+  const shallow_copy_filter = { ...search_options.value }
+  apply_search_filter(shallow_copy_filter)
   console.log(apply_search_filter)
 }
 
 function clear_filter() {
   search_options.value.brands = []
   search_options.value.fuelType = 'ULP'
-  search_options.value.suburb = ""
+  search_options.value.suburb = ''
   apply_search_filter(search_options.value)
 }
 </script>
 
 <template>
   <section class="p-4 w-full md:w-[500px] rounded-lg">
-    <div class="flex items-center space-x-2 ">
-      <input v-model="search_options.suburb"
-        class="border bg-background w-full border-ring/20 py-4 px-4 rounded-xl  outline-none text-accent-foreground"
+    <div class="flex items-center space-x-2">
+      <input
+        v-model="search_options.suburb"
+        class="border bg-background w-full border-ring/20 py-4 px-4 rounded-xl outline-none text-accent-foreground"
         type="text"
         placeholder="Search Sububor"
       />
@@ -137,10 +133,8 @@ function clear_filter() {
                     }"
                   ></i> -->
                   <i
-
-                     class=" pi pi-check-square transition-all ease-linear"
-                     :class="{'text-green-700':isSelected(brand.name)}"
-
+                    class="pi pi-check-square transition-all ease-linear"
+                    :class="{ 'text-green-700': isSelected(brand.name) }"
                   ></i>
                 </div>
               </div>

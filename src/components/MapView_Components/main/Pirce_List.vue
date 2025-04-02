@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue'
-import { type FuelStation, type map_view_search_query, type queryFilter_context } from '../../../../types'
+import {
+  type FuelStation,
+  type map_view_search_query,
+  type queryFilter_context,
+} from '../../../../types'
 import axios from 'axios'
 import type { map_props } from '../../../../utils/map_props'
 import { useRouter } from 'vue-router'
@@ -26,30 +30,29 @@ function go_to_site(site: FuelStation) {
   router.push(`/sites/${site.id}`)
 }
 
-async function fetch_data(searchquery: map_view_search_query) {
-
+async function initial_data_fetch() {
   loading.value = true
-  const response = await axios.post<FuelStation[]>(`http://localhost:3000?${searchquery.fuelType}`,  searchquery)
+  const response = await axios.get<FuelStation[]>('http://localhost:3000')
 
   fuelData.value = response.data
   loading.value = false
 }
 
+async function search_fetch_data(search_filters: map_view_search_query) {
+  loading.value = true
+  const response = await axios.post<FuelStation[]>(`http://localhost:3000/search`, search_filters)
+  fuelData.value = response.data
+  loading.value = false
+}
+
 onMounted(async () => {
-  fetch_data(search_details);
-
-
+  initial_data_fetch()
 })
-
-
 
 watch(
   search_details,
-  (newValue, oldValue) => {
-    console.log('this is old value')
-    console.log(oldValue)
-    console.log(' this is new vvalue')
-   console.log(newValue)
+  (newQuery) => {
+    search_fetch_data(newQuery)
   },
   { deep: true },
 )
