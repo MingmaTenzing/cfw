@@ -12,19 +12,6 @@ const center = ref({ lat: -31.953512, lng: 115.857048 })
 // toggle for filter popup modal
 const filter_modal_open_close = ref<boolean>(false)
 
-// map_view search query
-const search_details = reactive<map_view_search_query>({
-  suburb: '',
-  brands: [],
-  fuelType: 'ULP',
-})
-
-function apply_search_filter(data: map_view_search_query) {
-  search_details.brands = data.brands
-  search_details.fuelType = data.fuelType
-  search_details.suburb = data.suburb
-}
-
 function changeTheme() {
   if (theme.value == 'dark') {
     theme.value = 'light'
@@ -57,10 +44,10 @@ provide('search_filter_modal', {
   toggle_modal,
 })
 
-provide('map_view_search_filters', {
-  search_details,
-  apply_search_filter,
-})
+// provide('map_view_search_filters', {
+//   search_details,
+//   apply_search_filter,
+// })
 onMounted(() => {
   document.documentElement.classList.add(theme.value)
 })

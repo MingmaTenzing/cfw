@@ -7,25 +7,24 @@ import {
   type queryFilter_context,
   type queryFilterModalContext,
 } from '../../../../types'
+import { map_view_search_filter } from '@/stores/search_filter'
+import { storeToRefs } from 'pinia'
 const fuel_type_options = ref(['ULP', 'PUP', 'DSL', 'BDL', 'LPG', '98R', 'E85'])
 
 // service injections
 const { filter_modal_open_close, toggle_modal } =
   inject<queryFilterModalContext>('search_filter_modal')!
 
-const { search_details, apply_search_filter } =
-  inject<queryFilter_context>('map_view_search_filters')!
+const clicked_search_filter: boolean = ref(false)
 // -----------------------------------------------------
 
-// options that will be provided to the service
+const search_filter_store = map_view_search_filter()
 
 const search_options = ref<map_view_search_query>({
   suburb: '',
   fuelType: 'ULP',
   brands: [],
 })
-
-// --------------------------------
 
 function isSelected(brand: string) {
   // console.log(search_options.brands.includes(brand))
@@ -48,17 +47,12 @@ function emmited_value_from_dropdown(selected_option: string) {
 }
 
 function apply_filter() {
-  const shallow_copy_filter = { ...search_options.value }
-  apply_search_filter(shallow_copy_filter)
-  console.log(apply_search_filter)
+  console.log(search_options.value)
+
+  search_filter_store.update_search_filter(search_options.value)
 }
 
-function clear_filter() {
-  search_options.value.brands = []
-  search_options.value.fuelType = 'ULP'
-  search_options.value.suburb = ''
-  apply_search_filter(search_options.value)
-}
+function clear_filter() {}
 </script>
 
 <template>
@@ -145,8 +139,8 @@ function clear_filter() {
         <!-- test -->
 
         <div>
-          {{ search_details.fuelType }}
-          <div v-for="(sites, index) in search_details.brands" :key="index">
+          {{ search_filter_store.search_details.fuelType }}
+          <div v-for="(sites, index) in search_filter_store.search_details.brands" :key="index">
             {{ sites }}
           </div>
         </div>

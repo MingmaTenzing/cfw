@@ -9,6 +9,7 @@ import axios from 'axios'
 import type { map_props } from '../../../../utils/map_props'
 import { useRouter } from 'vue-router'
 import PriceList_Loading from '../components/Price-List_Loading.vue'
+import { map_view_search_filter } from '@/stores/search_filter'
 
 const fuelData = ref<FuelStation[]>([])
 
@@ -23,7 +24,7 @@ const { update_center } = inject<map_props>('map_center', {
   update_center: () => undefined,
 })
 
-const { search_details } = inject<queryFilter_context>('map_view_search_filters')!
+const search_details = map_view_search_filter()
 
 function go_to_site(site: FuelStation) {
   update_center(site.address.latitude, site.address.longitude)
@@ -50,9 +51,9 @@ onMounted(async () => {
 })
 
 watch(
-  search_details,
+  () => search_details.update_search_filter,
   (newQuery) => {
-    search_fetch_data(newQuery)
+    console.log(newQuery)
   },
   { deep: true },
 )
@@ -74,10 +75,10 @@ watch(
 
     <div>
       <p>
-        {{ search_details.fuelType }}
+        {{ search_details.search_details.fuelType }}
       </p>
-      <p>Suburb: {{ search_details.suburb }}</p>
-      <div v-for="(item, index) in search_details.brands" :key="index">
+      <p>Suburb: {{ search_details.search_details.suburb }}</p>
+      <div v-for="(item, index) in search_details.search_details.brands" :key="index">
         {{ item }}
       </div>
     </div>
