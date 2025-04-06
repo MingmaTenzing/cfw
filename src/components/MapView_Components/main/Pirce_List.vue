@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue'
 import {
+  type apply_filter_boolean_context,
   type FuelStation,
   type map_view_search_query,
   type queryFilter_context,
@@ -24,7 +25,12 @@ const { update_center } = inject<map_props>('map_center', {
   update_center: () => undefined,
 })
 
-const search_details = map_view_search_filter()
+
+
+
+  const {  is_apply_search_filter, toggle_apply_filter,} = inject<apply_filter_boolean_context>("toogle_apply_filter")
+
+const search_details_store = map_view_search_filter()
 
 function go_to_site(site: FuelStation) {
   update_center(site.address.latitude, site.address.longitude)
@@ -51,11 +57,10 @@ onMounted(async () => {
 })
 
 watch(
-  () => search_details.update_search_filter,
-  (newQuery) => {
-    console.log(newQuery)
-  },
-  { deep: true },
+  is_apply_search_filter, (newvalue) => {
+    console.log(newvalue)
+    search_fetch_data(search_details_store.search_details)
+   }
 )
 </script>
 
@@ -75,10 +80,10 @@ watch(
 
     <div>
       <p>
-        {{ search_details.search_details.fuelType }}
+        {{ search_details_store.search_details.fuelType }}
       </p>
-      <p>Suburb: {{ search_details.search_details.suburb }}</p>
-      <div v-for="(item, index) in search_details.search_details.brands" :key="index">
+      <p>Suburb: {{ search_details_store.search_details.suburb }}</p>
+      <div v-for="(item, index) in search_details_store.search_details.brands" :key="index">
         {{ item }}
       </div>
     </div>

@@ -8,6 +8,11 @@ export interface price_change_predict {
   percentage_change: number
   tomorrow_predicted_price: number
 }
+
+export interface apply_filter_boolean_context {
+  is_apply_search_filter: boolean
+  toggle_apply_filter: () => void
+}
 export interface queryFilterModalContext {
   filter_modal_open_close: boolean
   toggle_modal: () => void

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import DropDown from '@/components/main_components/Drop-down.vue'
-import { inject, reactive, ref } from 'vue'
+import { inject, provide, reactive, ref } from 'vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
 import {
+  apply_filter_boolean_context,
   type map_view_search_query,
   type queryFilter_context,
   type queryFilterModalContext,
@@ -15,8 +16,8 @@ const fuel_type_options = ref(['ULP', 'PUP', 'DSL', 'BDL', 'LPG', '98R', 'E85'])
 const { filter_modal_open_close, toggle_modal } =
   inject<queryFilterModalContext>('search_filter_modal')!
 
-const clicked_search_filter: boolean = ref(false)
-// -----------------------------------------------------
+
+  const {  is_apply_search_filter, toggle_apply_filter,} = inject<apply_filter_boolean_context>("toogle_apply_filter")
 
 const search_filter_store = map_view_search_filter()
 
@@ -47,12 +48,23 @@ function emmited_value_from_dropdown(selected_option: string) {
 }
 
 function apply_filter() {
-  console.log(search_options.value)
+
 
   search_filter_store.update_search_filter(search_options.value)
+  toggle_apply_filter()
+  console.log(search_filter_store.search_details)
+  console.log(is_apply_search_filter.value)
 }
 
-function clear_filter() {}
+function clear_filter() {
+  search_options.value.brands = [];
+  search_options.value.fuelType = "";
+  search_options.value.suburb = ""
+  search_filter_store.update_search_filter(search_options.value)
+
+
+}
+
 </script>
 
 <template>
