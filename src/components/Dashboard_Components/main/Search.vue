@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import DropDown from '@/components/main_components/Drop-down.vue'
 import { fuel_brands } from '../../../../utils/fuel_brands'
+import { reactive } from 'vue'
 
 const regions = [
   'Metro: North of River',
@@ -67,6 +68,32 @@ const regions = [
 ]
 
 const brands = fuel_brands.map((data) => data.name)
+
+const search_options = reactive({
+  suburb: '',
+  fuelType: '',
+  region: '',
+  fuel_brand: '',
+  day: '',
+})
+
+function apply_search_filters() {}
+
+function emitted_fuel_type(value: string) {
+  search_options.fuelType = value
+}
+
+function emitted_region(value: string) {
+  search_options.region = value
+}
+
+function emitted_fuel_brand(value: string) {
+  search_options.fuel_brand = value
+}
+
+function emitted_day(value: string) {
+  search_options.day = value
+}
 </script>
 <template>
   <main
@@ -74,11 +101,12 @@ const brands = fuel_brands.map((data) => data.name)
   >
     <!-- search input and filters -->
     <section class="border p-4 rounded-lg">
-      <form class="space-y-4">
+      <form v-on:submit="apply_search_filters" class="space-y-4">
         <!-- suburb -->
         <div class="gap-2 flex flex-col w-full">
           <p class="text-sm">Suburb</p>
           <input
+            v-model="search_options.suburb"
             class="border-border outline-none border w-full py-2 px-2 text-sm rounded-lg"
             placeholder="Suburb"
           />
@@ -88,6 +116,7 @@ const brands = fuel_brands.map((data) => data.name)
         <div class="gap-2 flex flex-col w-full">
           <p class="text-sm">Fuel Type</p>
           <DropDown
+            @selected_value="emitted_fuel_type"
             default_option="ULP"
             :dropdown-options="['ULP', 'PUP', 'DSL', '98RON']"
           ></DropDown>
@@ -96,13 +125,21 @@ const brands = fuel_brands.map((data) => data.name)
         <!-- region -->
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Region</p>
-          <DropDown :default_option="regions[0]" :dropdown-options="regions"></DropDown>
+          <DropDown
+            :default_option="regions[0]"
+            @selected_value="emitted_region"
+            :dropdown-options="regions"
+          ></DropDown>
         </div>
 
         <!-- fuelbrand -->
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Fuel Brand</p>
-          <DropDown :default_option="brands[0]" :dropdown-options="brands"></DropDown>
+          <DropDown
+            :default_option="brands[0]"
+            @selected_value="emitted_fuel_brand"
+            :dropdown-options="brands"
+          ></DropDown>
         </div>
 
         <!-- day -->
@@ -110,19 +147,21 @@ const brands = fuel_brands.map((data) => data.name)
           <p class="text-sm">Day</p>
           <DropDown
             default_option="Today"
+            @selected_value="emitted_day"
             :dropdown-options="['Today', 'Tomorrow', 'Yesterday']"
           ></DropDown>
         </div>
 
-        <div
-          class="bg-foreground text-secondary flex justify-center items-center gap-4 py-3 rounded-lg"
+        <button
+          type="submit"
+          class="bg-foreground text-secondary flex justify-center items-center gap-4 py-3 rounded-lg w-full"
         >
           <i class="pi-filter pi"> </i>
-          <button>Search</button>
-        </div>
+          <p>Search</p>
+        </button>
       </form>
     </section>
-
+    {{ search_options }}
     <!-- search results -->
     <section class="space-y-4">
       <p class="text-primary/75">4 stations found</p>
