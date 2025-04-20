@@ -25,10 +25,8 @@ const { update_center } = inject<map_props>('map_center', {
   update_center: () => undefined,
 })
 
-
-
-
-  const {  is_apply_search_filter, toggle_apply_filter,} = inject<apply_filter_boolean_context>("toogle_apply_filter")
+const { is_apply_search_filter, toggle_apply_filter } =
+  inject<apply_filter_boolean_context>('toogle_apply_filter')
 
 const search_details_store = map_view_search_filter()
 
@@ -56,12 +54,10 @@ onMounted(async () => {
   initial_data_fetch()
 })
 
-watch(
-  is_apply_search_filter, (newvalue) => {
-    console.log(newvalue)
-    search_fetch_data(search_details_store.search_details)
-   }
-)
+watch(is_apply_search_filter, (newvalue) => {
+  console.log(newvalue)
+  search_fetch_data(search_details_store.search_details)
+})
 </script>
 
 <template>
@@ -77,26 +73,7 @@ watch(
         >
       </p>
     </div>
-
-    <div>
-      <p>
-        {{ search_details_store.search_details.fuelType }}
-      </p>
-      <p>Suburb: {{ search_details_store.search_details.suburb }}</p>
-      <div v-for="(item, index) in search_details_store.search_details.brands" :key="index">
-        {{ item }}
-      </div>
-    </div>
   </div>
-
-  <!--price day toggle -->
-  <!-- <div class="p-4 border-b border-border dark:border-border">
-    <div class="flex items-center space-x-2 text-md">
-      <i class="pi pi-list"></i>
-      <p>Today's price</p>
-    </div>
-  </div> -->
-  <!-- prices list -->
 
   <section class="overflow-y-scroll h-full scrollbar-hide">
     <section>
