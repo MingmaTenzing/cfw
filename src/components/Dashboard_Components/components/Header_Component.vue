@@ -12,7 +12,7 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 <template>
   <section class="flex justify-between border-b pb-4">
     <!-- left side menus -->
-    <div class="flex items-center space-x-2">
+    <div class="flex text-primary items-center space-x-2">
       <i v-on:click="toggle_side_bar" class="pi pi-bars"></i>
 
       <RouterLink to="/sites">

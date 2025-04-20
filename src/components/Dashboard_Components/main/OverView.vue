@@ -10,7 +10,6 @@ import Price_Map from '../components/Price_Map.vue'
 <template>
   <main class="bg-background text-primary w-full min-h-[100vh] p-4 space-y-4">
     <!-- header -->
-    <Header_Component></Header_Component>
 
     <!-- main cards -->
     <Price_Cards></Price_Cards>

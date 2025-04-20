@@ -47,11 +47,13 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 
             <p>Price Map</p>
           </div>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-            <i class="pi pi-chart-line"></i>
+          <RouterLink to="/dashboard/search">
+            <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+              <i class="pi pi-search"></i>
 
-            <p>Trend</p>
-          </div>
+              <p>Search</p>
+            </div>
+          </RouterLink>
           <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
             <i class="pi pi-chart-bar"></i>
 
