@@ -69,18 +69,23 @@ const regions = [
 const brands = fuel_brands.map((data) => data.name)
 </script>
 <template>
-  <main class="bg-background text-primary p-4 min-h-[100vh]">
+  <main
+    class="bg-background text-primary p-4 min-h-[100vh] space-y-20 xl:w-[1200px] 2xl:w-[1600px] m-auto"
+  >
     <!-- search input and filters -->
     <section class="border p-4 rounded-lg">
       <form class="space-y-4">
-        <div class="gap-2 flex flex-col">
+        <!-- suburb -->
+        <div class="gap-2 flex flex-col w-full">
           <p class="text-sm">Suburb</p>
           <input
             class="border-border outline-none border w-full py-2 px-2 text-sm rounded-lg"
             placeholder="Suburb"
           />
         </div>
-        <div class="gap-2 flex flex-col">
+
+        <!-- fueltype -->
+        <div class="gap-2 flex flex-col w-full">
           <p class="text-sm">Fuel Type</p>
           <DropDown
             default_option="ULP"
@@ -94,11 +99,13 @@ const brands = fuel_brands.map((data) => data.name)
           <DropDown :default_option="regions[0]" :dropdown-options="regions"></DropDown>
         </div>
 
+        <!-- fuelbrand -->
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Fuel Brand</p>
           <DropDown :default_option="brands[0]" :dropdown-options="brands"></DropDown>
         </div>
 
+        <!-- day -->
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Day</p>
           <DropDown
@@ -117,8 +124,8 @@ const brands = fuel_brands.map((data) => data.name)
     </section>
 
     <!-- search results -->
-    <section>
-      <p>4 stations found</p>
+    <section class="space-y-4">
+      <p class="text-primary/75">4 stations found</p>
 
       <div class="p-4 border flex flex-col gap-4 lg:flex-row lg:space-x-20">
         <div class="flex space-x-4 items-center">
@@ -133,7 +140,7 @@ const brands = fuel_brands.map((data) => data.name)
         </div>
 
         <!-- price -->
-        <div class="gap-2 flex flex-col md:flex-row md:gap-6 lg:gap-14">
+        <div class="gap-2 flex flex-col md:flex-row md:gap-6 lg:justify-between">
           <div>
             <p class="text-sm font-light">ULP . Today</p>
             <p class="font-bold text-xl">$1.53</p>
@@ -147,8 +154,14 @@ const brands = fuel_brands.map((data) => data.name)
             <p class="text-sm font-light">Address</p>
             <p class="font-bold text-xl">Airport Dr (Cnr Paltridge Rd)</p>
           </div>
-
-          <div></div>
+          <div>
+            <p class="text-sm font-light">Phone</p>
+            <p class="font-bold text-xl">0420668774</p>
+          </div>
+          <div>
+            <p class="text-sm font-light">Date</p>
+            <p class="font-bold text-xl">12/04/2025</p>
+          </div>
         </div>
       </div>
     </section>
