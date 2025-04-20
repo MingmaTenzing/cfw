@@ -8,9 +8,24 @@ export interface price_change_predict {
   percentage_change: number
   tomorrow_predicted_price: number
 }
+
+export interface apply_filter_boolean_context {
+  is_apply_search_filter: boolean
+  toggle_apply_filter: () => void
+}
 export interface queryFilterModalContext {
   filter_modal_open_close: boolean
   toggle_modal: () => void
+}
+export interface queryFilter_context {
+  search_details: map_view_search_query
+  apply_search_filter: (data: map_view_search_query) => void
+}
+
+export interface map_view_search_query {
+  suburb: string
+  fuelType: string
+  brands: string[]
 }
 
 export interface fuelwatch_xml {

@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
-import { type FuelStation } from '../../../../types'
+import { inject, onMounted, ref, watch } from 'vue'
+import {
+  type apply_filter_boolean_context,
+  type FuelStation,
+  type map_view_search_query,
+  type queryFilter_context,
+} from '../../../../types'
 import axios from 'axios'
 import type { map_props } from '../../../../utils/map_props'
 import { useRouter } from 'vue-router'
 import PriceList_Loading from '../components/Price-List_Loading.vue'
+import { map_view_search_filter } from '@/stores/search_filter'
 
 const fuelData = ref<FuelStation[]>([])
 
@@ -19,17 +25,38 @@ const { update_center } = inject<map_props>('map_center', {
   update_center: () => undefined,
 })
 
+const { is_apply_search_filter, toggle_apply_filter } =
+  inject<apply_filter_boolean_context>('toogle_apply_filter')
+
+const search_details_store = map_view_search_filter()
+
 function go_to_site(site: FuelStation) {
   update_center(site.address.latitude, site.address.longitude)
   router.push(`/sites/${site.id}`)
 }
 
-onMounted(async () => {
+async function initial_data_fetch() {
   loading.value = true
   const response = await axios.get<FuelStation[]>('http://localhost:3000')
 
   fuelData.value = response.data
   loading.value = false
+}
+
+async function search_fetch_data(search_filters: map_view_search_query) {
+  loading.value = true
+  const response = await axios.post<FuelStation[]>(`http://localhost:3000/search`, search_filters)
+  fuelData.value = response.data
+  loading.value = false
+}
+
+onMounted(async () => {
+  initial_data_fetch()
+})
+
+watch(is_apply_search_filter, (newvalue) => {
+  console.log(newvalue)
+  search_fetch_data(search_details_store.search_details)
 })
 </script>
 
@@ -47,15 +74,6 @@ onMounted(async () => {
       </p>
     </div>
   </div>
-
-  <!--price day toggle -->
-  <!-- <div class="p-4 border-b border-border dark:border-border">
-    <div class="flex items-center space-x-2 text-md">
-      <i class="pi pi-list"></i>
-      <p>Today's price</p>
-    </div>
-  </div> -->
-  <!-- prices list -->
 
   <section class="overflow-y-scroll h-full scrollbar-hide">
     <section>

@@ -14,7 +14,7 @@ const { filter_modal_open_close } = inject<queryFilterModalContext>('search_filt
   <main
     :class="[
       filter_modal_open_close
-        ? 'text-primary blur-xs bg-background w-full h-full md:w-[320px] lg:w-[400px] rounded-lg'
+        ? 'text-primary blur-xs brightness-90    bg-background w-full h-full md:w-[320px] lg:w-[400px] rounded-lg'
         : ' text-primary   bg-background w-full h-full md:w-[320px] lg:w-[400px] rounded-lg',
     ]"
   >

@@ -6,17 +6,23 @@ const props = defineProps({
     type: Array<string>,
     required: true,
   },
-  default_Option: {
+  default_option: {
     type: String,
     default: 'ULP',
   },
 })
 const toggle = ref(false)
-const selectedOption = ref(props.default_Option)
+const selectedOption = ref(props.default_option)
+
+const emit = defineEmits<{
+  (event: 'selected_fuelType', value: string): void
+}>()
 
 function option_selected(item: string) {
   toggle.value = !toggle.value
   selectedOption.value = item
+
+  emit('selected_fuelType', selectedOption.value)
 }
 </script>
 
