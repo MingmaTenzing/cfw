@@ -1,98 +1,42 @@
 <script lang="ts" setup>
 import DropDown from '@/components/main_components/Drop-down.vue'
-import { fuel_brands } from '../../../../utils/fuel_brands'
 import { reactive } from 'vue'
+import axios from 'axios'
+import { fuelBrands, locations, fuelProducts } from '../../../../utils/search_options'
+import SearchOptionDropdown from '../components/SearchOptionDropdown.vue'
+import type { search_props } from '../../../../types'
 
-const regions = [
-  'Metro: North of River',
-  'Metro: South of River',
-  'Metro: East/Hills',
-  'Albany',
-  'Augusta / Margaret River',
-  'Bridgetown / Greenbushes',
-  'Boulder',
-  'Broome',
-  'Bunbury',
-  'Busselton (Townsite)',
-  'Busselton (Shire)',
-  'Capel',
-  'Carnarvon',
-  'Cataby',
-  'Collie',
-  'Coolgardie',
-  'Cunderdin',
-  'Donnybrook / Balingup',
-  'Dalwallinu',
-  'Dampier',
-  'Dardanup',
-  'Denmark',
-  'Derby',
-  'Dongara',
-  'Esperance',
-  'Exmouth',
-  'Fitzroy Crossing',
-  'Geraldton',
-  'Greenough',
-  'Harvey',
-  'Jurien',
-  'Kalgoorlie',
-  'Kambalda',
-  'Karratha',
-  'Kellerberrin',
-  'Kojonup',
-  'Kununurra',
-  'Mandurah',
-  'Manjimup',
-  'Meckering',
-  'Meekatharra',
-  'Moora',
-  'Mount Barker',
-  'Munglinup',
-  'Murray',
-  'Narrogin',
-  'Newman',
-  'Norseman',
-  'North Bannister',
-  'Northam',
-  'Northam (Shire)',
-  'Port Hedland',
-  'Ravensthorpe',
-  'Regans Ford',
-  'South Hedland',
-  'Tammin',
-  'Waroona',
-  'Williams',
-  'Wubin',
-  'Wundowie',
-  'York',
-]
+// const brands = fuelBrands.map((data) => data.name)
+// const regions = locations.map((data) => data.name)
 
-const brands = fuel_brands.map((data) => data.name)
-
+// const product = fuelProducts.map((data) = >)
 const search_options = reactive({
-  suburb: '',
-  fuelType: '',
-  region: '',
-  fuel_brand: '',
-  day: '',
+  Suburb: '',
+  Product: '',
+  Region: '',
+  Brand: '',
+  Day: '',
 })
 
-function apply_search_filters() {}
-
-function emitted_fuel_type(value: string) {
-  search_options.fuelType = value
+async function apply_search_filters() {
+  const response = await axios.post('http://localhost:3000/xml', search_options)
+  console.log(response.data)
 }
 
-function emitted_region(value: string) {
-  search_options.region = value
+function emitted_fuel_type(value: search_props) {
+  search_options.Product = value.id.toString()
 }
 
-function emitted_fuel_brand(value: string) {
-  search_options.fuel_brand = value
+function emitted_region(value: search_props) {
+  search_options.Region = value.id.toString()
+}
+
+function emitted_fuel_brand(value: search_props) {
+  search_options.Brand = value.id.toString()
 }
 
 function emitted_day(value: string) {
-  search_options.day = value
+  search_options.Day = value
 }
 </script>
 <template>
@@ -101,12 +45,12 @@ function emitted_day(value: string) {
   >
     <!-- search input and filters -->
     <section class="border p-4 rounded-lg">
-      <form v-on:submit="apply_search_filters" class="space-y-4">
-        <!-- suburb -->
+      <form v-on:submit.prevent="apply_search_filters" class="space-y-4">
+        <!-- Suburb -->
         <div class="gap-2 flex flex-col w-full">
           <p class="text-sm">Suburb</p>
           <input
-            v-model="search_options.suburb"
+            v-model="search_options.Suburb"
             class="border-border outline-none border w-full py-2 px-2 text-sm rounded-lg"
             placeholder="Suburb"
           />
@@ -115,31 +59,31 @@ function emitted_day(value: string) {
         <!-- fueltype -->
         <div class="gap-2 flex flex-col w-full">
           <p class="text-sm">Fuel Type</p>
-          <DropDown
+          <SearchOptionDropdown
             @selected_value="emitted_fuel_type"
-            default_option="ULP"
-            :dropdown-options="['ULP', 'PUP', 'DSL', '98RON']"
-          ></DropDown>
+            :default_option="fuelProducts[0]"
+            :dropdown-options="fuelProducts"
+          ></SearchOptionDropdown>
         </div>
 
         <!-- region -->
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Region</p>
-          <DropDown
-            :default_option="regions[0]"
+          <SearchOptionDropdown
             @selected_value="emitted_region"
-            :dropdown-options="regions"
-          ></DropDown>
+            :default_option="locations[0]"
+            :dropdown-options="locations"
+          ></SearchOptionDropdown>
         </div>
 
         <!-- fuelbrand -->
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Fuel Brand</p>
-          <DropDown
-            :default_option="brands[0]"
+          <SearchOptionDropdown
             @selected_value="emitted_fuel_brand"
-            :dropdown-options="brands"
-          ></DropDown>
+            :default_option="fuelBrands[0]"
+            :dropdown-options="fuelBrands"
+          ></SearchOptionDropdown>
         </div>
 
         <!-- day -->
