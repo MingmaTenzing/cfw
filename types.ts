@@ -1,5 +1,5 @@
 export interface search_props {
-  id: number
+  id: string
   name: string
 }
 

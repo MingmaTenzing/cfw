@@ -1,38 +1,69 @@
 <script lang="ts" setup>
 import DropDown from '@/components/main_components/Drop-down.vue'
-import { reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import axios from 'axios'
 import { fuelBrands, locations, fuelProducts } from '../../../../utils/search_options'
 import SearchOptionDropdown from '../components/SearchOptionDropdown.vue'
-import type { search_props } from '../../../../types'
+import type { fuelwatch_xml, search_props } from '../../../../types'
+import Search_Result_Card from '../components/Search_Result_Card.vue'
 
 // const brands = fuelBrands.map((data) => data.name)
 // const regions = locations.map((data) => data.name)
 
 // const product = fuelProducts.map((data) = >)
+
 const search_options = reactive({
   Suburb: '',
-  Product: '',
-  Region: '',
-  Brand: '',
+  Product: {
+    name: '',
+    id: '',
+  },
+  Region: {
+    name: '',
+    id: '',
+  },
+  Brand: {
+    name: '',
+    id: '',
+  },
   Day: '',
 })
 
+const show_search_options = computed(() =>
+  [
+    { label: 'Suburb', value: search_options.Suburb },
+    { label: 'Product', value: search_options.Product.name },
+    { label: 'Region', value: search_options.Region.name },
+    { label: 'Brand', value: search_options.Brand.name },
+    { label: 'Day', value: search_options.Day },
+  ].filter((option) => option.value !== ''),
+)
+const api_search_option = computed(() => ({
+  Suburb: search_options.Suburb,
+  Product: search_options.Product.id,
+  Region: search_options.Region.id,
+  Brand: search_options.Brand.id,
+  Day: search_options.Day,
+}))
+
+const search_results = ref<fuelwatch_xml[]>()
+
 async function apply_search_filters() {
-  const response = await axios.post('http://localhost:3000/xml', search_options)
-  console.log(response.data)
+  console.log(show_search_options)
+  const response = await axios.post('http://localhost:3000/xml', api_search_option.value)
+  search_results.value = response.data
 }
 
 function emitted_fuel_type(value: search_props) {
-  search_options.Product = value.id.toString()
+  search_options.Product = value
 }
 
 function emitted_region(value: search_props) {
-  search_options.Region = value.id.toString()
+  search_options.Region = value
 }
 
 function emitted_fuel_brand(value: search_props) {
-  search_options.Brand = value.id.toString()
+  search_options.Brand = value
 }
 
 function emitted_day(value: string) {
@@ -105,47 +136,28 @@ function emitted_day(value: string) {
         </button>
       </form>
     </section>
-    {{ search_options }}
+
+    <!-- search options show cards -->
+
+    <section class="space-y-2">
+      <p class="">Filters</p>
+      <div class="flex space-x-2 items-center">
+        <div
+          class="border px-4 py-2 rounded-lg text-sm bg-foreground text-primary-foreground"
+          v-for="(item, index) in show_search_options"
+          :key="index"
+        >
+          {{ item.label }} : {{ item.value }}
+        </div>
+      </div>
+    </section>
+
     <!-- search results -->
     <section class="space-y-4">
-      <p class="text-primary/75">4 stations found</p>
+      <p class="text-primary/75">{{ search_results?.length }} stations found</p>
 
-      <div class="p-4 border flex flex-col gap-4 lg:flex-row lg:space-x-20">
-        <div class="flex space-x-4 items-center">
-          <img src="../../../assets/shell.png" class="w-[40px] h-[40px] object-contain" />
-          <div>
-            <p class="text-xl font-semibold">Better Choice Como</p>
-            <div class="flex space-x-2 items-center text-primary/85 text-sm">
-              <i class="pi pi-map-marker"></i>
-              <p>25 Preston St, COMO, WA 6152</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- price -->
-        <div class="gap-2 flex flex-col md:flex-row md:gap-6 lg:justify-between">
-          <div>
-            <p class="text-sm font-light">ULP . Today</p>
-            <p class="font-bold text-xl">$1.53</p>
-          </div>
-
-          <div>
-            <p class="text-sm font-light">Brand</p>
-            <p class="font-bold text-xl">Costco</p>
-          </div>
-          <div>
-            <p class="text-sm font-light">Address</p>
-            <p class="font-bold text-xl">Airport Dr (Cnr Paltridge Rd)</p>
-          </div>
-          <div>
-            <p class="text-sm font-light">Phone</p>
-            <p class="font-bold text-xl">0420668774</p>
-          </div>
-          <div>
-            <p class="text-sm font-light">Date</p>
-            <p class="font-bold text-xl">12/04/2025</p>
-          </div>
-        </div>
+      <div v-for="(item, index) in search_results" :key="index">
+        <Search_Result_Card :station="item"></Search_Result_Card>
       </div>
     </section>
   </main>
