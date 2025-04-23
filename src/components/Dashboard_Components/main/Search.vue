@@ -141,7 +141,7 @@ function emitted_day(value: string) {
 
     <section class="space-y-2">
       <p class="">Filters</p>
-      <div class="flex space-x-2 items-center">
+      <div class="flex flex-col gap-2 items-start md:flex-row md:items-center">
         <div
           class="border px-4 py-2 rounded-lg text-sm bg-foreground text-primary-foreground"
           v-for="(item, index) in show_search_options"

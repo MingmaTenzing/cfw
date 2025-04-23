@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="p-4 border flex flex-col gap-4 lg:flex-row hover:ring lg:space-x-20">
+  <div class="p-4 border flex flex-col gap-4 md:gap-6 lg:flex-row hover:ring lg:space-x-20">
     <div class="flex space-x-4 items-center lg:w-[30%]">
       <img :src="station.brand_image" class="w-[40px] h-[40px] object-contain" />
       <div>
