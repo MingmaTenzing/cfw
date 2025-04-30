@@ -61,6 +61,8 @@ const no_stations_found = ref<boolean>(false)
 
 const search_result_loading = ref<boolean>(false)
 
+const show_search_results = ref<boolean>(false)
+
 const search_result_section = useTemplateRef('search_result')
 async function apply_search_filters() {
   search_result_section.value?.scrollIntoView({ behavior: 'smooth' })
@@ -69,11 +71,14 @@ async function apply_search_filters() {
     search_result_loading.value = true
     const response = await axios.post('http://localhost:3000/xml', api_search_option.value)
     search_results.value = response.data
+    show_search_results.value = true
     if (search_results.value) {
       no_stations_found.value = false
       search_result_loading.value = false
     }
   } catch (error) {
+    show_search_results.value = true
+
     search_result_loading.value = false
     if (error instanceof AxiosError) {
       if (error.status == 404) {
@@ -205,8 +210,6 @@ function emitted_day(value: string) {
 
     <!-- search results -->
     <section ref="search_result">
-      <p class="text-primary/75">Search Results</p>
-
       <div v-if="search_result_loading" class="space-y-4">
         <div v-for="(item, index) in search_loading_random_array" :key="index">
           <Search_Result_Card_Loading></Search_Result_Card_Loading>
