@@ -164,7 +164,7 @@ function emitted_day(value: string) {
         <div class="gap-2 flex flex-col">
           <p class="text-sm">Day</p>
           <DropDown
-            default_option="Today"
+            :default_option="search_options.Day"
             @selected_value="emitted_day"
             :dropdown-options="['Today', 'Tomorrow', 'Yesterday']"
           ></DropDown>

@@ -8,11 +8,11 @@ const props = defineProps({
   },
   default_option: {
     type: String,
-    default: 'ULP',
+    default: 'Today',
   },
 })
 const toggle = ref(false)
-const selectedOption = ref(props.default_option)
+const selectedOption = ref(props.default_option || 'Today')
 
 const emit = defineEmits<{
   (event: 'selected_value', value: string): void
