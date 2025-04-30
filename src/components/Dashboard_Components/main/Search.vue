@@ -1,16 +1,23 @@
 <script lang="ts" setup>
 import DropDown from '@/components/main_components/Drop-down.vue'
-import { computed, reactive, ref } from 'vue'
-import axios from 'axios'
+import { computed, reactive, ref, useTemplateRef } from 'vue'
+import axios, { AxiosError } from 'axios'
 import { fuelBrands, locations, fuelProducts } from '../../../../utils/search_options'
 import SearchOptionDropdown from '../components/SearchOptionDropdown.vue'
 import type { fuelwatch_xml, search_props } from '../../../../types'
 import Search_Result_Card from '../components/Search_Result_Card.vue'
+import Search_Result_Card_Loading from '../components/Search_Result_Card_Loading.vue'
 
 // const brands = fuelBrands.map((data) => data.name)
 // const regions = locations.map((data) => data.name)
 
 // const product = fuelProducts.map((data) = >)
+
+const search_loading_random_array = Array(10)
+  .fill(0)
+  .map(() => Math.round(Math.random() * 10))
+
+console.log(search_loading_random_array)
 
 const search_options = reactive({
   Suburb: '',
@@ -48,10 +55,42 @@ const api_search_option = computed(() => ({
 
 const search_results = ref<fuelwatch_xml[]>()
 
+const no_stations_found = ref<boolean>(false)
+
+const search_result_loading = ref<boolean>(false)
+
+const search_result_section = useTemplateRef('search_result')
 async function apply_search_filters() {
-  console.log(show_search_options)
-  const response = await axios.post('http://localhost:3000/xml', api_search_option.value)
-  search_results.value = response.data
+  search_result_section.value?.scrollIntoView({ behavior: 'smooth' })
+  try {
+    no_stations_found.value = false
+    search_result_loading.value = true
+    const response = await axios.post('http://localhost:3000/xml', api_search_option.value)
+    search_results.value = response.data
+    if (search_results.value) {
+      no_stations_found.value = false
+      search_result_loading.value = false
+    }
+  } catch (error) {
+    search_result_loading.value = false
+    if (error instanceof AxiosError) {
+      if (error.status == 404) {
+        no_stations_found.value = true
+        console.log(no_stations_found.value)
+      }
+    }
+  }
+}
+
+function clearFilter_Options() {
+  search_options.Suburb = ''
+  search_options.Product.name = ''
+  search_options.Product.id = ''
+  search_options.Region.name = ''
+  search_options.Region.id = ''
+  search_options.Brand.name = ''
+  search_options.Brand.id = ''
+  search_options.Day = ''
 }
 
 function emitted_fuel_type(value: search_props) {
@@ -72,7 +111,7 @@ function emitted_day(value: string) {
 </script>
 <template>
   <main
-    class="bg-background text-primary p-4 min-h-[100vh] space-y-20 xl:w-[1200px] 2xl:w-[1600px] m-auto"
+    class="bg-background text-primary p-4 min-h-[100vh] space-y-8 xl:w-[1200px] 2xl:w-[1600px] m-auto"
   >
     <!-- search input and filters -->
     <section class="border p-4 rounded-lg">
@@ -126,21 +165,29 @@ function emitted_day(value: string) {
             :dropdown-options="['Today', 'Tomorrow', 'Yesterday']"
           ></DropDown>
         </div>
-
-        <button
-          type="submit"
-          class="bg-foreground text-secondary flex justify-center items-center gap-4 py-3 rounded-lg w-full"
-        >
-          <i class="pi-filter pi"> </i>
-          <p>Search</p>
-        </button>
+        <div class="flex items-center gap-4">
+          <button
+            type="button"
+            v-on:click="clearFilter_Options"
+            class="bg-accent text-accent-foreground flex justify-center items-center gap-4 py-3 rounded-lg w-full"
+          >
+            <i class="pi-filter-slash pi"> </i>
+            <p>Clear Filter</p>
+          </button>
+          <button
+            type="submit"
+            class="bg-foreground text-secondary flex justify-center items-center gap-4 py-3 rounded-lg w-full"
+          >
+            <i class="pi-filter pi"> </i>
+            <p>Search</p>
+          </button>
+        </div>
       </form>
     </section>
 
     <!-- search options show cards -->
 
-    <section class="space-y-2">
-      <p class="">Filters</p>
+    <section class="h-[80px]">
       <div class="flex flex-col gap-2 items-start md:flex-row md:items-center">
         <div
           class="border px-4 py-2 rounded-lg text-sm bg-foreground text-primary-foreground"
@@ -153,12 +200,28 @@ function emitted_day(value: string) {
     </section>
 
     <!-- search results -->
-    <section class="space-y-4">
-      <p class="text-primary/75">{{ search_results?.length }} stations found</p>
+    <section ref="search_result">
+      <p class="text-primary/75">Search Results</p>
 
-      <div v-for="(item, index) in search_results" :key="index">
-        <Search_Result_Card :station="item"></Search_Result_Card>
+      <div v-if="search_result_loading" class="space-y-4">
+        <div v-for="(item, index) in search_loading_random_array" :key="index">
+          <Search_Result_Card_Loading></Search_Result_Card_Loading>
+        </div>
       </div>
+
+      <section v-if="no_stations_found" class="h-[30vh] flex justify-center items-center">
+        <div class="flex justify-center items-center space-x-4 text-2xl font-semibold">
+          <i class="pi pi-ban"></i>
+          <p>No Fuel Stations Found</p>
+        </div>
+      </section>
+      <section v-else="no_stations_found" class="space-y-4">
+        <p class="text-primary/75">{{ search_results?.length }} Stations Found</p>
+
+        <div v-for="(item, index) in search_results" :key="index">
+          <Search_Result_Card :station="item"></Search_Result_Card>
+        </div>
+      </section>
     </section>
   </main>
 </template>
