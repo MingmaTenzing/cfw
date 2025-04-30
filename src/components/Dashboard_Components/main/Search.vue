@@ -19,6 +19,8 @@ const search_loading_random_array = Array(10)
 
 console.log(search_loading_random_array)
 
+const fuelType = ref(fuelProducts)
+
 const search_options = reactive({
   Suburb: '',
   Product: {
@@ -94,7 +96,9 @@ function clearFilter_Options() {
 }
 
 function emitted_fuel_type(value: search_props) {
-  search_options.Product = value
+  if (value) {
+    search_options.Product = value
+  }
 }
 
 function emitted_region(value: search_props) {
@@ -131,8 +135,8 @@ function emitted_day(value: string) {
           <p class="text-sm">Fuel Type</p>
           <SearchOptionDropdown
             @selected_value="emitted_fuel_type"
-            :default_option="fuelProducts[0]"
-            :dropdown-options="fuelProducts"
+            :default_option="fuelType[0]"
+            :dropdown-options="fuelType"
           ></SearchOptionDropdown>
         </div>
 

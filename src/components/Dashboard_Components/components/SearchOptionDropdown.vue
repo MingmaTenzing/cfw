@@ -27,7 +27,7 @@ function option_selected(item: search_props) {
     class="h-[140px] overflow-y-scroll scrollbar-hide rounded-lg border text-sm p-2 relative w-full"
   >
     <div v-on:click="toggle = !toggle" class="flex items-center justify-between">
-      <p>{{ selectedOption.name }}</p>
+      <p>{{ selectedOption.name || 'select option' }}</p>
       <i class="pi pi-chevron-down"></i>
     </div>
     <Transition name="dropdown">
@@ -45,7 +45,7 @@ function option_selected(item: search_props) {
   </div>
   <div v-else class="rounded-lg border text-sm p-2 relative w-full">
     <div v-on:click="toggle = !toggle" class="flex items-center justify-between">
-      <p>{{ selectedOption.name }}</p>
+      <p>{{ selectedOption.name || 'select option' }}</p>
       <i class="pi pi-chevron-down"></i>
     </div>
     <Transition name="dropdown">
