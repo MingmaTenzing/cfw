@@ -9,7 +9,7 @@ import type { map_props } from '../../../utils/map_props'
 import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
 import type { FuelStation, queryFilterModalContext } from '../../../types'
 import axios from 'axios'
-import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
+import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
 
 const router = useRouter()
 const inject_theme = inject<themeContext>('theme', {
@@ -31,6 +31,22 @@ const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles :
 const locations = ref<FuelStation[]>([])
 
 const { filter_modal_open_close } = inject<queryFilterModalContext>('search_filter_modal')!
+
+// example
+const flightPlanCoordinates = [
+  { lat: 37.772, lng: -122.214 },
+  { lat: 21.291, lng: -157.821 },
+  { lat: -18.142, lng: 178.431 },
+  { lat: -27.467, lng: 153.027 },
+]
+
+const flightPath = {
+  path: flightPlanCoordinates,
+  geodesic: true,
+  strokeColor: '#6B7280',
+  strokeOpacity: 1.0,
+  strokeWeight: 2,
+}
 
 onMounted(async () => {
   loading_map.value = true
@@ -97,6 +113,7 @@ function map_is_ready() {
           </div>
         </CustomMarker>
       </MarkerCluster>
+      <Polyline :options="flightPath" />
     </GoogleMap>
 
     <!-- blurrrr -->
