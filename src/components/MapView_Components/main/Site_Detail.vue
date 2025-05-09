@@ -160,10 +160,6 @@ watch(
       >
         <div class="flex items-center gap-1">
           <p class="font-medium text-3xl">ULP</p>
-          <img
-            src="../../assets/local_gas_station_100dp_000000_FILL0_wght400_GRAD0_opsz48.svg"
-            class="dark:invert"
-          />
         </div>
         <div v-if="site_details" class="">
           <p class="text-card-foreground text-4xl font-bold">
