@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { onMounted, ref, watch } from 'vue'
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { type FuelStation, type fuelwatch_site_details, type site_details } from '../../../../types'
 
 const route = useRoute()
@@ -25,6 +25,7 @@ const months = ref([
   'December',
 ])
 
+const router = useRouter()
 const site_details = ref<site_details>()
 const site_price_details = ref<FuelStation>()
 
@@ -88,7 +89,7 @@ watch(
     </div>
 
     <!-- trading hours -->
-    <div class="border-b border-border p-4 text-sm space-y-4">
+    <div class="border-b border-border p-4 text-sm">
       <!-- toggle trading hours -->
       <div
         @click="show_trading_hours = !show_trading_hours"
@@ -107,7 +108,7 @@ watch(
       <!-- if trades 24 hours -->
       <section v-if="site_price_details?.operates247 == true">
         <Transition name="dropdown">
-          <div v-if="show_trading_hours" class="p-2 text-primary font-light text-xs">
+          <div v-if="show_trading_hours" class="p-4 text-primary font-light text-xs">
             <table class="table-auto">
               <thead class=""></thead>
               <tbody class="space-y-1">
@@ -130,7 +131,7 @@ watch(
       <!-- if has specific trading hours -->
       <section v-else class="">
         <Transition name="dropdown">
-          <div v-if="show_trading_hours" class="p-2 text-primary font-light text-xs">
+          <div v-if="show_trading_hours" class="p-4 text-primary font-light text-xs">
             <table class="table-fixed">
               <thead class=""></thead>
               <tbody class="">
@@ -150,6 +151,20 @@ watch(
           </div>
         </Transition>
       </section>
+    </div>
+
+    <!-- get directions  -->
+
+    <div
+      v-on:click="
+        router.push(
+          `/sites/get-directions/${site_details?.address.line1},${site_details?.address.location}`,
+        )
+      "
+      class="border-b border-border p-4 flex gap-2 items-center cursor-pointer"
+    >
+      <i class="pi pi-directions"></i>
+      <p class="font-light text-sm text-secondary-foreground">Get Directions</p>
     </div>
 
     <!-- boxes with details -->
