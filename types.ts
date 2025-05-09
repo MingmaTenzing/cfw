@@ -1,3 +1,8 @@
+export interface search_props {
+  id: string
+  name: string
+}
+
 export interface fuel_brand {
   name: string
   description: string

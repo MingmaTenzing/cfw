@@ -1,4 +1,5 @@
 import OverView from '@/components/Dashboard_Components/main/OverView.vue'
+import Search from '@/components/Dashboard_Components/main/Search.vue'
 import Pirce_List from '@/components/MapView_Components/main/Pirce_List.vue'
 import Site_Detail from '@/components/MapView_Components/main/Site_Detail.vue'
 import Dashboard_View from '@/views/Dashboard_View.vue'
@@ -34,6 +35,11 @@ const router = createRouter({
           path: 'overview',
           component: OverView,
           name: 'Dashboard Overview',
+        },
+        {
+          path: 'search',
+          component: Search,
+          name: 'Search',
         },
       ],
     },

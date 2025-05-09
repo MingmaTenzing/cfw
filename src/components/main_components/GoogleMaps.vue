@@ -9,13 +9,15 @@ import type { map_props } from '../../../utils/map_props'
 import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
 import type { FuelStation, queryFilterModalContext } from '../../../types'
 import axios from 'axios'
-import { CustomMarker, GoogleMap, MarkerCluster } from 'vue3-google-map'
+import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
 
 const router = useRouter()
 const inject_theme = inject<themeContext>('theme', {
   theme: 'dark',
   changeTheme: () => undefined,
 })
+
+const polylineref = ref<google.maps.Polyline>()
 
 const { center } = inject<map_props>('map_center', {
   center: { lat: -31.953512, lng: 115.857048 },
@@ -32,6 +34,52 @@ const locations = ref<FuelStation[]>([])
 
 const { filter_modal_open_close } = inject<queryFilterModalContext>('search_filter_modal')!
 
+// example
+const flightPlanCoordinates = [
+  {
+    lat: -31.948689,
+    lng: 115.869567,
+  },
+  { lat: -31.940377, lng: 115.951869 },
+  { lat: -31.925213, lng: 115.951987 },
+  {
+    lat: -31.869,
+    lng: 115.924439,
+  },
+]
+
+const secondary_cord = [
+  {
+    lat: -31.945612,
+    lng: 115.852438,
+  },
+  {
+    lat: -31.945494,
+    lng: 115.839719,
+  },
+  {
+    lat: -31.952307,
+    lng: 115.83115,
+  },
+]
+
+const flightPath = ref<google.maps.PolylineOptions>({
+  path: flightPlanCoordinates,
+  geodesic: true,
+  strokeColor: '#707070',
+  strokeOpacity: 1.0,
+  strokeWeight: 5,
+})
+const main_cords = ref(flightPath)
+
+const second_flightPath = ref<google.maps.PolylineOptions>({
+  path: secondary_cord,
+  geodesic: true,
+  strokeColor: '#707070',
+  strokeOpacity: 1.0,
+  strokeWeight: 5,
+})
+
 onMounted(async () => {
   loading_map.value = true
   const response = await axios.get<FuelStation[]>('http://localhost:3000')
@@ -40,6 +88,7 @@ onMounted(async () => {
 
 function route_to_station_details(site: FuelStation) {
   router.push(`/sites/${site.id}`)
+  main_cords.value = second_flightPath.value
 }
 
 function map_is_ready() {
@@ -47,6 +96,8 @@ function map_is_ready() {
   console.log('sdfd')
   console.log(`maps have loaded,  loading map value is ${loading_map.value} `)
 }
+
+function addLine() {}
 </script>
 
 <template>
@@ -97,6 +148,7 @@ function map_is_ready() {
           </div>
         </CustomMarker>
       </MarkerCluster>
+      <Polyline ref="polylineref" :options="main_cords" />
     </GoogleMap>
 
     <!-- blurrrr -->

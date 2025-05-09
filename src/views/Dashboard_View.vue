@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Header_Component from '@/components/Dashboard_Components/components/Header_Component.vue'
 import SideBar from '@/components/main_components/SideBar.vue'
 import { provide, ref } from 'vue'
 import { RouterView } from 'vue-router'
@@ -16,12 +17,13 @@ provide('toggle_side_bar', {
 </script>
 
 <template>
-  <main class="flex bg-background relative">
+  <main class="bg-background relative p-4">
+    <Header_Component></Header_Component>
+
+    <RouterView></RouterView>
     <Transition>
       <SideBar v-if="show_side_bar" class="fixed left-0 top-0 z-10 shadow-2xl"> </SideBar>
     </Transition>
-
-    <RouterView></RouterView>
   </main>
 </template>
 

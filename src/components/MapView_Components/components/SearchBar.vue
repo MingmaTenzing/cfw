@@ -97,7 +97,7 @@ function clear_filter() {
           <DropDown
             :default_option="fuel_type_options[0]"
             :dropdown-options="fuel_type_options"
-            @selected_fuelType="emmited_value_from_dropdown"
+            @selected_value="emmited_value_from_dropdown"
           ></DropDown>
         </div>
 
