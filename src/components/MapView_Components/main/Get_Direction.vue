@@ -2,8 +2,16 @@
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import {data} from "../../../../example"
+
 const router = useRouter()
 const route = useRoute()
+
+const api_response = data.routes[0]
+console.log(api_response.legs)
+
+
+const starting_position = "111 Broun Avenue"
 
 const directions = [
   {
@@ -44,6 +52,8 @@ const directions = [
 ]
 
 const site_address = route.params.address
+
+
 
 // navigator.geolocation.getCurrentPosition((position) => {
 //   console.log(position)
