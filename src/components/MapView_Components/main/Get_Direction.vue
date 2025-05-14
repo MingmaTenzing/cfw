@@ -1,17 +1,30 @@
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
-import {data} from "../../../../example"
-
+import polyline from 'google-polyline'
+import data from '../../../../example.json'
 const router = useRouter()
 const route = useRoute()
 
-const api_response = data.routes[0]
-console.log(api_response.legs)
+const api_response = data.routes
+console.log(api_response)
 
+const navigation_steps = api_response[0].legs[0].steps
+console.log(navigation_steps)
+const starting_position = '111 Broun Avenue'
 
-const starting_position = "111 Broun Avenue"
+const polyline_encoded = api_response[0].polyline.encodedPolyline
+console.log(polyline_encoded)
+
+const decoded_polyline = polyline.decode(polyline_encoded)
+console.log(decoded_polyline)
+
+const lat_lng_poly = decoded_polyline.map((data) => ({
+  lat: data[0],
+  lng: data[1],
+}))
+
+console.log(lat_lng_poly)
 
 const directions = [
   {
@@ -52,8 +65,6 @@ const directions = [
 ]
 
 const site_address = route.params.address
-
-
 
 // navigator.geolocation.getCurrentPosition((position) => {
 //   console.log(position)
@@ -109,7 +120,7 @@ onMounted(() => {})
 
     <!-- steps -->
     <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
-      <div class="flex relative space-x-4" v-for="(item, index) in directions" :key="index">
+      <div class="flex relative space-x-4" v-for="(step, index) in navigation_steps" :key="index">
         <div class="relative">
           <p class="px-[6px] bg-primary text-secondary rounded-full text-sm z-20">{{ index }}</p>
           <div
@@ -117,8 +128,11 @@ onMounted(() => {})
           ></div>
         </div>
         <div class="">
-          <p>{{ item.step }}</p>
-          <p class="text-primary/70">{{ item.distance }} | {{ item.duration }}</p>
+          <p>{{ step.navigationInstruction.instructions }}</p>
+          <p class="text-primary/70">
+            {{ step.localizedValues.distance.text }} |
+            {{ step.localizedValues.staticDuration.text }}
+          </p>
         </div>
       </div>
     </div>

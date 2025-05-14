@@ -1,0 +1,430 @@
+{
+  "routes": [
+    {
+      "legs": [
+        {
+          "distanceMeters": 18539,
+          "duration": "1348s",
+          "staticDuration": "1276s",
+          "polyline": {
+            "encodedPolyline": "`puaE{ulbUiB}@kC}Aw@s@iCqCyAcCa@u@e@iAm@iBs@aDg@wDUkDOcE@}Ap@yP?{BGkBA[~@YdFmBz@Kl@AT@vBb@lG~@tFp@fBXlBVlDb@j@i@\\}B\\iBZkAnEuM^}Ad@}CL{B?uDCk@b@Al@q@l@a@n@IzDAdML|BNt@NjAGvEKbJa@hAMfGy@lE_ArBo@rBw@`AYjFyBnB_AbA_@xAy@r@a@lFyDbAy@pEwEfCsCdAuAnEcHpCqFtA}BpAiBhB}BhIkIzCeD^W~BiCxAkBnBwBbEgFtFqHpG_JbFyGlAwAzB{BxBkBtAaAnD}BfK}FlF_D|B{ApEeDnKqIzFuEvA_AfCmApAe@xCy@hCe@tAOvAEdD?x@BtBRbLtBzE~@PKpCd@jIfArAFj@?RIz@Cv@KbBk@zAcAbGmE`Aq@x@c@pAi@nB]p@CvA@n@H|@Nt@TdBz@nA`AxMtO~BvBdD|BnKpGtCrBhDzCbWhXdC|CxClE`BnCrHlN|CfFvBvClF|GrEtFjHfJdBxBnJtKfAdA~AbA`C|@VIx@JxB?hDUrB]d@EfBJxAZPOXA\\LL`@@b@Gd@Q`@OHMh@C~@?|EE`AWpYOfLKn@?dEOpNCpGMfLDXCfAAV[AuAKu@Ac@De@PoBbAONuBhAm@^gCvAgF~CgCrAoSpLiAj@}@n@uJvF{@b@x@dANXnBbFbCtG\\~@`GaDzEsC"
+          },
+          "startLocation": {
+            "latLng": {
+              "latitude": -31.9003339,
+              "longitude": 115.90510409999999
+            }
+          },
+          "endLocation": {
+            "latLng": {
+              "latitude": -31.9866429,
+              "longitude": 115.90444730000002
+            }
+          },
+          "steps": [
+            {
+              "distanceMeters": 1279,
+              "staticDuration": "95s",
+              "polyline": {
+                "encodedPolyline": "`puaE{ulbUiB}@kC}Aw@s@iCqCyAcCa@u@e@iAm@iBs@aDg@wDUkDOcE@}Ap@yP?{BGkB"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.9003339,
+                  "longitude": 115.90510409999999
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.896662199999998,
+                  "longitude": 115.916753
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "DEPART",
+                "instructions": "Head northeast on Broun Ave/State Route 53 toward Johnsmith St"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "1.3 km"
+                },
+                "staticDuration": {
+                  "text": "2 mins"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 743,
+              "staticDuration": "71s",
+              "polyline": {
+                "encodedPolyline": "bytaEu~nbUA[~@YdFmBz@Kl@AT@vBb@lG~@tFp@fBXlBV"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.896662199999998,
+                  "longitude": 115.916753
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.9030083,
+                  "longitude": 115.9166278
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "TURN_RIGHT",
+                "instructions": "Turn right onto Embleton Ave"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "0.7 km"
+                },
+                "staticDuration": {
+                  "text": "1 min"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 98,
+              "staticDuration": "12s",
+              "polyline": {
+                "encodedPolyline": "x`vaE}}nbUlDb@"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.9030083,
+                  "longitude": 115.9166278
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.903876300000004,
+                  "longitude": 115.91644950000001
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "NAME_CHANGE",
+                "instructions": "Continue onto Beechboro Rd S"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "0.1 km"
+                },
+                "staticDuration": {
+                  "text": "1 min"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 705,
+              "staticDuration": "94s",
+              "polyline": {
+                "encodedPolyline": "ffvaEy|nbUj@i@\\}B\\iBZkAnEuM^}Ad@}CL{B?uD"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.903876300000004,
+                  "longitude": 115.91644950000001
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.905995700000002,
+                  "longitude": 115.9233373
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "TURN_LEFT",
+                "instructions": "Turn left onto Collier Rd"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "0.7 km"
+                },
+                "staticDuration": {
+                  "text": "2 mins"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 6735,
+              "staticDuration": "282s",
+              "polyline": {
+                "encodedPolyline": "nsvaE{gpbUCk@b@Al@q@l@a@n@IzDAdML|BNt@NjAGvEKbJa@hAMfGy@lE_ArBo@rBw@`AYjFyBnB_AbA_@xAy@r@a@lFyDbAy@pEwEfCsCdAuAnEcHpCqFtA}BpAiBhB}BhIkIzCeD^W~BiCxAkBnBwBbEgFtFqHpG_JbFyGlAwAzB{BxBkBtAaAnD}BfK}FlF_D|B{ApEeDnKqIzFuEvA_AfCmApAe@xCy@hCe@tAOvAEdD?x@BtBRbLtBzE~@"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.905995700000002,
+                  "longitude": 115.9233373
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.9567093,
+                  "longitude": 115.9543427
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "RAMP_RIGHT",
+                "instructions": "Turn right to merge onto Tonkin Hwy/State Route 4"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "6.7 km"
+                },
+                "staticDuration": {
+                  "text": "5 mins"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 1152,
+              "staticDuration": "53s",
+              "polyline": {
+                "encodedPolyline": "lp`bEsivbUPKpCd@jIfArAFj@?RIz@Cv@KbBk@zAcAbGmE`Aq@x@c@pAi@nB]p@CvA@n@H|@Nt@TdBz@"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.9567093,
+                  "longitude": 115.9543427
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.9663798,
+                  "longitude": 115.95579289999999
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "RAMP_LEFT",
+                "instructions": "Take the State Rte 7/Leach Hwy exit toward Welshpool/Fremantle"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "1.2 km"
+                },
+                "staticDuration": {
+                  "text": "1 min"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 3666,
+              "staticDuration": "170s",
+              "polyline": {
+                "encodedPolyline": "zlbbEurvbUnA`AxMtO~BvBdD|BnKpGtCrBhDzCbWhXdC|CxClE`BnCrHlN|CfFvBvClF|GrEtFjHfJdBxBnJtKfAdA~AbA`C|@"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.9663798,
+                  "longitude": 115.95579289999999
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.990532399999996,
+                  "longitude": 115.92975399999999
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "NAME_CHANGE",
+                "instructions": "Continue onto Leach Hwy/State Route 7"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "3.7 km"
+                },
+                "staticDuration": {
+                  "text": "3 mins"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 406,
+              "staticDuration": "30s",
+              "polyline": {
+                "encodedPolyline": "xcgbE}oqbUVIx@JxB?hDUrB]d@EfBJxAZ"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.990532399999996,
+                  "longitude": 115.92975399999999
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.994135300000003,
+                  "longitude": 115.92982859999998
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "RAMP_LEFT",
+                "instructions": "Slight left onto the ramp to Welshpool Rd"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "0.4 km"
+                },
+                "staticDuration": {
+                  "text": "1 min"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 1645,
+              "staticDuration": "181s",
+              "polyline": {
+                "encodedPolyline": "jzgbEmpqbUPOXA\\LL`@@b@Gd@Q`@OHMh@C~@?|EE`AWpYOfLKn@?dEOpNCpGMfLDXCfA"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.994135300000003,
+                  "longitude": 115.92982859999998
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.993840000000002,
+                  "longitude": 115.9130506
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "ROUNDABOUT_LEFT",
+                "instructions": "At the roundabout, take the 3rd exit onto Welshpool Rd"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "1.6 km"
+                },
+                "staticDuration": {
+                  "text": "3 mins"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 1437,
+              "staticDuration": "140s",
+              "polyline": {
+                "encodedPolyline": "nxgbEqgnbUAV[AuAKu@Ac@De@PoBbAONuBhAm@^gCvAgF~CgCrAoSpLiAj@}@n@uJvF{@b@"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.993840000000002,
+                  "longitude": 115.9130506
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.9825126,
+                  "longitude": 115.90622950000001
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "TURN_RIGHT",
+                "instructions": "Turn right onto Shepperton Rd/State Route 30"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "1.4 km"
+                },
+                "staticDuration": {
+                  "text": "2 mins"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 370,
+              "staticDuration": "70s",
+              "polyline": {
+                "encodedPolyline": "tqebE}|lbUx@dANXnBbFbCtG\\~@"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.9825126,
+                  "longitude": 115.90622950000001
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.9842515,
+                  "longitude": 115.90290359999999
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "TURN_LEFT",
+                "instructions": "Turn left onto Mint St"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "0.4 km"
+                },
+                "staticDuration": {
+                  "text": "1 min"
+                }
+              },
+              "travelMode": "DRIVE"
+            },
+            {
+              "distanceMeters": 303,
+              "staticDuration": "78s",
+              "polyline": {
+                "encodedPolyline": "p|ebEchlbU`GaDzEsC"
+              },
+              "startLocation": {
+                "latLng": {
+                  "latitude": -31.9842515,
+                  "longitude": 115.90290359999999
+                }
+              },
+              "endLocation": {
+                "latLng": {
+                  "latitude": -31.9866429,
+                  "longitude": 115.90444730000002
+                }
+              },
+              "navigationInstruction": {
+                "maneuver": "TURN_LEFT",
+                "instructions": "Turn left onto Albany Hwy\nDestination will be on the left"
+              },
+              "localizedValues": {
+                "distance": {
+                  "text": "0.3 km"
+                },
+                "staticDuration": {
+                  "text": "1 min"
+                }
+              },
+              "travelMode": "DRIVE"
+            }
+          ],
+          "localizedValues": {
+            "distance": {
+              "text": "18.5 km"
+            },
+            "duration": {
+              "text": "22 mins"
+            },
+            "staticDuration": {
+              "text": "21 mins"
+            }
+          }
+        }
+      ],
+      "distanceMeters": 18539,
+      "duration": "1348s",
+      "polyline": {
+        "encodedPolyline": "`puaE{ulbUiB}@kC}Aw@s@iCqCyAcCa@u@e@iAm@iBs@aDg@wDUkDOcE@}Ap@yP?{BGkBA[~@YdFmBz@Kl@AT@vBb@lG~@tFp@fBXlBVlDb@j@i@\\}B\\iBZkAnEuM^}Ad@}CL{B?uDCk@b@Al@q@l@a@n@IzDAdML|BNt@NjAGvEKbJa@hAMfGy@lE_ArBo@rBw@`AYjFyBnB_AbA_@xAy@r@a@lFyDbAy@pEwEfCsCdAuAnEcHpCqFtA}BpAiBhB}BhIkIzCeD^W~BiCxAkBnBwBbEgFtFqHpG_JbFyGlAwAzB{BxBkBtAaAnD}BfK}FlF_D|B{ApEeDnKqIzFuEvA_AfCmApAe@xCy@hCe@tAOvAEdD?x@BtBRbLtBzE~@PKpCd@jIfArAFj@?RIz@Cv@KbBk@zAcAbGmE`Aq@x@c@pAi@nB]p@CvA@n@H|@Nt@TdBz@nA`AxMtO~BvBdD|BnKpGtCrBhDzCbWhXdC|CxClE`BnCrHlN|CfFvBvClF|GrEtFjHfJdBxBnJtKfAdA~AbA`C|@VIx@JxB?hDUrB]d@EfBJxAZPOXA\\LL`@@b@Gd@Q`@OHMh@C~@?|EE`AWpYOfLKn@?dEOpNCpGMfLDXCfAAV[AuAKu@Ac@De@PoBbAONuBhAm@^gCvAgF~CgCrAoSpLiAj@}@n@uJvF{@b@x@dANXnBbFbCtG\\~@`GaDzEsC"
+      }
+    }
+  ]
+}
