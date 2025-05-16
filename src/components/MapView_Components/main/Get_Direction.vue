@@ -1,47 +1,67 @@
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import polyline from 'google-polyline'
 import data from '../../../../example.json'
 import { maps_polyline } from '@/stores/polyline'
+import axios from 'axios'
 const router = useRouter()
 const route = useRoute()
 
+const api_key: string = import.meta.env.VITE_API_KEY_MAPS
+
 const polyline_store = maps_polyline()
 
+const starting_address = ref()
+const site_address = route.params.address
+
+console.log(typeof site_address)
+
 const api_response = data.routes
-console.log(api_response)
 
 const navigation_steps = api_response[0].legs[0].steps
-console.log(navigation_steps)
-const starting_position = '111 Broun Avenue'
 
 const polyline_encoded = api_response[0].polyline.encodedPolyline
-console.log(polyline_encoded)
 
 const decoded_polyline = polyline.decode(polyline_encoded)
-console.log(decoded_polyline)
 
 const lat_lng_poly = decoded_polyline.map((data) => ({
   lat: data[0],
   lng: data[1],
 }))
 
-console.log(lat_lng_poly)
-
-const site_address = route.params.address
-
-function get_user_geo_location() {
-  console.log('geo')
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      console.log('dddd')
-      console.log(position.coords.latitude, position.coords.longitude)
+async function get_route() {
+  let data = JSON.stringify({
+    origin: {
+      address: starting_address.value,
     },
-    // (error) => {
-    //   window.alert(error.TIMEOUT)
-    // },
-  )
+    destination: {
+      address: site_address,
+    },
+    travelMode: 'DRIVE',
+    routingPreference: 'TRAFFIC_AWARE',
+  })
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'https://routes.googleapis.com/directions/v2:computeRoutes',
+    headers: {
+      'X-Goog-Api-Key': api_key,
+      'X-Goog-FieldMask':
+        'routes.legs,routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline',
+      'Content-Type': 'application/json',
+    },
+    data: data,
+  }
+
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data))
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 </script>
 
@@ -53,7 +73,7 @@ function get_user_geo_location() {
       <i class="pi pi-times"></i>
     </div>
 
-    <form @submit.prevent="" class="space-y-4 p-4">
+    <form @submit.prevent="get_route" class="space-y-4 p-4">
       <!-- directions from -->
       <div class="flex space-x-2 items-baseline">
         <i class="pi pi-map-marker"></i>
@@ -61,18 +81,11 @@ function get_user_geo_location() {
           <p class="text-primary/70">From</p>
           <input
             type="text"
+            v-model="starting_address"
             placeholder="Enter Address"
             class="outline-none border border-border w-[300px] p-2 rounded-lg"
           />
-          <p>or</p>
-          <div class="">
-            <button
-              v-on:click="get_user_geo_location"
-              class="font-semibold cursor-pointer w-full border border-border p-2 rounded-lg hover:scale-105 hover:shadow-lg hover:shadow-accent transition-all ease-linear"
-            >
-              Use your Location
-            </button>
-          </div>
+          {{ starting_address }}
         </div>
       </div>
       <div class="flex space-x-2 items-baseline">
