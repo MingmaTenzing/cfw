@@ -3,8 +3,11 @@ import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import polyline from 'google-polyline'
 import data from '../../../../example.json'
+import { maps_polyline } from '@/stores/polyline'
 const router = useRouter()
 const route = useRoute()
+
+const polyline_store = maps_polyline()
 
 const api_response = data.routes
 console.log(api_response)
@@ -26,50 +29,20 @@ const lat_lng_poly = decoded_polyline.map((data) => ({
 
 console.log(lat_lng_poly)
 
-const directions = [
-  {
-    step: 'Start at Point A',
-    distance: '0 m',
-    duration: '0 min',
-  },
-  {
-    step: 'Head north on Main Street',
-    distance: '300 m',
-    duration: '4 min',
-  },
-  {
-    step: 'Turn right onto 2nd Avenue',
-    distance: '500 m',
-    duration: '6 min',
-  },
-  {
-    step: 'Turn left onto Manning Rd/State Route 26\nDestination will be on the left Turn left onto Manning Rd/State Route 26\nDestination will be on the left Turn left onto Manning Rd/State Route 26\nDestination will be on the left ',
-    distance: '200 m',
-    duration: '2 min',
-  },
-  {
-    step: 'Turn left onto Oak Street',
-    distance: '400 m',
-    duration: '5 min',
-  },
-  {
-    step: 'Arrive at Point B on the right',
-    distance: '0 m',
-    duration: '0 min',
-  },
-  {
-    step: 'Arrive at Point B on the right',
-    distance: '0 m',
-    duration: '0 min',
-  },
-]
-
 const site_address = route.params.address
 
-// navigator.geolocation.getCurrentPosition((position) => {
-//   console.log(position)
-// })
-onMounted(() => {})
+function get_user_geo_location() {
+  console.log('geo')
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log('dddd')
+      console.log(position.coords.latitude, position.coords.longitude)
+    },
+    // (error) => {
+    //   window.alert(error.TIMEOUT)
+    // },
+  )
+}
 </script>
 
 <template>
@@ -80,13 +53,26 @@ onMounted(() => {})
       <i class="pi pi-times"></i>
     </div>
 
-    <form class="space-y-4 p-4">
+    <form @submit.prevent="" class="space-y-4 p-4">
       <!-- directions from -->
       <div class="flex space-x-2 items-baseline">
         <i class="pi pi-map-marker"></i>
-        <div class="">
+        <div class="space-y-2">
           <p class="text-primary/70">From</p>
-          <p class="font-semibold">Your Current Location</p>
+          <input
+            type="text"
+            placeholder="Enter Address"
+            class="outline-none border border-border w-[300px] p-2 rounded-lg"
+          />
+          <p>or</p>
+          <div class="">
+            <button
+              v-on:click="get_user_geo_location"
+              class="font-semibold cursor-pointer w-full border border-border p-2 rounded-lg hover:scale-105 hover:shadow-lg hover:shadow-accent transition-all ease-linear"
+            >
+              Use your Location
+            </button>
+          </div>
         </div>
       </div>
       <div class="flex space-x-2 items-baseline">
@@ -95,6 +81,15 @@ onMounted(() => {})
           <p class="text-primary/70">To</p>
           <p class="font-semibold">{{ site_address }}</p>
         </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="font-semibold cursor-pointer w-full border border-border p-2 rounded-lg hover:scale-105 hover:shadow-lg hover:shadow-accent transition-all ease-linear"
+        >
+          Get Directions <i class="pi pi-directions"></i>
+        </button>
       </div>
     </form>
 
