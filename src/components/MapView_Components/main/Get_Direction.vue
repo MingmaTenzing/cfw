@@ -47,12 +47,14 @@ async function get_route() {
     header_config,
   )
 
-  route_steps.value = response.data.routes[0].legs[0].steps
-  console.log(route_steps.value)
+  if (response.data.routes) {
+    route_steps.value = response.data.routes[0].legs[0]
+    console.log(route_steps.value)
 
-  let encodedPolyline = response.data.routes[0].polyline.encodedPolyline
+    let encodedPolyline = response.data.routes[0].polyline.encodedPolyline
 
-  decode_polyline(encodedPolyline)
+    decode_polyline(encodedPolyline)
+  }
 }
 
 function decode_polyline(econdedPolyline: string) {
@@ -116,21 +118,21 @@ function decode_polyline(econdedPolyline: string) {
             <p class="text-primary/70">Distance</p>
             <div class="flex items-center space-x-2">
               <i class="pi pi-map"></i>
-              <p class="font-semibold">{{ route_steps[0].localizedValues.distance.text }}</p>
+              <p class="font-semibold">{{ route_steps[0].localizedValues.distance }}</p>
             </div>
           </div>
           <div class="space-y-2">
             <p class="text-primary/70">Duration</p>
             <div class="flex items-center space-x-2">
               <i class="pi pi-clock"></i>
-              <p class="font-semibold">{{ route_steps[0].localizedValues.staticDuration.text }}</p>
+              <p class="font-semibold">{{ route_steps[0].localizedValues.staticDuration }}</p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- steps -->
-      <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
+      <!-- <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
         <div class="flex relative space-x-4" v-for="(step, index) in route_steps" :key="index">
           <div class="relative">
             <p class="px-[6px] bg-primary text-secondary rounded-full text-sm z-20">{{ index }}</p>
@@ -139,14 +141,14 @@ function decode_polyline(econdedPolyline: string) {
             ></div>
           </div>
           <div class="">
-            <p>{{ step.navigationInstruction.instructions }}</p>
+            <p>{{ step.navigationInstruction?.instructions }}</p>
             <p class="text-primary/70">
               {{ step.localizedValues.distance.text }} |
               {{ step.localizedValues.staticDuration.text }}
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
   </main>
 </template>
