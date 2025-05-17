@@ -5,33 +5,21 @@ import polyline from 'google-polyline'
 import data from '../../../../example.json'
 import { maps_polyline } from '@/stores/polyline'
 import axios from 'axios'
-const router = useRouter()
+import { type RouteStep } from '../../../../route_steps_types'
 const route = useRoute()
 
 const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 
+// polyline_store
 const polyline_store = maps_polyline()
+
+const route_steps = ref<RouteStep[]>([])
 
 const starting_address = ref()
 const site_address = route.params.address
 
-console.log(typeof site_address)
-
-const api_response = data.routes
-
-const navigation_steps = api_response[0].legs[0].steps
-
-const polyline_encoded = api_response[0].polyline.encodedPolyline
-
-const decoded_polyline = polyline.decode(polyline_encoded)
-
-const lat_lng_poly = decoded_polyline.map((data) => ({
-  lat: data[0],
-  lng: data[1],
-}))
-
 async function get_route() {
-  let data = JSON.stringify({
+  let data = {
     origin: {
       address: starting_address.value,
     },
@@ -40,8 +28,8 @@ async function get_route() {
     },
     travelMode: 'DRIVE',
     routingPreference: 'TRAFFIC_AWARE',
-  })
-  let config = {
+  }
+  let header_config = {
     method: 'post',
     maxBodyLength: Infinity,
     url: 'https://routes.googleapis.com/directions/v2:computeRoutes',
@@ -53,15 +41,28 @@ async function get_route() {
     },
     data: data,
   }
+  const response = await axios.post(
+    'https://routes.googleapis.com/directions/v2:computeRoutes',
+    data,
+    header_config,
+  )
 
-  axios
-    .request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data))
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  route_steps.value = response.data.routes[0].legs[0].steps
+  console.log(route_steps.value)
+
+  let encodedPolyline = response.data.routes[0].polyline.encodedPolyline
+
+  decode_polyline(encodedPolyline)
+}
+
+function decode_polyline(econdedPolyline: string) {
+  const decoded_polyline = polyline.decode(econdedPolyline)
+
+  const lat_lng_poly = decoded_polyline.map((data) => ({
+    lat: data[0],
+    lng: data[1],
+  }))
+  console.log(lat_lng_poly)
 }
 </script>
 
@@ -82,6 +83,7 @@ async function get_route() {
           <input
             type="text"
             v-model="starting_address"
+            required
             placeholder="Enter Address"
             class="outline-none border border-border w-[300px] p-2 rounded-lg"
           />
@@ -106,43 +108,45 @@ async function get_route() {
       </div>
     </form>
 
-    <div class="border border-border p-4">
-      <!-- distance and duration details -->
-      <div class="flex justify-between">
-        <div class="space-y-2">
-          <p class="text-primary/70">Distance</p>
-          <div class="flex items-center space-x-2">
-            <i class="pi pi-map"></i>
-            <p class="font-semibold">12.5 km</p>
+    <section v-if="route_steps[0]">
+      <div class="border border-border p-4">
+        <!-- distance and duration details -->
+        <div class="flex justify-between">
+          <div class="space-y-2">
+            <p class="text-primary/70">Distance</p>
+            <div class="flex items-center space-x-2">
+              <i class="pi pi-map"></i>
+              <p class="font-semibold">{{ route_steps[0].localizedValues.distance.text }}</p>
+            </div>
           </div>
-        </div>
-        <div class="space-y-2">
-          <p class="text-primary/70">Duration</p>
-          <div class="flex items-center space-x-2">
-            <i class="pi pi-clock"></i>
-            <p class="font-semibold">18mins</p>
+          <div class="space-y-2">
+            <p class="text-primary/70">Duration</p>
+            <div class="flex items-center space-x-2">
+              <i class="pi pi-clock"></i>
+              <p class="font-semibold">{{ route_steps[0].localizedValues.staticDuration.text }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- steps -->
-    <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
-      <div class="flex relative space-x-4" v-for="(step, index) in navigation_steps" :key="index">
-        <div class="relative">
-          <p class="px-[6px] bg-primary text-secondary rounded-full text-sm z-20">{{ index }}</p>
-          <div
-            class="h-[100%] w-[2px] bg-primary absolute top-0 left-1/2 -z-10 -translate-x-1/2"
-          ></div>
-        </div>
-        <div class="">
-          <p>{{ step.navigationInstruction.instructions }}</p>
-          <p class="text-primary/70">
-            {{ step.localizedValues.distance.text }} |
-            {{ step.localizedValues.staticDuration.text }}
-          </p>
+      <!-- steps -->
+      <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
+        <div class="flex relative space-x-4" v-for="(step, index) in route_steps" :key="index">
+          <div class="relative">
+            <p class="px-[6px] bg-primary text-secondary rounded-full text-sm z-20">{{ index }}</p>
+            <div
+              class="h-[100%] w-[2px] bg-primary absolute top-0 left-1/2 -z-10 -translate-x-1/2"
+            ></div>
+          </div>
+          <div class="">
+            <p>{{ step.navigationInstruction.instructions }}</p>
+            <p class="text-primary/70">
+              {{ step.localizedValues.distance.text }} |
+              {{ step.localizedValues.staticDuration.text }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 </template>
