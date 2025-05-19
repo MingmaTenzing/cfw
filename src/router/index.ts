@@ -1,5 +1,6 @@
 import OverView from '@/components/Dashboard_Components/main/OverView.vue'
 import Search from '@/components/Dashboard_Components/main/Search.vue'
+import Get_Direction from '@/components/MapView_Components/main/Get_Direction.vue'
 import Pirce_List from '@/components/MapView_Components/main/Pirce_List.vue'
 import Site_Detail from '@/components/MapView_Components/main/Site_Detail.vue'
 import Dashboard_View from '@/views/Dashboard_View.vue'
@@ -23,6 +24,11 @@ const router = createRouter({
           path: 'sites/:id',
           component: Site_Detail,
           name: 'Site Details',
+        },
+        {
+          path: 'sites/get-directions/:address',
+          component: Get_Direction,
+          name: 'Get Directions',
         },
       ],
     },

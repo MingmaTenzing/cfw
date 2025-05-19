@@ -120,7 +120,7 @@ function emitted_day(value: string) {
 </script>
 <template>
   <main
-    class="bg-background text-primary p-4 min-h-[100vh] space-y-8 lg:w-[1200px] xl:w-[1600px] m-auto"
+    class="bg-background text-primary p-4 min-h-[100vh] space-y-8 lg:max-w-[1200px] xl:w-[1600px] m-auto"
   >
     <!-- search input and filters -->
     <section class="border p-4 rounded-lg">
