@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import polyline from 'google-polyline'
-import data from '../../../../example.json'
+import data from "../../../../example"
 import { maps_polyline } from '@/stores/polyline'
+import polyline from "google-polyline"
 import axios from 'axios'
-import { type RouteStep } from '../../../../route_steps_types'
+import { type RoutesResponse} from '../../../../route_steps_types'
 const route = useRoute()
 
 const api_key: string = import.meta.env.VITE_API_KEY_MAPS
@@ -13,7 +13,11 @@ const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 // polyline_store
 const polyline_store = maps_polyline()
 
-const route_steps = ref<RouteStep[]>([])
+
+
+
+
+const route_steps = ref<RoutesResponse>(data)
 
 const starting_address = ref()
 const site_address = route.params.address
@@ -48,7 +52,7 @@ async function get_route() {
   )
 
   if (response.data.routes) {
-    route_steps.value = response.data.routes[0].legs[0]
+    route_steps.value = response.data
     console.log(route_steps.value)
 
     let encodedPolyline = response.data.routes[0].polyline.encodedPolyline
@@ -65,7 +69,11 @@ function decode_polyline(econdedPolyline: string) {
     lng: data[1],
   }))
   console.log(lat_lng_poly)
+
+
 }
+
+decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
 </script>
 
 <template>
@@ -73,9 +81,12 @@ function decode_polyline(econdedPolyline: string) {
     <!-- directions header -->
     <div class="p-4 border-b border-border flex justify-between">
       <p class="font-medium">Directions</p>
+
       <i class="pi pi-times"></i>
     </div>
+<div>
 
+</div>
     <form @submit.prevent="get_route" class="space-y-4 p-4">
       <!-- directions from -->
       <div class="flex space-x-2 items-baseline">
@@ -110,30 +121,31 @@ function decode_polyline(econdedPolyline: string) {
       </div>
     </form>
 
-    <section v-if="route_steps[0]">
-      <div class="border border-border p-4">
+
+    <section >
+      <div class="border-y border-border p-4">
         <!-- distance and duration details -->
         <div class="flex justify-between">
           <div class="space-y-2">
             <p class="text-primary/70">Distance</p>
             <div class="flex items-center space-x-2">
               <i class="pi pi-map"></i>
-              <p class="font-semibold">{{ route_steps[0].localizedValues.distance }}</p>
+              <p class="font-semibold">{{ route_steps.routes[0].legs[0]?.localizedValues?.distance?.text }}</p>
             </div>
           </div>
           <div class="space-y-2">
             <p class="text-primary/70">Duration</p>
             <div class="flex items-center space-x-2">
               <i class="pi pi-clock"></i>
-              <p class="font-semibold">{{ route_steps[0].localizedValues.staticDuration }}</p>
+              <p class="font-semibold">{{ route_steps.routes[0].legs[0].localizedValues?.staticDuration?.text }}</p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- steps -->
-      <!-- <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
-        <div class="flex relative space-x-4" v-for="(step, index) in route_steps" :key="index">
+      <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
+        <div class="flex relative space-x-4" v-for="(step, index) in route_steps.routes[0].legs[0].steps" :key="index">
           <div class="relative">
             <p class="px-[6px] bg-primary text-secondary rounded-full text-sm z-20">{{ index }}</p>
             <div
@@ -141,14 +153,14 @@ function decode_polyline(econdedPolyline: string) {
             ></div>
           </div>
           <div class="">
-            <p>{{ step.navigationInstruction?.instructions }}</p>
+            <p>{{ step.navigationInstruction?.instructions}}</p>
             <p class="text-primary/70">
-              {{ step.localizedValues.distance.text }} |
-              {{ step.localizedValues.staticDuration.text }}
+              {{ step.localizedValues?.distance?.text }} |
+              {{ step.localizedValues?.staticDuration?.text }}
             </p>
           </div>
         </div>
-      </div> -->
+      </div>
     </section>
   </main>
 </template>
