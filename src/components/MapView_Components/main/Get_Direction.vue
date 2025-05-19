@@ -55,7 +55,7 @@ async function get_route() {
     route_steps.value = response.data
     console.log(route_steps.value)
 
-    let encodedPolyline = response.data.routes[0].polyline.encodedPolyline
+    let encodedPolyline = route_steps.value.routes[0].polyline.encodedPolyline
 
     decode_polyline(encodedPolyline)
   }
@@ -64,11 +64,13 @@ async function get_route() {
 function decode_polyline(econdedPolyline: string) {
   const decoded_polyline = polyline.decode(econdedPolyline)
 
-  const lat_lng_poly = decoded_polyline.map((data) => ({
+  const lat_lng_poly: google = decoded_polyline.map((data) => ({
     lat: data[0],
     lng: data[1],
   }))
   console.log(lat_lng_poly)
+
+  polyline_store.update_polyline(lat) 
 
 
 }
