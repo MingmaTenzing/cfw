@@ -14,7 +14,7 @@ const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 // polyline_store
 const polyline_store = maps_polyline()
 
-const route_steps = ref<RoutesResponse>(data)
+const route_steps = ref<RoutesResponse>()
 
 const starting_address = ref()
 const site_address = route.params.address
@@ -58,6 +58,8 @@ async function get_route() {
   }
 }
 
+const isLoading = ref<boolean>(true)
+
 function decode_polyline(econdedPolyline: string) {
   const decoded_polyline = polyline.decode(econdedPolyline)
 
@@ -69,8 +71,6 @@ function decode_polyline(econdedPolyline: string) {
 
   polyline_store.update_polyline(lat_lng_poly)
 }
-
-decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
 </script>
 
 <template>
@@ -125,7 +125,7 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
             <div class="flex items-center space-x-2">
               <i class="pi pi-map"></i>
               <p class="font-semibold">
-                {{ route_steps.routes[0].legs[0]?.localizedValues?.distance?.text }}
+                {{ route_steps?.routes[0].legs[0]?.localizedValues?.distance?.text }}
               </p>
             </div>
           </div>
@@ -134,7 +134,7 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
             <div class="flex items-center space-x-2">
               <i class="pi pi-clock"></i>
               <p class="font-semibold">
-                {{ route_steps.routes[0].legs[0].localizedValues?.staticDuration?.text }}
+                {{ route_steps?.routes[0].legs[0].localizedValues?.staticDuration?.text }}
               </p>
             </div>
           </div>
@@ -144,6 +144,7 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
       <!-- steps -->
       <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
         <div
+          v-if="route_steps?.routes"
           class="flex relative space-x-4"
           v-for="(step, index) in route_steps.routes[0].legs[0].steps"
           :key="index"
@@ -162,6 +163,23 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
             </p>
           </div>
         </div>
+        <section v-else class="rounded-md overflow-hidden">
+          <!-- Steps skeleton -->
+          <div class="space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
+            <div class="flex relative space-x-4" v-for="index in 5" :key="index">
+              <div class="relative">
+                <div class="h-6 w-6 rounded-full bg-gray-200 animate-pulse"></div>
+                <div
+                  class="h-[100%] w-[2px] bg-gray-200 absolute top-0 left-1/2 -z-10 -translate-x-1/2"
+                ></div>
+              </div>
+              <div class="w-full">
+                <div class="h-5 w-full rounded-md mb-2 bg-gray-200 animate-pulse"></div>
+                <div class="h-4 w-32 rounded-md bg-gray-200 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   </main>
