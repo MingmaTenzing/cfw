@@ -1,3 +1,7 @@
+export interface latlng {
+  lat: number
+  lng: number
+}
 export interface search_props {
   id: string
   name: string

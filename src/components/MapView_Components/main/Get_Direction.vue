@@ -1,21 +1,18 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import data from "../../../../example"
+import data from '../../../../example'
 import { maps_polyline } from '@/stores/polyline'
-import polyline from "google-polyline"
+import polyline from 'google-polyline'
 import axios from 'axios'
-import { type RoutesResponse} from '../../../../route_steps_types'
+import { type RoutesResponse } from '../../../../route_steps_types'
+import type { latlng } from '../../../../types'
 const route = useRoute()
 
 const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 
 // polyline_store
 const polyline_store = maps_polyline()
-
-
-
-
 
 const route_steps = ref<RoutesResponse>(data)
 
@@ -64,15 +61,13 @@ async function get_route() {
 function decode_polyline(econdedPolyline: string) {
   const decoded_polyline = polyline.decode(econdedPolyline)
 
-  const lat_lng_poly: google = decoded_polyline.map((data) => ({
+  const lat_lng_poly = decoded_polyline.map((data) => ({
     lat: data[0],
     lng: data[1],
   }))
   console.log(lat_lng_poly)
 
-  polyline_store.update_polyline(lat) 
-
-
+  polyline_store.update_polyline(lat_lng_poly)
 }
 
 decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
@@ -86,9 +81,7 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
 
       <i class="pi pi-times"></i>
     </div>
-<div>
-
-</div>
+    <div></div>
     <form @submit.prevent="get_route" class="space-y-4 p-4">
       <!-- directions from -->
       <div class="flex space-x-2 items-baseline">
@@ -123,8 +116,7 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
       </div>
     </form>
 
-
-    <section >
+    <section>
       <div class="border-y border-border p-4">
         <!-- distance and duration details -->
         <div class="flex justify-between">
@@ -132,14 +124,18 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
             <p class="text-primary/70">Distance</p>
             <div class="flex items-center space-x-2">
               <i class="pi pi-map"></i>
-              <p class="font-semibold">{{ route_steps.routes[0].legs[0]?.localizedValues?.distance?.text }}</p>
+              <p class="font-semibold">
+                {{ route_steps.routes[0].legs[0]?.localizedValues?.distance?.text }}
+              </p>
             </div>
           </div>
           <div class="space-y-2">
             <p class="text-primary/70">Duration</p>
             <div class="flex items-center space-x-2">
               <i class="pi pi-clock"></i>
-              <p class="font-semibold">{{ route_steps.routes[0].legs[0].localizedValues?.staticDuration?.text }}</p>
+              <p class="font-semibold">
+                {{ route_steps.routes[0].legs[0].localizedValues?.staticDuration?.text }}
+              </p>
             </div>
           </div>
         </div>
@@ -147,7 +143,11 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
 
       <!-- steps -->
       <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
-        <div class="flex relative space-x-4" v-for="(step, index) in route_steps.routes[0].legs[0].steps" :key="index">
+        <div
+          class="flex relative space-x-4"
+          v-for="(step, index) in route_steps.routes[0].legs[0].steps"
+          :key="index"
+        >
           <div class="relative">
             <p class="px-[6px] bg-primary text-secondary rounded-full text-sm z-20">{{ index }}</p>
             <div
@@ -155,7 +155,7 @@ decode_polyline(route_steps.value.routes[0].polyline.encodedPolyline)
             ></div>
           </div>
           <div class="">
-            <p>{{ step.navigationInstruction?.instructions}}</p>
+            <p>{{ step.navigationInstruction?.instructions }}</p>
             <p class="text-primary/70">
               {{ step.localizedValues?.distance?.text }} |
               {{ step.localizedValues?.staticDuration?.text }}
