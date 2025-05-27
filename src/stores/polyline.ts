@@ -1,12 +1,27 @@
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
-import type { map_view_search_query } from '../../types'
+import { type latlng, type map_view_search_query } from '../../types'
 
 export const maps_polyline = defineStore('maps_polyline', () => {
-  const decoded_polyline_path = ref<google.maps.LatLng[]>([])
+  const navigation_route = ref<google.maps.PolylineOptions>({
+    path: [],
+    geodesic: true,
+    strokeColor: '#ff0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 5,
+  })
 
-  function update_polyline(polyLine_path: google.maps.LatLng[]) {
-    decoded_polyline_path.value = polyLine_path
+  function update_polyline(polyLine_path: latlng[]) {
+    let new_navigation_route = ref<google.maps.PolylineOptions>({
+      path: polyLine_path,
+      geodesic: true,
+      strokeColor: '#ff0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 5,
+    })
+    navigation_route.value = new_navigation_route.value
+
+    console.log(new_navigation_route)
   }
-  return { decoded_polyline_path, update_polyline }
+  return { navigation_route, update_polyline }
 })

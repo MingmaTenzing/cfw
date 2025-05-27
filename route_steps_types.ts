@@ -1,37 +1,64 @@
-export interface LatLng {
+interface LatLng {
   latitude: number
   longitude: number
 }
 
-export interface Location {
-  latLng: LatLng
-}
-
-export interface Polyline {
+interface Polyline {
   encodedPolyline: string
 }
 
-export interface NavigationInstruction {
-  maneuver: string
-  instructions: string
+interface LocalizedValue {
+  text: string
 }
 
-export interface LocalizedValues {
-  distance: {
-    text: string
-  }
-  staticDuration: {
-    text: string
-  }
+interface LocalizedValues {
+  distance?: LocalizedValue
+  duration?: LocalizedValue
+  staticDuration?: LocalizedValue
 }
 
-export interface RouteStep {
+interface NavigationInstruction {
+  maneuver?: string
+  instructions?: string
+}
+
+interface Step {
   distanceMeters: number
   staticDuration: string
   polyline: Polyline
-  startLocation: Location
-  endLocation: Location
-  navigationInstruction: NavigationInstruction
-  localizedValues: LocalizedValues
-  travelMode: string
+  startLocation: {
+    latLng: LatLng
+  }
+  endLocation: {
+    latLng: LatLng
+  }
+  navigationInstruction?: NavigationInstruction
+  localizedValues?: LocalizedValues
+  travelMode?: string
+}
+
+interface Leg {
+  distanceMeters: number
+  duration: string
+  staticDuration: string
+  polyline: Polyline
+  startLocation: {
+    latLng: LatLng
+  }
+  endLocation: {
+    latLng: LatLng
+  }
+  steps: Step[]
+  localizedValues?: LocalizedValues
+}
+
+interface Route {
+  legs: Leg[]
+  distanceMeters: number
+  duration: string
+  polyline: Polyline
+}
+
+export interface RoutesResponse {
+  routes: Route[]
 }
