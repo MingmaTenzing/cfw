@@ -15,10 +15,9 @@ const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 const polyline_store = maps_polyline()
 
 const route_steps = ref<RoutesResponse>()
-
+const no_routes_found = ref<boolean>(false)
 const starting_address = ref()
 const site_address = route.params.address
-
 async function get_route() {
   let data = {
     origin: {
@@ -42,23 +41,33 @@ async function get_route() {
     },
     data: data,
   }
-  const response = await axios.post(
-    'https://routes.googleapis.com/directions/v2:computeRoutes',
-    data,
-    header_config,
-  )
 
-  if (response.data.routes) {
-    route_steps.value = response.data
-    console.log(route_steps.value)
+  try {
+    const response = await axios.post(
+      'https://routes.googleapis.com/directions/v2:computeRoutes',
+      data,
+      header_config,
+    )
 
-    let encodedPolyline = route_steps.value.routes[0].polyline.encodedPolyline
+    if (response.data.routes) {
+      no_routes_found.value = false
+      route_steps.value = response.data
+      console.log(route_steps.value)
 
-    decode_polyline(encodedPolyline)
+      let encodedPolyline = route_steps.value?.routes[0].polyline.encodedPolyline
+      if (encodedPolyline) {
+        decode_polyline(encodedPolyline)
+      }
+    } else if ((response.data = {})) {
+      no_routes_found.value = true
+    } else {
+      no_routes_found.value = true
+    }
+  } catch (error) {
+    no_routes_found.value = true
+    console.log(error)
   }
 }
-
-const isLoading = ref<boolean>(true)
 
 function decode_polyline(econdedPolyline: string) {
   const decoded_polyline = polyline.decode(econdedPolyline)
@@ -81,7 +90,7 @@ function decode_polyline(econdedPolyline: string) {
 
       <i class="pi pi-times"></i>
     </div>
-    <div></div>
+
     <form @submit.prevent="get_route" class="space-y-4 p-4">
       <!-- directions from -->
       <div class="flex space-x-2 items-baseline">
@@ -95,7 +104,6 @@ function decode_polyline(econdedPolyline: string) {
             placeholder="Enter Address"
             class="outline-none border border-border w-[300px] p-2 rounded-lg"
           />
-          {{ starting_address }}
         </div>
       </div>
       <div class="flex space-x-2 items-baseline">
@@ -116,8 +124,8 @@ function decode_polyline(econdedPolyline: string) {
       </div>
     </form>
 
-    <section>
-      <div class="border-y border-border p-4">
+    <section v-if="route_steps?.routes[0].legs[0] && !no_routes_found">
+      <div v-if="route_steps?.routes[0].legs[0]" class="border-y border-border p-4">
         <!-- distance and duration details -->
         <div class="flex justify-between">
           <div class="space-y-2">
@@ -140,7 +148,6 @@ function decode_polyline(econdedPolyline: string) {
           </div>
         </div>
       </div>
-
       <!-- steps -->
       <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
         <div
@@ -163,24 +170,15 @@ function decode_polyline(econdedPolyline: string) {
             </p>
           </div>
         </div>
-        <section v-else class="rounded-md overflow-hidden">
-          <!-- Steps skeleton -->
-          <div class="space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
-            <div class="flex relative space-x-4" v-for="index in 5" :key="index">
-              <div class="relative">
-                <div class="h-6 w-6 rounded-full bg-gray-200 animate-pulse"></div>
-                <div
-                  class="h-[100%] w-[2px] bg-gray-200 absolute top-0 left-1/2 -z-10 -translate-x-1/2"
-                ></div>
-              </div>
-              <div class="w-full">
-                <div class="h-5 w-full rounded-md mb-2 bg-gray-200 animate-pulse"></div>
-                <div class="h-4 w-32 rounded-md bg-gray-200 animate-pulse"></div>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </section>
+
+    <!-- show  if no routes found -->
+    <div v-if="no_routes_found" class="p-4">
+      <div class="flex justify-center flex-col items-center w-full h-[100%]">
+        <p>No Routes Found</p>
+        <p class="text-primary/50 text-sm">please make sure address is correct</p>
+      </div>
+    </div>
   </main>
 </template>
