@@ -16,8 +16,7 @@ const filter_modal_open_close = ref<boolean>(false)
 const is_apply_search_filter = ref<boolean>(false)
 
 function toggle_apply_filter() {
-  is_apply_search_filter.value = !is_apply_search_filter.value;
-
+  is_apply_search_filter.value = !is_apply_search_filter.value
 }
 
 function changeTheme() {
@@ -28,8 +27,6 @@ function changeTheme() {
   }
 }
 
-
-
 function toggle_modal() {
   filter_modal_open_close.value = !filter_modal_open_close.value
 }
@@ -38,11 +35,9 @@ function update_center(lat: number, lng: number) {
   center.value = { lat: lat, lng: lng }
 }
 
-
-provide("toogle_apply_filter", {
+provide('toogle_apply_filter', {
   is_apply_search_filter,
   toggle_apply_filter,
-
 })
 // provides
 provide('theme', {
@@ -59,8 +54,6 @@ provide('search_filter_modal', {
   filter_modal_open_close,
   toggle_modal,
 })
-
-
 
 onMounted(() => {
   document.documentElement.classList.add(theme.value)

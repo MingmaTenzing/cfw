@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 import type { themeContext } from '../../../utils/theme_type'
 import type { map_props } from '../../../utils/map_props'
 import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
-import type { FuelStation, queryFilterModalContext } from '../../../types'
+import type { FuelStation, latlng, queryFilterModalContext } from '../../../types'
 import axios from 'axios'
 import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
 import { maps_polyline } from '@/stores/polyline'
@@ -19,7 +19,7 @@ const inject_theme = inject<themeContext>('theme', {
   changeTheme: () => undefined,
 })
 
-const { center } = inject<map_props>('map_center', {
+const { center, update_center } = inject<map_props>('map_center', {
   center: { lat: -31.953512, lng: 115.857048 },
   update_center: () => undefined,
 })
@@ -55,14 +55,31 @@ function route_to_station_details(site: FuelStation) {
 
 function map_is_ready() {
   loading_map.value = false
+
   console.log('sdfd')
   console.log(`maps have loaded,  loading map value is ${loading_map.value} `)
 }
 
+function polyline_center_calculator(path: { lat: number; lng: number }[]) {
+  let total_lat = 0
+  let total_lang = 0
+  path.forEach((value) => {
+    total_lang += value.lng
+    total_lat += value.lat
+  })
+  let avg_lat = Number((total_lat / path.length).toFixed(5))
+  let avg_lng = Number((total_lang / path.length).toFixed(5))
+
+  return { avg_lat, avg_lng }
+}
 watch(
   () => polyline_store.navigation_route,
   (new_route) => {
     navigation_route.value = new_route
+    if (new_route.path) {
+      let center_lat_lang = polyline_center_calculator(new_route.path)
+      update_center(center_lat_lang.avg_lat, center_lat_lang.avg_lng)
+    }
   },
 )
 </script>

@@ -2,6 +2,14 @@ export interface latlng {
   lat: number
   lng: number
 }
+
+export interface googlePolyline_options {
+  path: latlng[]
+  geodesic: boolean
+  strokeColor: string
+  strokeOpacity: number
+  strokeWeight: number
+}
 export interface search_props {
   id: string
   name: string
