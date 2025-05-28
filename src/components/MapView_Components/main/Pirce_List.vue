@@ -26,7 +26,7 @@ const { update_center } = inject<map_props>('map_center', {
 })
 
 const { is_apply_search_filter, toggle_apply_filter } =
-  inject<apply_filter_boolean_context>('toogle_apply_filter')
+  inject<apply_filter_boolean_context>('toogle_apply_filter')!
 
 const search_details_store = map_view_search_filter()
 
@@ -56,6 +56,7 @@ onMounted(async () => {
 
 watch(is_apply_search_filter, (newvalue) => {
   console.log(newvalue)
+
   search_fetch_data(search_details_store.search_details)
 })
 </script>

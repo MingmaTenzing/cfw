@@ -1,3 +1,5 @@
+import type { Ref } from 'vue'
+
 export interface latlng {
   lat: number
   lng: number
@@ -27,7 +29,7 @@ export interface price_change_predict {
 }
 
 export interface apply_filter_boolean_context {
-  is_apply_search_filter: boolean
+  is_apply_search_filter: Ref<boolean>
   toggle_apply_filter: () => void
 }
 export interface queryFilterModalContext {

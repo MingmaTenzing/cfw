@@ -2,12 +2,30 @@
 import GoogleMaps from '@/components/main_components/GoogleMaps.vue'
 import SearchBar from '@/components/MapView_Components/components/SearchBar.vue'
 import MenuPanel from '@/components/main_components/MenuPanel.vue'
+
+import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+
+const route = useRoute()
+const show_search_bar = ref<boolean>(true)
+
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute == 'Site Details') {
+      show_search_bar.value = false
+    } else show_search_bar.value = true
+  },
+)
 </script>
 
 <template>
   <MenuPanel id="blur_selector" class="fixed left-0 z-10"></MenuPanel>
 
-  <SearchBar class="fixed z-10 bottom-0 md:bottom-8 left-1/2 -translate-x-1/2"></SearchBar>
+  <SearchBar
+    v-if="show_search_bar == true"
+    class="fixed z-10 bottom-0 md:bottom-8 left-1/2 -translate-x-1/2"
+  ></SearchBar>
 
   <GoogleMaps></GoogleMaps>
 </template>
