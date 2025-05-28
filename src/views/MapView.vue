@@ -4,7 +4,7 @@ import SearchBar from '@/components/MapView_Components/components/SearchBar.vue'
 import MenuPanel from '@/components/main_components/MenuPanel.vue'
 
 import { useRoute } from 'vue-router'
-import { ref, watch } from 'vue'
+import { provide, ref, watch } from 'vue'
 
 const route = useRoute()
 const show_search_bar = ref<boolean>(true)

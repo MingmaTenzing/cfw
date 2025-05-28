@@ -15,6 +15,8 @@ const filter_modal_open_close = ref<boolean>(false)
 // toggle for applying filter boolean
 const is_apply_search_filter = ref<boolean>(false)
 
+const show_side_bar = ref<boolean>(false)
+
 function toggle_apply_filter() {
   is_apply_search_filter.value = !is_apply_search_filter.value
 }
@@ -34,6 +36,14 @@ function toggle_modal() {
 function update_center(lat: number, lng: number) {
   center.value = { lat: lat, lng: lng }
 }
+function toggle_side_bar() {
+  show_side_bar.value = !show_side_bar.value
+}
+
+provide('toggle_side_bar', {
+  show_side_bar,
+  toggle_side_bar,
+})
 
 provide('toogle_apply_filter', {
   is_apply_search_filter,

@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import Header_Component from '@/components/Dashboard_Components/components/Header_Component.vue'
 import SideBar from '@/components/main_components/SideBar.vue'
-import { provide, ref } from 'vue'
+import { inject, provide, ref } from 'vue'
 import { RouterView } from 'vue-router'
 
-const show_side_bar = ref<boolean>(false)
-
-function toggle_side_bar() {
-  show_side_bar.value = !show_side_bar.value
-}
-
-provide('toggle_side_bar', {
-  show_side_bar,
-  toggle_side_bar,
+const { show_side_bar, toggle_side_bar } = inject('toggle_side_bar', {
+  show_side_bar: false,
+  toggle_side_bar: () => undefined,
 })
 </script>
 

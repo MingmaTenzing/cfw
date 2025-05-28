@@ -5,6 +5,10 @@ export interface latlng {
   lng: number
 }
 
+export interface SideBarContext {
+  show_side_bar: boolean
+  toggle_side_bar: () => void
+}
 export interface googlePolyline_options {
   path: latlng[]
   geodesic: boolean
