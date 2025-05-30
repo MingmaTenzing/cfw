@@ -37,16 +37,22 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 
         <section class="space-y-2">
           <p class="text-xs text-accent-foreground opacity-50">Dashboard</p>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+          <RouterLink
+            to="/dashboard/overview"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
             <i class="pi pi-home"></i>
 
             <p>Overview</p>
-          </div>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+          </RouterLink>
+          <RouterLink
+            to="/sites"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
             <i class="pi pi-map"></i>
 
             <p>Price Map</p>
-          </div>
+          </RouterLink>
           <RouterLink to="/dashboard/search">
             <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
               <i class="pi pi-search"></i>
@@ -63,39 +69,21 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 
         <!-- fuel  types -->
         <section class="space-y-2">
-          <p class="text-xs text-accent-foreground opacity-50">Fuel Types</p>
+          <p class="text-xs text-accent-foreground opacity-50">Fuel Types (Demo)</p>
 
           <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-            <img
-              src="../../assets/local_gas_station_100dp_000000_FILL0_wght400_GRAD0_opsz48.svg"
-              class="dark:invert w-[16px] object-fill"
-            />
-
+            <i class="pi pi-car"></i>
             <p>Unleaded 91</p>
           </div>
           <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-            <img
-              src="../../assets/local_gas_station_100dp_000000_FILL0_wght400_GRAD0_opsz48.svg"
-              class="dark:invert w-[16px] object-fill"
-            />
-
-            <p>Premium 95</p>
-          </div>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-            <img
-              src="../../assets/local_gas_station_100dp_000000_FILL0_wght400_GRAD0_opsz48.svg"
-              class="dark:invert w-[16px] object-fill"
-            />
-
-            <p>Premium 98</p>
-          </div>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-            <img
-              src="../../assets/local_gas_station_100dp_000000_FILL0_wght400_GRAD0_opsz48.svg"
-              class="dark:invert w-[16px] object-fill"
-            />
+            <i class="pi pi-truck"></i>
 
             <p>Diesel</p>
+          </div>
+          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+            <i class="pi pi-car"></i>
+
+            <p>Premium 98</p>
           </div>
         </section>
       </section>

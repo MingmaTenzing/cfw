@@ -10,10 +10,6 @@ const { show_side_bar, toggle_side_bar } = inject('toggle_side_bar', {
   show_side_bar: false,
   toggle_side_bar: () => undefined,
 })
-function test() {
-  toggle_side_bar()
-  console.log('hi')
-}
 </script>
 
 <template>
@@ -25,16 +21,14 @@ function test() {
     ]"
   >
     <div class="p-4 flex justify-between">
-      <button v-on:click="test"><i class="pi pi-bars"></i></button>
+      <button v-on:click="toggle_side_bar"><i class="pi pi-bars"></i></button>
       <img
         src="../../assets/cfw_white_logo.png"
         width="160"
         height="60"
         class="invert dark:invert-0"
       />
-      <div class="text-green-500">
-        <p>{{ show_side_bar }}</p>
-      </div>
+      <div></div>
     </div>
 
     <!-- price list component and individual station detail -->
