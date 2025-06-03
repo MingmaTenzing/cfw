@@ -140,8 +140,12 @@ watch(current_fuel_type, (newFuelType) => {
         </div>
       </div>
     </div>
-    <div class="h-[324px] md:w-[340px] lg:w-full">
+    <div v-if="price_trend_data.length > 0" class="h-[324px] md:w-[340px] lg:w-full">
       <Line :options="chartOptions" :data="chartData" />
+    </div>
+    <!-- skeleton loading -->
+    <div v-else class=" h-[324px] md:w-[340px] lg:w-full bg-accent animate-pulse rounded-lg">
+
     </div>
   </div>
 </template>
