@@ -80,6 +80,12 @@ function decode_polyline(econdedPolyline: string) {
 
   polyline_store.update_polyline(lat_lng_poly)
 }
+
+function close_directions() {
+  polyline_store.remove_polyline();
+  router.back()
+
+}
 </script>
 
 <template>
@@ -87,7 +93,7 @@ function decode_polyline(econdedPolyline: string) {
     <!-- directions header -->
     <div class="p-4 border-b border-border flex justify-between">
       <p class="font-medium">Directions</p>
-<button v-on:click="router.back()">
+<button v-on:click="close_directions">
 
   <i class="pi pi-times"></i>
 </button>

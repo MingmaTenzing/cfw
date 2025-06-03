@@ -20,8 +20,18 @@ export const maps_polyline = defineStore('maps_polyline', () => {
       strokeWeight: 5,
     })
     navigation_route.value = new_navigation_route.value
-
-    console.log(new_navigation_route)
   }
-  return { navigation_route, update_polyline }
+
+  function remove_polyline() {
+    let empty_route = ref<googlePolyline_options>({
+      path: [],
+      geodesic: true,
+      strokeColor: '#ff0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 5,
+    })
+
+    navigation_route.value = empty_route.value
+  }
+  return { navigation_route, remove_polyline, update_polyline }
 })
