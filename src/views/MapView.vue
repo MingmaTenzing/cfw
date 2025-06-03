@@ -12,7 +12,7 @@ const show_search_bar = ref<boolean>(true)
 watch(
   () => route.name,
   (newRoute) => {
-    if (newRoute == 'Site Details') {
+    if (newRoute == 'Site Details' || newRoute == 'Get Directions') {
       show_search_bar.value = false
     } else show_search_bar.value = true
   },
