@@ -35,7 +35,7 @@ onMounted(async () => {
 
 <template>
   <!-- main cards -->
-  <section class="flex flex-wrap md:flex-nowrap gap-4 mt-8">
+  <section v-if="south_cheapest && north_cheapest && five_region_average" class="flex flex-wrap md:flex-nowrap gap-4 mt-8">
     <!-- cheapest price today in perth metro north-->
     <div class="border w-[325px] lg:w-1/3 p-4 rounded-lg space-y-2">
       <div class="space-y-4">
@@ -108,4 +108,71 @@ onMounted(async () => {
       </div>
     </div>
   </section>
+
+  <!-- main cards skeleton -->
+  <section v-else class="flex flex-wrap md:flex-nowrap gap-4 mt-8">
+    <!-- cheapest price today in perth metro north skeleton -->
+    <div class="border w-[325px] lg:w-1/3 p-4 rounded-lg space-y-2">
+      <div class="space-y-4">
+        <div>
+          <div class="h-6 xl:h-8  bg-accent rounded animate-pulse w-32"></div>
+          <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-40 mt-1"></div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="h-4  bg-accent rounded animate-pulse w-20"></div>
+            <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-24 mt-1"></div>
+          </div>
+          <div class="w-[80px] h-[60px]  bg-accent rounded animate-pulse"></div>
+        </div>
+        <div class="text-end">
+          <div class="h-8 xl:h-10  bg-accent rounded animate-pulse w-28 ml-auto"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- cheapest price today perth metro south skeleton -->
+    <div class="border w-[325px] lg:w-1/3 p-4 rounded-lg space-y-2">
+      <div class="space-y-4">
+        <div>
+          <div class="h-6 xl:h-8  bg-accent rounded animate-pulse w-32"></div>
+          <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-40 mt-1"></div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="h-4  bg-accent rounded animate-pulse w-20"></div>
+            <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-24 mt-1"></div>
+          </div>
+          <div class="w-[80px] h-[60px]  bg-accent rounded animate-pulse"></div>
+        </div>
+        <div class="text-end">
+          <div class="h-8 xl:h-10  bg-accent rounded animate-pulse w-28 ml-auto"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Average Fuel price today skeleton -->
+    <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
+      <div class="h-6  bg-accent rounded animate-pulse w-36"></div>
+      <div class="h-6 xl:h-8  bg-accent rounded animate-pulse w-20"></div>
+      <div class="space-y-1">
+        <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-full"></div>
+        <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-3/4"></div>
+      </div>
+    </div>
+
+    <!-- Next Cycling order skeleton -->
+    <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
+      <div class="h-6  bg-accent rounded animate-pulse w-24"></div>
+      <div class="h-6 xl:h-8  bg-accent rounded animate-pulse w-16"></div>
+      <div class="flex items-center space-x-1">
+        <div class="h-4 w-4  bg-accent rounded animate-pulse"></div>
+        <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-8"></div>
+        <div class="h-4 xl:h-5  bg-accent rounded animate-pulse w-20"></div>
+      </div>
+    </div>
+  </section>
+
 </template>
