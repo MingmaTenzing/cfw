@@ -8,7 +8,7 @@ import axios from 'axios'
 import { type RoutesResponse } from '../../../../route_steps_types'
 import type { latlng } from '../../../../types'
 const route = useRoute()
-
+const router = useRouter();
 const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 
 // polyline_store
@@ -87,8 +87,10 @@ function decode_polyline(econdedPolyline: string) {
     <!-- directions header -->
     <div class="p-4 border-b border-border flex justify-between">
       <p class="font-medium">Directions</p>
+<button v-on:click="router.back()">
 
-      <i class="pi pi-times"></i>
+  <i class="pi pi-times"></i>
+</button>
     </div>
 
     <form @submit.prevent="get_route" class="space-y-4 p-4">
