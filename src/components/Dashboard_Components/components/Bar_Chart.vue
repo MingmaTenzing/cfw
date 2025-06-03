@@ -57,7 +57,7 @@ const chartOptions = ref({
 })
 
 onMounted(async () => {
-  const prices = []
+  let prices:number[] = []
   const response = await axios.get<region_average[]>('http://localhost:3000/xml/region-average')
   const data = response.data
 
@@ -80,8 +80,12 @@ onMounted(async () => {
         <p>{{ new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long' }) }}</p>
       </div>
     </div>
-    <div class="h-[324px] md:w-[340px] lg:w-full">
+    <div v-if="average_fuel_prices.length > 0" class="h-[324px] md:w-[340px] lg:w-full">
       <Bar :data="data" :options="chartOptions"></Bar>
     </div>
+    <div v-else class="h-[324px] md:w-[340px] lg:w-full bg-accent animate-pulse rounded-lg">
+
+    </div>
   </div>
+
 </template>
