@@ -9,15 +9,11 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
-
-  return {
-    plugins: [vue(), vueDevTools(), tailwindcss()],
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
-      },
+export default defineConfig({
+  plugins: [vue(), vueDevTools(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-  }
+  },
 })
