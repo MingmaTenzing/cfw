@@ -33,6 +33,7 @@ const search_details_store = map_view_search_filter()
 function go_to_site(site: FuelStation) {
   update_center(site.address.latitude, site.address.longitude)
   router.push(`/sites/${site.id}`)
+
 }
 
 async function initial_data_fetch() {
