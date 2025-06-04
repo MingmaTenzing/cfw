@@ -57,8 +57,10 @@ const chartOptions = ref({
 })
 
 onMounted(async () => {
-  let prices:number[] = []
-  const response = await axios.get<region_average[]>('http://localhost:3000/xml/region-average')
+  let prices: number[] = []
+  const response = await axios.get<region_average[]>(
+    'https://fuelwatchapi-1.onrender.com/xml/region-average',
+  )
   const data = response.data
 
   for (let i = 0; i < data.length; i++) {
@@ -83,9 +85,6 @@ onMounted(async () => {
     <div v-if="average_fuel_prices.length > 0" class="h-[324px] md:w-[340px] lg:w-full">
       <Bar :data="data" :options="chartOptions"></Bar>
     </div>
-    <div v-else class="h-[324px] md:w-[340px] lg:w-full bg-accent animate-pulse rounded-lg">
-
-    </div>
+    <div v-else class="h-[324px] md:w-[340px] lg:w-full bg-accent animate-pulse rounded-lg"></div>
   </div>
-
 </template>

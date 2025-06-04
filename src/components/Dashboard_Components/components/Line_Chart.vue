@@ -62,7 +62,7 @@ const chartData = computed(() => ({
 
 async function fetchData(fuelType: string) {
   const fetch_price_trend = await axios.get<price_trend[]>(
-    `http://localhost:3000/trend?fuelType=${fuelType}`,
+    `https://fuelwatchapi-1.onrender.com/trend?fuelType=${fuelType}`,
   )
   price_trend_data.value = fetch_price_trend.data
 }
@@ -144,8 +144,6 @@ watch(current_fuel_type, (newFuelType) => {
       <Line :options="chartOptions" :data="chartData" />
     </div>
     <!-- skeleton loading -->
-    <div v-else class=" h-[324px] md:w-[340px] lg:w-full bg-accent animate-pulse rounded-lg">
-
-    </div>
+    <div v-else class="h-[324px] md:w-[340px] lg:w-full bg-accent animate-pulse rounded-lg"></div>
   </div>
 </template>

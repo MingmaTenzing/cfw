@@ -33,12 +33,11 @@ const search_details_store = map_view_search_filter()
 function go_to_site(site: FuelStation) {
   update_center(site.address.latitude, site.address.longitude)
   router.push(`/sites/${site.id}`)
-
 }
 
 async function initial_data_fetch() {
   loading.value = true
-  const response = await axios.get<FuelStation[]>('http://localhost:3000')
+  const response = await axios.get<FuelStation[]>('https://fuelwatchapi-1.onrender.com')
 
   fuelData.value = response.data
   loading.value = false
@@ -46,7 +45,10 @@ async function initial_data_fetch() {
 
 async function search_fetch_data(search_filters: map_view_search_query) {
   loading.value = true
-  const response = await axios.post<FuelStation[]>(`http://localhost:3000/search`, search_filters)
+  const response = await axios.post<FuelStation[]>(
+    `https://fuelwatchapi-1.onrender.com/search`,
+    search_filters,
+  )
   fuelData.value = response.data
   loading.value = false
 }

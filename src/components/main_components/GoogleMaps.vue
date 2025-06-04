@@ -45,7 +45,7 @@ const navigation_route = ref<google.maps.PolylineOptions>({
 })
 onMounted(async () => {
   loading_map.value = true
-  const response = await axios.get<FuelStation[]>('http://localhost:3000')
+  const response = await axios.get<FuelStation[]>('https://fuelwatchapi-1.onrender.com')
   locations.value = response.data
 })
 

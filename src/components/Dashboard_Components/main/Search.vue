@@ -69,7 +69,10 @@ async function apply_search_filters() {
   try {
     no_stations_found.value = false
     search_result_loading.value = true
-    const response = await axios.post('http://localhost:3000/xml', api_search_option.value)
+    const response = await axios.post(
+      'https://fuelwatchapi-1.onrender.com/xml',
+      api_search_option.value,
+    )
     search_results.value = response.data
     show_search_results.value = true
     if (search_results.value) {
