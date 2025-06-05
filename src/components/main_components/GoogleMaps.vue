@@ -93,7 +93,7 @@ watch(
     ]"
   >
     <GoogleMap
-      :api-key="api_key"
+      api-key="AIzaSyB55bZHZUvRPBXFh86BQpianuUmBb_UYQU"
       :center="center"
       :zoom="15"
       @tilesloaded="map_is_ready"
