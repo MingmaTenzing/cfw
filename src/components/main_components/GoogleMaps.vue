@@ -12,7 +12,12 @@ import axios from 'axios'
 import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
 import { maps_polyline } from '@/stores/polyline'
 import example from '../../../example'
+import { fuel_prices_store } from '@/stores/price_list_store'
+import { storeToRefs } from 'pinia'
 
+const price_list_store = fuel_prices_store() //price list store
+
+const { fuel_prices_list } = storeToRefs(price_list_store)
 const router = useRouter()
 const inject_theme = inject<themeContext>('theme', {
   theme: 'dark',
@@ -108,7 +113,7 @@ watch(
               lng: fuel_station.address.longitude,
             },
           }"
-          v-for="(fuel_station, i) in locations"
+          v-for="(fuel_station, i) in fuel_prices_list"
           v-bind:key="i"
         >
           <div
