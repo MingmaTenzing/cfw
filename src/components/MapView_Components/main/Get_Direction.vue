@@ -8,7 +8,7 @@ import axios from 'axios'
 import { type RoutesResponse } from '../../../../route_steps_types'
 import type { latlng } from '../../../../types'
 const route = useRoute()
-const router = useRouter();
+const router = useRouter()
 const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 
 // polyline_store
@@ -82,9 +82,8 @@ function decode_polyline(econdedPolyline: string) {
 }
 
 function close_directions() {
-  polyline_store.remove_polyline();
+  polyline_store.remove_polyline()
   router.back()
-
 }
 </script>
 
@@ -93,24 +92,23 @@ function close_directions() {
     <!-- directions header -->
     <div class="p-4 border-b border-border flex justify-between">
       <p class="font-medium">Directions</p>
-<button v-on:click="close_directions">
-
-  <i class="pi pi-times"></i>
-</button>
+      <button v-on:click="close_directions">
+        <i class="pi pi-times"></i>
+      </button>
     </div>
 
     <form @submit.prevent="get_route" class="space-y-4 p-4">
       <!-- directions from -->
       <div class="flex space-x-2 items-baseline">
         <i class="pi pi-map-marker"></i>
-        <div class="space-y-2">
+        <div class="space-y-2 w-full">
           <p class="text-primary/70">From</p>
           <input
             type="text"
             v-model="starting_address"
             required
             placeholder="Enter Address"
-            class="outline-none border border-border w-[300px] p-2 rounded-lg"
+            class="outline-none border w-full border-border p-2 rounded-lg"
           />
         </div>
       </div>
@@ -157,7 +155,9 @@ function close_directions() {
         </div>
       </div>
       <!-- steps -->
-      <div class="p-4 space-y-6 overflow-y-scroll md:h-[500px] lg:h-[400px] scrollbar-hide">
+      <div
+        class="p-4 space-y-6 overflow-y-scroll h-[600px] md:h-[500px] lg:h-[400px] scrollbar-hide"
+      >
         <div
           v-if="route_steps?.routes"
           class="flex relative space-x-4"
