@@ -11,6 +11,9 @@ import type { map_props } from '../../../../utils/map_props'
 import { useRouter } from 'vue-router'
 import PriceList_Loading from '../components/Price-List_Loading.vue'
 import { map_view_search_filter } from '@/stores/search_filter'
+import { fuel_prices_store } from '@/stores/price_list_store'
+
+const prices_store = fuel_prices_store() //fuel_price_list store
 
 const fuelData = ref<FuelStation[]>([])
 
@@ -40,6 +43,7 @@ async function initial_data_fetch() {
   const response = await axios.get<FuelStation[]>('https://fuelwatchapi-1.onrender.com')
 
   fuelData.value = response.data
+  prices_store.update_fuel_prices_list(fuelData.value)
   loading.value = false
 }
 
@@ -51,6 +55,7 @@ async function search_fetch_data(search_filters: map_view_search_query) {
   )
   fuelData.value = response.data
   loading.value = false
+  prices_store.update_fuel_prices_list(fuelData.value)
 }
 
 onMounted(async () => {

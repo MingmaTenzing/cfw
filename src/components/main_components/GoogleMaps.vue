@@ -12,7 +12,12 @@ import axios from 'axios'
 import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
 import { maps_polyline } from '@/stores/polyline'
 import example from '../../../example'
+import { fuel_prices_store } from '@/stores/price_list_store'
+import { storeToRefs } from 'pinia'
 
+const price_list_store = fuel_prices_store() //price list store
+
+const { fuel_prices_list } = storeToRefs(price_list_store)
 const router = useRouter()
 const inject_theme = inject<themeContext>('theme', {
   theme: 'dark',
@@ -32,8 +37,6 @@ const loading_map = ref<boolean>(false)
 const theme = ref(inject_theme)
 const mapStyle = computed(() => (theme.value.theme == 'dark' ? nightModeStyles : simple_grey_map))
 
-const locations = ref<FuelStation[]>([])
-
 const { filter_modal_open_close } = inject<queryFilterModalContext>('search_filter_modal')!
 
 const navigation_route = ref<google.maps.PolylineOptions>({
@@ -43,21 +46,9 @@ const navigation_route = ref<google.maps.PolylineOptions>({
   strokeOpacity: 1.0,
   strokeWeight: 5,
 })
-onMounted(async () => {
-  loading_map.value = true
-  const response = await axios.get<FuelStation[]>('https://fuelwatchapi-1.onrender.com')
-  locations.value = response.data
-})
 
 function route_to_station_details(site: FuelStation) {
   router.push(`/sites/${site.id}`)
-}
-
-function map_is_ready() {
-  loading_map.value = false
-
-  console.log('sdfd')
-  console.log(`maps have loaded,  loading map value is ${loading_map.value} `)
 }
 
 function polyline_center_calculator(path: { lat: number; lng: number }[]) {
@@ -92,11 +83,11 @@ watch(
         : 'w-full h-[100vh] relative',
     ]"
   >
+    <!-- @tilesloaded="map_is_ready" not need now, if need in future , put it inside the <GoogleMap > </GoogleMap> -->
     <GoogleMap
       :api-key="api_key"
       :center="center"
       :zoom="15"
-      @tilesloaded="map_is_ready"
       :styles="mapStyle"
       style="width: 100%; height: 100%"
     >
@@ -108,7 +99,7 @@ watch(
               lng: fuel_station.address.longitude,
             },
           }"
-          v-for="(fuel_station, i) in locations"
+          v-for="(fuel_station, i) in fuel_prices_list"
           v-bind:key="i"
         >
           <div
