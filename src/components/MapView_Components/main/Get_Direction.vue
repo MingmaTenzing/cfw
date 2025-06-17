@@ -60,8 +60,6 @@ async function get_route() {
       }
     } else if ((response.data = {})) {
       no_routes_found.value = true
-    } else {
-      no_routes_found.value = true
     }
   } catch (error) {
     no_routes_found.value = true
