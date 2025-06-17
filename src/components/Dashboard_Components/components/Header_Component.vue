@@ -28,7 +28,7 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
     </div>
 
     <!-- right side menus -->
-    <div class="flex items-center space-x-4">
+    <!-- <div class="flex items-center space-x-4">
       <div class="rounded-lg border text-sm p-2 relative w-[140px]">
         <div
           v-on:click="fuel_type_toggle = !fuel_type_toggle"
@@ -58,6 +58,6 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
         </Transition>
       </div>
       <p class="text-sm text-primary/50">Last updated: {{ new Date().toLocaleDateString() }}</p>
-    </div>
+    </div> -->
   </section>
 </template>
