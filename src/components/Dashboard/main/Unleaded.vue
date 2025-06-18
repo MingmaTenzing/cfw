@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import DropDown from '@/components/main_components/Drop-down.vue'
 import Search_Result_Card_Loading from '../components/Search_Result_Card_Loading.vue'
-import axios from 'axios'
-import { computed, onMounted, reactive, ref } from 'vue'
+import axios, { AxiosError } from 'axios'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { type fuelwatch_xml } from '../../../../types'
 import Search_Result_Card from '../components/Search_Result_Card.vue'
@@ -12,6 +12,8 @@ const search_options = reactive({
   Product: '',
   Day: 'Today',
 })
+
+const no_data_found = ref<boolean>(false)
 
 const average_fuel_price = ref()
 const search_results = ref<fuelwatch_xml[]>()
@@ -23,39 +25,6 @@ const lowest_priced_station = ref<fuelwatch_xml>()
 const highest_priced_station = ref<fuelwatch_xml>()
 
 async function fetchData() {
-  result_loading.value = true
-  const response = await axios.post('http://localhost:3000/xml', search_options)
-  const data = await response.data
-
-  search_results.value = data
-  result_loading.value = false
-  if (search_results.value) {
-    let fuel_average =
-      search_results.value?.reduce((acc, current) => current.price + acc, 0) /
-      search_results.value.length
-
-    average_fuel_price.value = (fuel_average / 100).toFixed(2)
-    lowest_priced_station.value = search_results.value[0]
-    highest_priced_station.value = search_results.value[search_results.value.length - 1]
-  }
-}
-
-function fetch_by_day(day: string) {
-  if (day) {
-    search_options.Day = day
-  }
-  fetchData()
-}
-
-function sort_fuel_prices(sortby: string) {
-  if (sortby == 'High-Low') {
-    search_results.value?.sort((a, b) => b.price - a.price)
-  } else {
-    search_results.value?.sort((a, b) => a.price - b.price)
-  }
-}
-
-onMounted(() => {
   let fuelType = route.params.fueltype
 
   switch (fuelType) {
@@ -85,19 +54,64 @@ onMounted(() => {
     case 'Brand Diesel':
       search_options.Product = '11'
       break
-
-    default:
-      console.log('unknown fuel type ')
   }
 
-  console.log(search_options)
+  try {
+    no_data_found.value = false
+    result_loading.value = true
+    const response = await axios.post('http://localhost:3000/xml', search_options)
+    const data = await response.data
+
+    search_results.value = data
+    result_loading.value = false
+    if (search_results.value) {
+      let fuel_average =
+        search_results.value?.reduce((acc, current) => current.price + acc, 0) /
+        search_results.value.length
+
+      average_fuel_price.value = (fuel_average / 100).toFixed(2)
+      lowest_priced_station.value = search_results.value[0]
+      highest_priced_station.value = search_results.value[search_results.value.length - 1]
+    }
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.status == 404) {
+        return (no_data_found.value = true)
+      }
+    }
+  }
+}
+
+function fetch_by_day(day: string) {
+  if (day) {
+    search_options.Day = day
+  }
+  fetchData()
+}
+
+function sort_fuel_prices(sortby: string) {
+  if (sortby == 'High-Low') {
+    search_results.value?.sort((a, b) => b.price - a.price)
+  } else {
+    search_results.value?.sort((a, b) => a.price - b.price)
+  }
+}
+
+onMounted(() => {
   fetchData()
 })
+
+watch(
+  () => route.params.fueltype,
+  (route) => {
+    fetchData()
+  },
+)
 </script>
 <template>
   <main class="bg-background min-h-[100vh] text-primary p-4 flex gap-8 flex-col">
     <div>
-      <h1 class="text-3xl font-semibold">Unleaded Fuel Prices</h1>
+      <h1 class="text-3xl uppercase font-semibold">{{ route.params.fueltype }} Prices</h1>
       <div class="flex space-x-2 text-primary/50 text-sm items-center">
         <p>436 stations found</p>
         <p>Last update: 17 June 2013</p>
@@ -202,7 +216,7 @@ onMounted(() => {
     </section>
 
     <!-- result -->
-    <section>
+    <section v-if="!no_data_found">
       <div v-if="result_loading" v-for="(item, index) in loading_arrays" :key="index">
         <Search_Result_Card_Loading></Search_Result_Card_Loading>
       </div>
@@ -212,6 +226,12 @@ onMounted(() => {
         <div v-for="(station, index) in search_results" :key="index" class="">
           <Search_Result_Card :station="station"></Search_Result_Card>
         </div>
+      </div>
+    </section>
+
+    <section v-if="no_data_found">
+      <div class="flex justify-center items-center h-[50vh]">
+        <p class="text-3xl font-bold">No Result Found</p>
       </div>
     </section>
   </main>

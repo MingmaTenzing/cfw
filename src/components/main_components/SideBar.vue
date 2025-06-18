@@ -71,20 +71,62 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
         <section class="space-y-2">
           <p class="text-xs text-accent-foreground opacity-50">Fuel Types (Demo)</p>
 
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+          <router-link
+            to="/dashboard/prices/unleaded"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
             <i class="pi pi-car"></i>
             <p>Unleaded 91</p>
-          </div>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+          </router-link>
+
+          <router-link
+            to="/dashboard/prices/diesel"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
             <i class="pi pi-truck"></i>
 
             <p>Diesel</p>
-          </div>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
+          </router-link>
+          <router-link
+            to="/dashboard/prices/premium unleaded"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
             <i class="pi pi-car"></i>
 
-            <p>Premium 98</p>
-          </div>
+            <p>Premium Unleaded</p>
+          </router-link>
+          <router-link
+            to="/dashboard/prices/98 Ron"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
+            <i class="pi pi-car"></i>
+
+            <p>98 Ron</p>
+          </router-link>
+          <router-link
+            to="/dashboard/prices/e85"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
+            <i class="pi pi-car"></i>
+
+            <p>E85</p>
+          </router-link>
+          <router-link
+            to="/dashboard/prices/brand diesel"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
+            <i class="pi pi-car"></i>
+
+            <p>Brand Diesel</p>
+          </router-link>
+          <router-link
+            to="/dashboard/prices/lpg"
+            class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+          >
+            <i class="pi pi-car"></i>
+
+            <p>LPG</p>
+          </router-link>
         </section>
       </section>
     </div>
