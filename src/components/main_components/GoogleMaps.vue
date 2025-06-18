@@ -10,7 +10,7 @@ import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
 import type { FuelStation, latlng, queryFilterModalContext } from '../../../types'
 import axios from 'axios'
 import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
-import { maps_polyline } from '../../stores/polyline'
+import { maps_polyline_store } from '../../stores/polyline'
 import example from '../../../example'
 import { fuel_prices_store } from '../../stores/price_list_store'
 import { storeToRefs } from 'pinia'
@@ -29,7 +29,7 @@ const { center, update_center } = inject<map_props>('map_center', {
   update_center: () => undefined,
 })
 
-const polyline_store = maps_polyline()
+const polyline_store = maps_polyline_store()
 
 const api_key = import.meta.env.VITE_API_KEY_MAPS
 

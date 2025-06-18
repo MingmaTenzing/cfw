@@ -55,7 +55,9 @@ async function search_fetch_data(search_filters: map_view_search_query) {
   )
   fuelData.value = response.data
   loading.value = false
-  prices_store.update_fuel_prices_list(fuelData.value)
+  if (fuelData.value.length > 0) {
+    prices_store.update_fuel_prices_list(fuelData.value)
+  }
 }
 
 onMounted(async () => {
