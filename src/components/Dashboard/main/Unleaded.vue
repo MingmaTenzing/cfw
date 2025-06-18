@@ -59,7 +59,7 @@ async function fetchData() {
   try {
     no_data_found.value = false
     result_loading.value = true
-    const response = await axios.post('http://localhost:3000/xml', search_options)
+    const response = await axios.post('https://fuelwatchapi-1.onrender.com/xml', search_options)
     const data = await response.data
 
     search_results.value = data
