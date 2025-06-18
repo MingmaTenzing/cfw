@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import data from '../../../../example'
-import { maps_polyline } from '@/stores/polyline'
+import { maps_polyline_store } from '@/stores/polyline'
 import polyline from 'google-polyline'
 import axios from 'axios'
 import { type RoutesResponse } from '../../../../route_steps_types'
-import type { latlng } from '../../../../types'
+
+const polyline_store = maps_polyline_store()
 const route = useRoute()
 const router = useRouter()
 const api_key: string = import.meta.env.VITE_API_KEY_MAPS
 
 // polyline_store
-const polyline_store = maps_polyline()
 
 const route_steps = ref<RoutesResponse>()
 const no_routes_found = ref<boolean>(false)
@@ -26,7 +25,6 @@ function decode_polyline(econdedPolyline: string) {
     lat: data[0],
     lng: data[1],
   }))
-  console.log(lat_lng_poly)
 
   polyline_store.update_polyline(lat_lng_poly)
 }
