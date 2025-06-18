@@ -19,6 +19,9 @@ const result_loading = ref<boolean>(false)
 
 const loading_arrays = ref(Array(10).fill(2))
 
+const lowest_priced_station = ref<fuelwatch_xml>()
+const highest_priced_station = ref<fuelwatch_xml>()
+
 async function fetchData() {
   result_loading.value = true
   const response = await axios.post('http://localhost:3000/xml', search_options)
@@ -32,6 +35,23 @@ async function fetchData() {
       search_results.value.length
 
     average_fuel_price.value = (fuel_average / 100).toFixed(2)
+    lowest_priced_station.value = search_results.value[0]
+    highest_priced_station.value = search_results.value[search_results.value.length - 1]
+  }
+}
+
+function fetch_by_day(day: string) {
+  if (day) {
+    search_options.Day = day
+  }
+  fetchData()
+}
+
+function sort_fuel_prices(sortby: string) {
+  if (sortby == 'High-Low') {
+    search_results.value?.sort((a, b) => b.price - a.price)
+  } else {
+    search_results.value?.sort((a, b) => a.price - b.price)
   }
 }
 
@@ -84,43 +104,71 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- price cards -->
-    <section v-if="search_results" class="flex flex-col md:flex-row gap-4">
-      <!-- average price -->
-      <div class="border w-full p-4 rounded-lg border-border space-y-2">
-        <p class="text-lg font-semibold text-primary/60">Average Price</p>
-        <p class="text-3xl font-bold">$ {{ average_fuel_price }}</p>
-        <p class="text-primary/80">Average price across all stations</p>
-      </div>
-
-      <!-- best price -->
-      <div
-        class="border w-full p-4 rounded-lg shadow-lg shadow-green-900 not-dark:shadow-green-100 border-green-500 space-y-2"
-      >
-        <p class="text-lg font-semibold text-primary/60">Lowest Price</p>
-        <p class="text-3xl font-bold">${{ (search_results![0].price / 100).toFixed(2) }}</p>
-        <div>
-          <p class="font-semibold">{{ search_results![0].brand }}</p>
-          <p class="font-light text-sm text-primary/60">{{ search_results![0].address }}</p>
+    <section>
+      <!-- price cards -->
+      <div v-if="!result_loading" class="flex flex-col md:flex-row gap-4">
+        <!-- average price -->
+        <div class="border w-full p-4 rounded-lg border-border space-y-2">
+          <p class="text-lg font-semibold text-primary/60">Average Price</p>
+          <p class="text-3xl font-bold">$ {{ average_fuel_price }}</p>
+          <p class="text-primary/80">Average price across all stations</p>
         </div>
 
-        <p class="text-primary/80">Lowest price across all stations</p>
+        <!-- best price -->
+        <div
+          v-if="lowest_priced_station"
+          class="border w-full p-4 rounded-lg shadow-lg shadow-green-900 not-dark:shadow-green-100 border-green-500 space-y-2"
+        >
+          <p class="text-lg font-semibold text-primary/60">Lowest Price</p>
+          <p class="text-3xl font-bold">${{ (lowest_priced_station.price / 100).toFixed(2) }}</p>
+          <div>
+            <p class="font-semibold">{{ lowest_priced_station.brand }}</p>
+            <p class="font-light text-sm text-primary/60">{{ lowest_priced_station.address }}</p>
+          </div>
+
+          <p class="text-primary/80">Lowest price across all stations</p>
+        </div>
+
+        <!-- highest price -->
+        <div
+          v-if="highest_priced_station"
+          class="border w-full p-4 rounded-lg border-border space-y-2"
+        >
+          <p class="text-lg font-semibold text-primary/60">Highest Price</p>
+
+          <p class="text-3xl font-bold">$ {{ (highest_priced_station.price / 100).toFixed(2) }}</p>
+          <div class="">
+            <p class="font-semibold">{{ highest_priced_station.brand }}</p>
+            <p class="font-light text-sm text-primary/60">
+              {{ highest_priced_station.address }}
+            </p>
+          </div>
+          <p class="text-primary/80">Most expensive price across all stations</p>
+        </div>
       </div>
 
-      <!-- highest price -->
-      <div class="border w-full p-4 rounded-lg border-border space-y-2">
-        <p class="text-lg font-semibold text-primary/60">Highest Price</p>
-
-        <p class="text-3xl font-bold">
-          $ {{ (search_results![search_results!.length - 1].price / 100).toFixed(2) }}
-        </p>
-        <div class="">
-          <p class="font-semibold">{{ search_results![search_results!.length - 1].brand }}</p>
-          <p class="font-light text-sm text-primary/60">
-            {{ search_results![search_results!.length - 1].address }}
-          </p>
+      <!-- price cards loading -->
+      <div v-if="result_loading" class="flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
+            <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
+            <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
+            <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+            <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+          </div>
+          <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
+            <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
+            <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
+            <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+            <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+          </div>
+          <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
+            <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
+            <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
+            <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+            <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+          </div>
         </div>
-        <p class="text-primary/80">Most expensive price across all stations</p>
       </div>
     </section>
 
@@ -136,6 +184,7 @@ onMounted(() => {
           <div class="flex absolute top-0 right-0">
             <div class="w-[120px]">
               <DropDown
+                @selected_value="fetch_by_day"
                 :dropdown-options="['Today', 'Yesterday', 'Tomorrow']"
                 default_option="Today"
               ></DropDown>
@@ -144,6 +193,7 @@ onMounted(() => {
               <DropDown
                 :dropdown-options="['Low-High', 'High-Low']"
                 default_option="Low-High"
+                @selected_value="sort_fuel_prices"
               ></DropDown>
             </div>
           </div>
@@ -151,37 +201,18 @@ onMounted(() => {
       </div>
     </section>
 
-    <div v-if="result_loading" class="flex flex-col gap-4">
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
-          <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
-          <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
-          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
-          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
-        </div>
-        <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
-          <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
-          <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
-          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
-          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
-        </div>
-        <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
-          <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
-          <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
-          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
-          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
-        </div>
-      </div>
-      <section v-for="(item, index) in loading_arrays" :key="index">
+    <!-- result -->
+    <section>
+      <div v-if="result_loading" v-for="(item, index) in loading_arrays" :key="index">
         <Search_Result_Card_Loading></Search_Result_Card_Loading>
-      </section>
-    </div>
-
-    <!-- results -->
-    <div v-else class="flex flex-col gap-4">
-      <div v-for="(station, index) in search_results" :key="index" class="">
-        <Search_Result_Card :station="station"></Search_Result_Card>
       </div>
-    </div>
+
+      <!-- results -->
+      <div v-else class="flex flex-col gap-4">
+        <div v-for="(station, index) in search_results" :key="index" class="">
+          <Search_Result_Card :station="station"></Search_Result_Card>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
