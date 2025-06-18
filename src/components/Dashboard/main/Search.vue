@@ -17,8 +17,6 @@ const search_loading_random_array = Array(10)
   .fill(0)
   .map(() => Math.round(Math.random() * 10))
 
-console.log(search_loading_random_array)
-
 const fuelType = ref(fuelProducts)
 
 const search_options = reactive({
@@ -86,7 +84,6 @@ async function apply_search_filters() {
     if (error instanceof AxiosError) {
       if (error.status == 404) {
         no_stations_found.value = true
-        console.log(no_stations_found.value)
       }
     }
   }
