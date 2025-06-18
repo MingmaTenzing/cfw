@@ -12,11 +12,13 @@ const search_options = reactive({
   Product: '',
   Day: 'Today',
 })
+
+const average_fuel_price = ref()
 const search_results = ref<fuelwatch_xml[]>()
 const result_loading = ref<boolean>(false)
 
 const loading_arrays = ref(Array(10).fill(2))
-console.log(loading_arrays.value)
+
 async function fetchData() {
   result_loading.value = true
   const response = await axios.post('http://localhost:3000/xml', search_options)
@@ -24,6 +26,13 @@ async function fetchData() {
 
   search_results.value = data
   result_loading.value = false
+  if (search_results.value) {
+    let fuel_average =
+      search_results.value?.reduce((acc, current) => current.price + acc, 0) /
+      search_results.value.length
+
+    average_fuel_price.value = (fuel_average / 100).toFixed(2)
+  }
 }
 
 onMounted(() => {
@@ -76,11 +85,11 @@ onMounted(() => {
     </div>
 
     <!-- price cards -->
-    <section class="flex flex-col md:flex-row gap-4">
+    <section v-if="search_results" class="flex flex-col md:flex-row gap-4">
       <!-- average price -->
       <div class="border w-full p-4 rounded-lg border-border space-y-2">
         <p class="text-lg font-semibold text-primary/60">Average Price</p>
-        <p class="text-3xl font-bold">$1.56</p>
+        <p class="text-3xl font-bold">$ {{ average_fuel_price }}</p>
         <p class="text-primary/80">Average price across all stations</p>
       </div>
 
@@ -89,18 +98,29 @@ onMounted(() => {
         class="border w-full p-4 rounded-lg shadow-lg shadow-green-900 not-dark:shadow-green-100 border-green-500 space-y-2"
       >
         <p class="text-lg font-semibold text-primary/60">Lowest Price</p>
-        <p class="text-3xl font-bold">$1.56</p>
-        <p class="font-semibold">Burk Mount Lawley</p>
+        <p class="text-3xl font-bold">${{ (search_results![0].price / 100).toFixed(2) }}</p>
+        <div>
+          <p class="font-semibold">{{ search_results![0].brand }}</p>
+          <p class="font-light text-sm text-primary/60">{{ search_results![0].address }}</p>
+        </div>
 
-        <p class="text-primary/80">Average price across all stations</p>
+        <p class="text-primary/80">Lowest price across all stations</p>
       </div>
 
       <!-- highest price -->
       <div class="border w-full p-4 rounded-lg border-border space-y-2">
-        <p class="text-lg font-semibold text-primary/60">Average Price</p>
-        <p class="text-3xl font-bold">$1.56</p>
-        <p class="font-semibold">Burk Mount Lawley</p>
-        <p class="text-primary/80">Average price across all stations</p>
+        <p class="text-lg font-semibold text-primary/60">Highest Price</p>
+
+        <p class="text-3xl font-bold">
+          $ {{ (search_results![search_results!.length - 1].price / 100).toFixed(2) }}
+        </p>
+        <div class="">
+          <p class="font-semibold">{{ search_results![search_results!.length - 1].brand }}</p>
+          <p class="font-light text-sm text-primary/60">
+            {{ search_results![search_results!.length - 1].address }}
+          </p>
+        </div>
+        <p class="text-primary/80">Most expensive price across all stations</p>
       </div>
     </section>
 
@@ -130,7 +150,28 @@ onMounted(() => {
         </div>
       </div>
     </section>
+
     <div v-if="result_loading" class="flex flex-col gap-4">
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
+          <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
+          <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
+          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+        </div>
+        <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
+          <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
+          <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
+          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+        </div>
+        <div class="border h-[214px] w-full p-4 rounded-lg border-border space-y-2">
+          <div class="h-[24px] w-1/4 bg-accent animate-pulse"></div>
+          <div class="h-[36px] w-1/5 bg-accent animate-pulse"></div>
+          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+          <div class="h-[24px] w-full bg-accent animate-pulse"></div>
+        </div>
+      </div>
       <section v-for="(item, index) in loading_arrays" :key="index">
         <Search_Result_Card_Loading></Search_Result_Card_Loading>
       </section>
