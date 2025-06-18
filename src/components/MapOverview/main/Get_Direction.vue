@@ -18,6 +18,19 @@ const route_steps = ref<RoutesResponse>()
 const no_routes_found = ref<boolean>(false)
 const starting_address = ref()
 const site_address = route.params.address
+
+function decode_polyline(econdedPolyline: string) {
+  const decoded_polyline = polyline.decode(econdedPolyline)
+
+  const lat_lng_poly = decoded_polyline.map((data) => ({
+    lat: data[0],
+    lng: data[1],
+  }))
+  console.log(lat_lng_poly)
+
+  polyline_store.update_polyline(lat_lng_poly)
+}
+
 async function get_route() {
   let data = {
     origin: {
@@ -60,25 +73,11 @@ async function get_route() {
       }
     } else if ((response.data = {})) {
       no_routes_found.value = true
-    } else {
-      no_routes_found.value = true
     }
   } catch (error) {
     no_routes_found.value = true
     console.log(error)
   }
-}
-
-function decode_polyline(econdedPolyline: string) {
-  const decoded_polyline = polyline.decode(econdedPolyline)
-
-  const lat_lng_poly = decoded_polyline.map((data) => ({
-    lat: data[0],
-    lng: data[1],
-  }))
-  console.log(lat_lng_poly)
-
-  polyline_store.update_polyline(lat_lng_poly)
 }
 
 function close_directions() {

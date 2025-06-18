@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Header_Component from '@/components/Dashboard_Components/components/Header_Component.vue'
+import Header_Component from '@/components/Dashboard/components/Header_Component.vue'
 import SideBar from '@/components/main_components/SideBar.vue'
 import { inject, provide, ref } from 'vue'
 import { RouterView } from 'vue-router'

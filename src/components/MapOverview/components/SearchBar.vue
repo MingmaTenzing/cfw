@@ -28,7 +28,6 @@ const search_options = ref<map_view_search_query>({
 })
 
 function isSelected(brand: string) {
-  // console.log(search_options.brands.includes(brand))
   return search_options.value.brands.includes(brand)
 }
 
@@ -50,7 +49,6 @@ function emmited_value_from_dropdown(selected_option: string) {
 function apply_filter() {
   search_filter_store.update_search_filter(search_options.value)
   toggle_apply_filter()
-  console.log(is_apply_search_filter)
 }
 
 function clear_filter() {

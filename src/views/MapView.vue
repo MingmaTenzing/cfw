@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import GoogleMaps from '@/components/main_components/GoogleMaps.vue'
-import SearchBar from '@/components/MapView_Components/components/SearchBar.vue'
-import MenuPanel from '@/components/main_components/MenuPanel.vue'
-
 import { useRoute } from 'vue-router'
 import { provide, ref, watch } from 'vue'
+import MenuPanel from '@/components/main_components/MenuPanel.vue'
+import SearchBar from '@/components/MapOverview/components/SearchBar.vue'
+import GoogleMaps from '@/components/main_components/GoogleMaps.vue'
 
 const route = useRoute()
 const show_search_bar = ref<boolean>(true)

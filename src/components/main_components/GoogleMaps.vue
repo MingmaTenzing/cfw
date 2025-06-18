@@ -10,9 +10,9 @@ import { nightModeStyles, simple_grey_map } from '../../../utils/map_styles'
 import type { FuelStation, latlng, queryFilterModalContext } from '../../../types'
 import axios from 'axios'
 import { CustomMarker, GoogleMap, MarkerCluster, Polyline } from 'vue3-google-map'
-import { maps_polyline } from '@/stores/polyline'
+import { maps_polyline } from '../../stores/polyline'
 import example from '../../../example'
-import { fuel_prices_store } from '@/stores/price_list_store'
+import { fuel_prices_store } from '../../stores/price_list_store'
 import { storeToRefs } from 'pinia'
 
 const price_list_store = fuel_prices_store() //price list store
