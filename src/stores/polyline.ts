@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { type googlePolyline_options, type latlng, type map_view_search_query } from '../../types'
 
 export const maps_polyline_store = defineStore('maps_polyline', () => {
+  console.log(' polyline store initialized')
   const navigation_route = ref<googlePolyline_options>({
     path: [],
     geodesic: true,
@@ -12,6 +13,7 @@ export const maps_polyline_store = defineStore('maps_polyline', () => {
   })
 
   function update_polyline(polyLine_path: latlng[]) {
+    console.log('update polyline function is called')
     navigation_route.value = {
       path: polyLine_path,
       geodesic: true,
