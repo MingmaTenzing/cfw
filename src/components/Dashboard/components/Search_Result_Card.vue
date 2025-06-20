@@ -21,8 +21,8 @@ const props = defineProps<{
     <!-- price -->
     <div class="gap-2 flex flex-col md:flex-row md:w-full md:justify-between">
       <div>
-        <p class="text-sm font-light">Price</p>
-        <p class="font-semibold">${{ station.price }}</p>
+        <p class="text-sm font-light">¢ Price</p>
+        <p class="font-semibold">{{ station.price }}</p>
       </div>
 
       <div>
@@ -41,6 +41,13 @@ const props = defineProps<{
         <p class="text-sm font-light">Date</p>
         <p class="font-semibold">{{ station.date }}</p>
       </div>
+      <router-link
+        class="flex flex-col md:items-center gap-2"
+        :to="`/sites/get-directions/${station?.address},${station?.location}`"
+      >
+        <p class="text-sm font-light">Get Direction</p>
+        <i class="pi pi-directions text-xl"> </i>
+      </router-link>
     </div>
   </div>
 </template>

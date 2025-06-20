@@ -1,12 +1,12 @@
 import OverView from '@/components/Dashboard/main/OverView.vue'
 import Search from '@/components/Dashboard/main/Search.vue'
-import Unleaded from '@/components/Dashboard/main/Unleaded.vue'
 import Get_Direction from '@/components/MapOverview/main/Get_Direction.vue'
 import Pirce_List from '@/components/MapOverview/main/Pirce_List.vue'
 import Site_Detail from '@/components/MapOverview/main/Site_Detail.vue'
 import Dashboard_View from '@/views/Dashboard_View.vue'
 import MapView from '@/views/MapView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import FuelType_Prices from '@/components/Dashboard/main/FuelType_Prices.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,8 +50,8 @@ const router = createRouter({
         },
         {
           path: 'prices/:fueltype',
-          component: Unleaded,
-          name: 'Unleaded Fuel',
+          component: FuelType_Prices,
+          name: 'Fuel Type Price',
         },
       ],
     },
