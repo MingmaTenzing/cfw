@@ -7,6 +7,14 @@ import { useRoute } from 'vue-router'
 import { type fuelwatch_xml } from '../../../../types'
 import Search_Result_Card from '../components/Search_Result_Card.vue'
 
+const date = new Date()
+
+const current_date = {
+  year: date.getFullYear(),
+  month: date.getMonth(),
+  day: date.getDate(),
+}
+
 const route = useRoute()
 const search_options = reactive({
   Product: '',
@@ -113,8 +121,10 @@ watch(
     <div>
       <h1 class="text-3xl uppercase font-semibold">{{ route.params.fueltype }} Prices</h1>
       <div class="flex space-x-2 text-primary/50 text-sm items-center">
-        <p>436 stations found</p>
-        <p>Last update: 17 June 2013</p>
+        <p>{{ search_results?.length }} stations found</p>
+        <p>
+          Last update: {{ current_date.year }} / {{ current_date.month }} /{{ current_date.day }}
+        </p>
       </div>
     </div>
 
@@ -216,7 +226,7 @@ watch(
     </section>
 
     <!-- result -->
-    <section v-if="!no_data_found">
+    <section v-if="!no_data_found" class="flex flex-col gap-4">
       <div v-if="result_loading" v-for="(item, index) in loading_arrays" :key="index">
         <Search_Result_Card_Loading></Search_Result_Card_Loading>
       </div>
