@@ -76,7 +76,7 @@ watch(is_apply_search_filter, (newvalue) => {
   <div class="text-sm md:text-base border-t border-b">
     <div class="p-4 text-center">
       <p class="text-xs">
-        ULP prices from 6am
+        ULP prices of
         <span class="bg-primary text-primary-foreground py-[0.5px] px-2 rounded-lg">Today</span>
         and
         <span class="bg-secondary text-secondary-foreground py-[0.5px] px-2 rounded-lg"
