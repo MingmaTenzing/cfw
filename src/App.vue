@@ -21,6 +21,8 @@ function toggle_apply_filter() {
   is_apply_search_filter.value = !is_apply_search_filter.value
 }
 
+const alert_modal = ref<boolean>(false)
+
 function changeTheme() {
   if (theme.value == 'dark') {
     theme.value = 'light'
@@ -38,6 +40,10 @@ function update_center(lat: number, lng: number) {
 }
 function toggle_side_bar() {
   show_side_bar.value = !show_side_bar.value
+}
+
+function close_alert_modal() {
+  alert_modal.value = false
 }
 
 provide('toggle_side_bar', {
@@ -67,6 +73,11 @@ provide('search_filter_modal', {
 
 onMounted(() => {
   document.documentElement.classList.add(theme.value)
+  setTimeout(() => {
+    window.alert(
+      'The server might take upto a minute to respond at first. Pleae be patient. Thank You. Ming',
+    )
+  }, 4000)
 })
 watch(theme, (update_theme, old_theme) => {
   document.documentElement.classList.remove(old_theme)

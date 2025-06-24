@@ -99,7 +99,7 @@ onMounted(async () => {
     <!-- Next Cycling order -->
     <div class="w-[208px] lg:w-1/3 p-4 border rounded-lg space-y-2">
       <p class="text-xl">Price Cycle</p>
-      <p class="font-bold text-xl xl:text-2xl">Falling</p>
+      <p class="font-bold text-xl xl:text-2xl">Increasing</p>
       <div
         v-if="prediction_and_cycle"
         class="text-green-600 flex items-center space-x-1 text-sm xl:text-base"
