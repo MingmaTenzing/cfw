@@ -26,6 +26,10 @@ function decode_polyline(econdedPolyline: string) {
     lng: data[1],
   }))
 
+  console.log('decoded', lat_lng_poly)
+  console.log('polylinestore', polyline_store)
+  console.log('update_polyline_exists', typeof polyline_store.update_polyline)
+
   polyline_store.update_polyline(lat_lng_poly)
 }
 

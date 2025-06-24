@@ -157,17 +157,18 @@ watch(
 
     <!-- get directions  -->
 
-    <div
+    <button
+      :disabled="!site_details?.address.line1"
       v-on:click="
         router.push(
           `/sites/get-directions/${site_details?.address.line1},${site_details?.address.location}`,
         )
       "
-      class="border-b border-border p-4 flex gap-2 items-center cursor-pointer"
+      class="border-b w-full border-border p-4 flex gap-2 items-center cursor-pointer"
     >
       <i class="pi pi-directions"></i>
       <p class="font-light text-sm text-secondary-foreground">Get Directions</p>
-    </div>
+    </button>
 
     <!-- boxes with details -->
     <section class="grid grid-cols-2 gap-4 place-content-evenly place-items-center p-4">

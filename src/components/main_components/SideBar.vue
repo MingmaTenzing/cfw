@@ -60,11 +60,6 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
               <p>Search</p>
             </div>
           </RouterLink>
-          <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-            <i class="pi pi-chart-bar"></i>
-
-            <p>Analytics</p>
-          </div>
         </section>
 
         <!-- fuel  types -->
@@ -133,15 +128,27 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 
     <!-- setting and profile -->
     <section class="space-y-2">
-      <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-        <i class="pi pi-cog"></i>
-        <p>Settings</p>
-      </div>
+      <p class="text-xs text-accent-foreground opacity-50">Socials</p>
 
-      <div class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm">
-        <i class="pi pi-user"></i>
-        <p>Profile</p>
-      </div>
+      <a
+        target="_blank"
+        href="https://www.linkedin.com/in/mingmatenzing/"
+        class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+      >
+        <i class="pi pi-linkedin"></i>
+        <p>Linkedin</p>
+      </a>
+
+      <a
+        target="_blank"
+        href="https://www.mingmatenzing.com/"
+        class="flex space-x-2 items-center p-1 hover:bg-accent rounded-lg text-sm"
+      >
+        <div>
+          <img src="../../assets/Mingma Tenzing Sherpa.jpeg" width="20" class="rounded-lg" />
+        </div>
+        <p>Portfolio</p>
+      </a>
 
       <div class="flex justify-end">
         <div

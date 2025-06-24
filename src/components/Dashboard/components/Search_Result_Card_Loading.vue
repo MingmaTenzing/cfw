@@ -35,6 +35,10 @@
         <p class="text-sm font-light">Date</p>
         <div class="w-[96px] h-[24px] bg-accent animate-pulse"></div>
       </div>
+      <div class="flex flex-col md:items-center gap-2">
+        <p class="text-sm font-light">Get Direction</p>
+        <div class="w-[20px] h-[20px] bg-accent animate-pulse"></div>
+      </div>
     </div>
   </div>
 </template>
