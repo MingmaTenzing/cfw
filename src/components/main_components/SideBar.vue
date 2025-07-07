@@ -11,11 +11,11 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
 
 <template>
   <main
-    class="bg-zinc-50 dark:bg-zinc-900 text-primary w-[240px] p-4 h-[100vh] flex flex-col justify-between"
+    class="bg-zinc-50 dark:bg-zinc-900 text-primary w-[240px] p-4 h-[100vh] flex flex-col space-y-2 md:space-y-0 md:justify-between"
   >
     <!-- logo + dashboard and feul types -->
 
-    <div class="space-y-4">
+    <div class="space-y-2 md:space-y-4">
       <!-- logo -->
       <div>
         <div v-on:click="toggle_side_bar" class="flex justify-end">
@@ -32,7 +32,7 @@ const { toggle_side_bar } = inject('toggle_side_bar', {
       </div>
 
       <!-- dashboard and fuel types -->
-      <section class="space-y-8">
+      <section class="space-y-2 md:space-y-8">
         <!-- dashboard -->
 
         <section class="space-y-2">
