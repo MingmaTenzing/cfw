@@ -23,8 +23,8 @@ watch(
 
   <SearchBar
     v-if="show_search_bar == true"
-    class="fixed z-10 bottom-0 md:bottom-8 left-1/2 -translate-x-1/2"
+    class="fixed z-10 bottom-0 md:bottom-8 left-1/2 -translate-x-1/2 hidden md:inline-block"
   ></SearchBar>
 
-  <GoogleMaps></GoogleMaps>
+  <GoogleMaps class="hidded md:flex"></GoogleMaps>
 </template>
