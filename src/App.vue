@@ -75,7 +75,7 @@ onMounted(() => {
   document.documentElement.classList.add(theme.value)
   setTimeout(() => {
     window.alert(
-      'The server might take upto a minute to respond at first. Pleae be patient. Thank You. Ming',
+      'The server might take upto a minute to respond at first. Please be patient. Thank You. Mingma',
     )
   }, 4000)
 })
