@@ -181,7 +181,7 @@ watch(
         </div>
         <div v-if="site_details" class="">
           <p class="text-card-foreground text-4xl font-bold">
-            ${{ site_price_details?.product.priceToday }}
+            ¢{{ site_price_details?.product.priceToday }}
           </p>
         </div>
         <div v-else class="w-[117px] h-[40px] bg-accent animate-pulse rounded-xl"></div>
