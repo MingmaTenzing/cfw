@@ -31,7 +31,7 @@ const site_price_details = ref<FuelStation>()
 
 async function fetch_station_price_and_details(id: string | string[]) {
   const response = await axios.get<fuelwatch_site_details>(
-    `https://fuelwatchapi-1.onrender.com/site/${id}`,
+    `${import.meta.env.VITE_API_URL}/site/${id}`,
   )
   console.log(response.data.site_price_details)
   site_price_details.value = response.data.site_price_details[0]

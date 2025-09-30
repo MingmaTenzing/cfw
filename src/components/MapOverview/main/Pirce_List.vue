@@ -17,6 +17,8 @@ const prices_store = fuel_prices_store() //fuel_price_list store
 
 const fuelData = ref<FuelStation[]>([])
 
+const api_url = import.meta.env.VITE_API_URL
+
 const loading = ref<boolean>(false)
 
 // assigned a random length 10 array to loop in the template for loading skeleton
@@ -40,7 +42,7 @@ function go_to_site(site: FuelStation) {
 
 async function initial_data_fetch() {
   loading.value = true
-  const response = await axios.get<FuelStation[]>('https://fuelwatchapi-1.onrender.com')
+  const response = await axios.get<FuelStation[]>(api_url)
 
   fuelData.value = response.data
   prices_store.update_fuel_prices_list(fuelData.value)
@@ -49,10 +51,7 @@ async function initial_data_fetch() {
 
 async function search_fetch_data(search_filters: map_view_search_query) {
   loading.value = true
-  const response = await axios.post<FuelStation[]>(
-    `https://fuelwatchapi-1.onrender.com/search`,
-    search_filters,
-  )
+  const response = await axios.post<FuelStation[]>(`${api_url}/search`, search_filters)
   fuelData.value = response.data
   loading.value = false
   if (fuelData.value.length > 0) {

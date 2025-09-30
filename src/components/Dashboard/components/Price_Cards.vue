@@ -19,9 +19,9 @@ const prediction_and_cycle = ref<price_change_predict>({
 onMounted(async () => {
   let region_average_price = 0
   const [north_metro_cheapest, south_metro_cheapest, region_average] = await Promise.all([
-    axios.get('https://fuelwatchapi-1.onrender.com/xml/region-cheapest?Region=25'),
-    axios.get('https://fuelwatchapi-1.onrender.com/xml/region-cheapest?Region=26'),
-    axios.get('https://fuelwatchapi-1.onrender.com/xml/region-average'),
+    axios.get(`${import.meta.env.VITE_API_URL}/xml/region-cheapest?Region=25`),
+    axios.get(`${import.meta.env.VITE_API_URL}/xml/region-cheapest?Region=26`),
+    axios.get(`${import.meta.env.VITE_API_URL}/xml/region-average`),
   ])
   const data: region_average[] = region_average.data
   data.map((value) => {

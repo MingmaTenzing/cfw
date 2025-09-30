@@ -62,7 +62,7 @@ const chartData = computed(() => ({
 
 async function fetchData(fuelType: string) {
   const fetch_price_trend = await axios.get<price_trend[]>(
-    `https://fuelwatchapi-1.onrender.com/trend?fuelType=${fuelType}`,
+    `${import.meta.env.VITE_API_URL}/trend?fuelType=${fuelType}`,
   )
   price_trend_data.value = fetch_price_trend.data
 }

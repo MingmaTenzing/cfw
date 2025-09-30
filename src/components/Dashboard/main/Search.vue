@@ -68,7 +68,7 @@ async function apply_search_filters() {
     no_stations_found.value = false
     search_result_loading.value = true
     const response = await axios.post(
-      'https://fuelwatchapi-1.onrender.com/xml',
+      `${import.meta.env.VITE_API_URL}/xml`,
       api_search_option.value,
     )
     search_results.value = response.data
