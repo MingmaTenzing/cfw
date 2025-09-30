@@ -59,7 +59,7 @@ const chartOptions = ref({
 onMounted(async () => {
   let prices: number[] = []
   const response = await axios.get<region_average[]>(
-    'https://fuelwatchapi-1.onrender.com/xml/region-average',
+    `${import.meta.env.VITE_API_URL}/xml/region-average`,
   )
   const data = response.data
 

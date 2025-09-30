@@ -5,7 +5,7 @@ import { type fuelwatch_xml } from '../../../../types'
 
 const cheapest_stations = ref<fuelwatch_xml[]>([])
 onMounted(async () => {
-  const response = await axios.get('https://fuelwatchapi-1.onrender.com/xml/perth-cheapest')
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/xml/perth-cheapest`)
 
   cheapest_stations.value = response.data
 })

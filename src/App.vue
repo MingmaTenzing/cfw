@@ -73,11 +73,6 @@ provide('search_filter_modal', {
 
 onMounted(() => {
   document.documentElement.classList.add(theme.value)
-  setTimeout(() => {
-    window.alert(
-      'The server might take upto a minute to respond at first. Please be patient. Thank You. Mingma',
-    )
-  }, 4000)
 })
 watch(theme, (update_theme, old_theme) => {
   document.documentElement.classList.remove(old_theme)

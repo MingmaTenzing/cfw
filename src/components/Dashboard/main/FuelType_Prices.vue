@@ -67,7 +67,7 @@ async function fetchData() {
   try {
     no_data_found.value = false
     result_loading.value = true
-    const response = await axios.post('https://fuelwatchapi-1.onrender.com/xml', search_options)
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/xml`, search_options)
     const data = await response.data
 
     search_results.value = data
