@@ -21,29 +21,44 @@ export default defineConfig({
       manifest: {
         name: 'Check Fuel WA',
         short_name: 'CFW',
-        description: 'A PWA built with Vue 3',
+        description:
+          'Find the cheapest fuel prices across Western Australia. View it on Google Maps and get direction as well. Find all the trends happening in fuel prices',
         theme_color: '#ffffff',
+        screenshots: [
+          {
+            src: 'mobile-screenshot.png',
+            sizes: '540x720',
+            type: 'image/png',
+          },
+          {
+            src: 'desktop-screenshot.png',
+            sizes: '2460x1674',
+            type: 'image/png',
+            form_factor: 'wide',
+          },
+        ],
+
         icons: [
           {
-            src: 'public/manifest-icon-192.maskable.png',
+            src: 'manifest-icon-192.maskable.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: 'public/manifest-icon-192.maskable.png',
+            src: 'manifest-icon-192.maskable.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: 'public/manifest-icon-512.maskable.png',
+            src: 'manifest-icon-512.maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: 'public/manifest-icon-512.maskable.png',
+            src: 'manifest-icon-512.maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
